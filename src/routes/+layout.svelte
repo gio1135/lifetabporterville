@@ -50,18 +50,9 @@
     class="mt-12 py-8 border-t border-slate-200 dark:border-slate-800 text-center text-sm text-slate-500 dark:text-slate-400"
   >
     <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
-      <span>Phone: (555) 123-4567</span>
+      <span>Phone: (559) 781-8068</span>
       <span class="hidden md:inline">•</span>
-      <span>Fax: (555) 123-4568</span>
-      <span class="hidden md:inline">•</span>
-      <div class="flex items-center gap-4">
-        <a href="#" class="hover:text-purple-600 dark:hover:text-amber-400 transition-colors"
-          >Facebook</a
-        >
-        <a href="#" class="hover:text-purple-600 dark:hover:text-amber-400 transition-colors"
-          >Instagram</a
-        >
-      </div>
+      <span>Fax: (559) 123-4567</span>
     </div>
   </footer>
 
