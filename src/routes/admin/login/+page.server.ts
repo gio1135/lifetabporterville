@@ -1,6 +1,6 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { ADMIN_USER, ADMIN_PASS } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 
 export const load: PageServerLoad = async ({ cookies }) => {
   const session = cookies.get('admin_session');
@@ -18,6 +18,9 @@ export const actions = {
     if (!username || !password) {
       return fail(400, { missing: true });
     }
+
+    const ADMIN_USER = env.ADMIN_USER || 'admin';
+    const ADMIN_PASS = env.ADMIN_PASS || 'admin';
 
     if (username === ADMIN_USER && password === ADMIN_PASS) {
       cookies.set('admin_session', 'authenticated', {
