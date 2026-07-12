@@ -41,7 +41,7 @@ export const actions = {
     let schedule: Schedule;
     try {
       schedule = JSON.parse(payloadStr);
-    } catch (e) {
+    } catch {
       return fail(400, { error: 'Invalid schedule payload' });
     }
 

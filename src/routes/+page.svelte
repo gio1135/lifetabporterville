@@ -3,6 +3,15 @@
   import { fade, slide } from 'svelte/transition';
   import { enhance } from '$app/forms';
 
+  type ScheduleItem = {
+    id: string;
+    dayOfWeek: number;
+    title: string;
+    description?: string;
+    time: string;
+    crossedOut: boolean;
+  };
+
   let { data, form }: { data: PageData; form: ActionData } = $props();
 
   let showToast = $state(false);
@@ -55,18 +64,18 @@
   }
 
   function removeDay(id: string) {
-    editSchedule.items = editSchedule.items.filter((i: any) => i.id !== id);
+    editSchedule.items = editSchedule.items.filter((i: ScheduleItem) => i.id !== id);
   }
 
-  function toggleCrossOut(item: any) {
+  function toggleCrossOut(item: ScheduleItem) {
     item.crossedOut = !item.crossedOut;
   }
 
   function sortItems() {
-    editSchedule.items.sort((a: any, b: any) => a.dayOfWeek - b.dayOfWeek);
+    editSchedule.items.sort((a: ScheduleItem, b: ScheduleItem) => a.dayOfWeek - b.dayOfWeek);
   }
 
-  function handleDayChange(item: any, e: Event) {
+  function handleDayChange(item: ScheduleItem, e: Event) {
     item.dayOfWeek = parseInt((e.target as HTMLSelectElement).value, 10);
     sortItems();
   }
@@ -200,7 +209,7 @@
                   onchange={(e) => handleDayChange(item, e)}
                   class="w-full px-2 py-1.5 text-sm rounded border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#1a0b2e]"
                 >
-                  {#each daysOfWeek as day, i}
+                  {#each daysOfWeek as day, i (day)}
                     <option value={i}>{day}</option>
                   {/each}
                 </select>
@@ -326,7 +335,7 @@
     {:else}
       <!-- Public View Mode -->
       <ul class="divide-y divide-slate-100 dark:divide-slate-800/50">
-        {#each data.schedule.items as item}
+        {#each data.schedule.items as item (item.id)}
           <li class="py-5 flex flex-col md:flex-row justify-between items-start md:items-center">
             <div>
               <h3

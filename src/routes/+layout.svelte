@@ -2,9 +2,10 @@
   import './layout.css';
   import { onMount } from 'svelte';
   import { enhance } from '$app/forms';
+  import type { Snippet } from 'svelte';
   import type { LayoutData } from './$types';
 
-  let { data, children }: { data: LayoutData; children: any } = $props();
+  let { data, children }: { data: LayoutData; children: Snippet } = $props();
   let isDarkMode = $state(true);
 
   onMount(() => {
