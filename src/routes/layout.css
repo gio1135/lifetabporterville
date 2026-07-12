@@ -9,3 +9,29 @@
 
 /* Enable class-based dark mode for tailwind v4 */
 @custom-variant dark (&:is(.dark *));
+
+:root {
+  --bg-dots: rgba(147, 51, 234, 0.04);
+  --bg-dots-shadow: rgba(147, 51, 234, 0.02);
+}
+
+.bg-dots-pattern {
+  background-color: #ffffff;
+  background-image:
+    radial-gradient(var(--bg-dots) 0.8px, transparent 1.2px),
+    radial-gradient(var(--bg-dots) 0.8px, transparent 1.2px),
+    radial-gradient(var(--bg-dots-shadow) 0.8px, transparent 1.5px),
+    radial-gradient(var(--bg-dots-shadow) 0.8px, transparent 1.5px);
+  background-size: 16px 16px;
+  background-position:
+    0 0,
+    8px 8px,
+    0 1px,
+    8px 9px;
+}
+
+:is(.dark *).bg-dots-pattern {
+  background-color: #150529;
+  --bg-dots: rgba(168, 85, 247, 0.06);
+  --bg-dots-shadow: rgba(168, 85, 247, 0.03);
+}
