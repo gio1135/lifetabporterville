@@ -3,5 +3,11 @@
 	"name": "lifetabporterville",
 	"compatibility_date": "2026-08-24",
 	"compatibility_flags": ["nodejs_als"],
-	"pages_build_output_dir": ".svelte-kit/cloudflare"
+	"pages_build_output_dir": ".svelte-kit/cloudflare",
+	"kv_namespaces": [
+		{
+			"binding": "SCHEDULE_KV",
+			"id": "preview_id"
+		}
+	]
 }
