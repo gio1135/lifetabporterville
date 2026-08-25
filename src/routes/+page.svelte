@@ -3,6 +3,22 @@
   import { browser } from '$app/environment';
   import gsap from 'gsap';
   import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+  import heroImg from '$lib/images/hero.jpeg?enhanced';
+
+  // Import features using eager glob import for enhanced images
+  const f1 = import.meta.glob('$lib/images/features/IMG_8737.jpeg', { query: { enhanced: true }, eager: true, import: 'default' });
+  const f1_2 = import.meta.glob('$lib/images/features/IMG_8741.jpeg', { query: { enhanced: true }, eager: true, import: 'default' });
+  const f1_3 = import.meta.glob('$lib/images/features/IMG_8743.jpeg', { query: { enhanced: true }, eager: true, import: 'default' });
+  const f1_4 = import.meta.glob('$lib/images/features/IMG_8744.jpeg', { query: { enhanced: true }, eager: true, import: 'default' });
+  const feature1Pool = [Object.values(f1)[0], Object.values(f1_2)[0], Object.values(f1_3)[0], Object.values(f1_4)[0]] as any[];
+
+  const f2 = import.meta.glob('$lib/images/features/IMG_8748.jpeg', { query: { enhanced: true }, eager: true, import: 'default' });
+  const f2_2 = import.meta.glob('$lib/images/features/IMG_8806.jpeg', { query: { enhanced: true }, eager: true, import: 'default' });
+  const feature2Pool = [Object.values(f2)[0], Object.values(f2_2)[0]] as any[];
+
+  const f3 = import.meta.glob('$lib/images/features/IMG_8761.jpeg', { query: { enhanced: true }, eager: true, import: 'default' });
+  const f3_2 = import.meta.glob('$lib/images/features/IMG_8762.jpeg', { query: { enhanced: true }, eager: true, import: 'default' });
+  const feature3Pool = [Object.values(f3)[0], Object.values(f3_2)[0]] as any[];
 
   if (browser) {
     gsap.registerPlugin(ScrollTrigger);
@@ -42,24 +58,9 @@
     }, 50);
   }
 
-  const feature1Pool = [
-    '/images/features/IMG_8737.jpeg',
-    '/images/features/IMG_8741.jpeg',
-    '/images/features/IMG_8743.jpeg',
-    '/images/features/IMG_8744.jpeg'
-  ];
-  const feature2Pool = [
-    '/images/features/IMG_8748.jpeg',
-    '/images/features/IMG_8806.jpeg'
-  ];
-  const feature3Pool = [
-    '/images/features/IMG_8762.jpeg',
-    '/images/features/IMG_8761.jpeg'
-  ];
-
-  let currentFeature1 = $state('');
-  let currentFeature2 = $state('');
-  let currentFeature3 = $state('');
+  let currentFeature1 = $state<any>(null);
+  let currentFeature2 = $state<any>(null);
+  let currentFeature3 = $state<any>(null);
 
   onMount(async () => {
     if (!browser) return;
@@ -137,23 +138,23 @@
 
   <section id="imagery" class="relative w-full h-dvh snap-start snap-always shrink-0 flex items-center justify-center overflow-hidden">
     <div class="absolute inset-0 z-0">
-      <img src="/images/hero.jpeg" alt="Church interior" class="w-full h-full object-cover opacity-60" />
+      <enhanced:img src={heroImg} alt="Church interior" class="w-full h-full object-cover opacity-60" fetchpriority="high" />
       <div class="absolute inset-0 bg-black/40"></div>
     </div>
 
     <nav class="absolute top-0 left-0 w-full z-20 flex justify-end items-center px-6 md:px-16 py-8">
       <div class="hidden md:flex gap-8">
-        <a href="#opportunity" class="text-sand/80 hover:text-white uppercase tracking-widest text-sm transition-colors duration-300">Concept</a>
-        <a href="#stay" class="text-sand/80 hover:text-white uppercase tracking-widest text-sm transition-colors duration-300">Features</a>
-        <a href="#place" class="text-sand/80 hover:text-white uppercase tracking-widest text-sm transition-colors duration-300">Explore</a>
-        <a href="#answers" class="text-sand/80 hover:text-white uppercase tracking-widest text-sm transition-colors duration-300">FAQ</a>
+        <a href="#opportunity" class="text-sand/80 hover:text-white tracking-widest text-sm transition-colors duration-300">Concept</a>
+        <a href="#stay" class="text-sand/80 hover:text-white tracking-widest text-sm transition-colors duration-300">Features</a>
+        <a href="#place" class="text-sand/80 hover:text-white tracking-widest text-sm transition-colors duration-300">Explore</a>
+        <a href="#answers" class="text-sand/80 hover:text-white tracking-widest text-sm transition-colors duration-300">FAQ</a>
       </div>
     </nav>
 
     <div class="relative z-10 text-center flex flex-col items-center justify-center px-4 w-full h-full pt-20 pb-20">
-      <h1 class="text-5xl md:text-8xl font-light tracking-widest text-white uppercase mb-6">Life tabernacle</h1>
+      <h1 class="text-5xl md:text-8xl font-light tracking-widest text-white mb-6">Life tabernacle</h1>
       <p class="text-xl md:text-3xl text-sand font-light tracking-wide mb-12">Where the Bible is believed and obeyed</p>
-      <a href="/schedule" class="inline-block border border-sand/50 text-white px-10 py-4 rounded-full tracking-widest uppercase hover:bg-white hover:text-black transition-colors duration-500">
+      <a href="/schedule" class="inline-block border border-sand/50 text-white px-10 py-4 rounded-full tracking-widest hover:bg-white hover:text-black transition-colors duration-500">
         View schedule
       </a>
     </div>
@@ -168,7 +169,7 @@
   </section>
 
   <section id="stay" bind:this={featuresContainer} class="w-full h-[300dvh] relative shrink-0">
-    <div class="sticky top-0 w-full h-dvh overflow-hidden bg-dark">
+    <div class="sticky top-0 w-full h-dvh overflow-hidden bg-dark shadow-2xl">
       <div
         bind:this={featurePanels[0]}
         class="absolute inset-0 flex flex-col md:flex-row items-center justify-center p-8 md:p-24 foldable-split"
@@ -179,9 +180,9 @@
             This section is about the Bible being what we believe and base everything on
           </p>
         </div>
-        <div class="feature-image-container w-full md:w-1/2 h-[40dvh] md:h-[60dvh] relative order-2 md:order-0 overflow-hidden rounded-xl shadow-2xl">
+        <div class="feature-image-container w-full md:w-1/2 h-[40dvh] md:h-[60dvh] relative order-2 md:order-0 overflow-hidden rounded-xl">
           {#if currentFeature1}
-            <img src={currentFeature1} alt="Bible reading" class="w-full h-full object-cover" />
+            <enhanced:img src={currentFeature1} alt="Bible reading" class="w-full h-full object-cover" fetchpriority="high" />
           {/if}
         </div>
       </div>
@@ -196,9 +197,9 @@
             Make it sound like a place you want to go and people you'd want to be around
           </p>
         </div>
-        <div class="feature-image-container w-full md:w-1/2 h-[40dvh] md:h-[60dvh] relative order-2 md:order-0 overflow-hidden rounded-xl shadow-2xl">
+        <div class="feature-image-container w-full md:w-1/2 h-[40dvh] md:h-[60dvh] relative order-2 md:order-0 overflow-hidden rounded-xl">
           {#if currentFeature2}
-            <img src={currentFeature2} alt="Community fellowship" class="w-full h-full object-cover" />
+            <enhanced:img src={currentFeature2} alt="Community fellowship" class="w-full h-full object-cover" />
           {/if}
         </div>
       </div>
@@ -213,9 +214,9 @@
             Probably something about Acts 2:38 and the plan of salvation
           </p>
         </div>
-        <div class="feature-image-container w-full md:w-1/2 h-[40dvh] md:h-[60dvh] relative order-2 md:order-0 overflow-hidden rounded-xl shadow-2xl">
+        <div class="feature-image-container w-full md:w-1/2 h-[40dvh] md:h-[60dvh] relative order-2 md:order-0 overflow-hidden rounded-xl">
           {#if currentFeature3}
-            <img src={currentFeature3} alt="Worship service" class="w-full h-full object-cover" />
+            <enhanced:img src={currentFeature3} alt="Worship service" class="w-full h-full object-cover" />
           {/if}
         </div>
       </div>

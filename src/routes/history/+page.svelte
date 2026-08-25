@@ -52,13 +52,23 @@
       window.clearTimeout(isScrolling);
       isScrolling = window.setTimeout(() => {
         const scrollX = node.scrollLeft;
-        const width = window.innerWidth;
-        const snapThreshold = 150; // closer edge threshold (only snap if within 150px of an era boundary)
+        const sections = Array.from(node.querySelectorAll('section'));
+        
+        let nearestPos = 0;
+        let minDistance = Infinity;
+        
+        sections.forEach(section => {
+          const pos = section.offsetLeft;
+          const distance = Math.abs(scrollX - pos);
+          if (distance < minDistance) {
+            minDistance = distance;
+            nearestPos = pos;
+          }
+        });
 
-        const nearestIndex = Math.round(scrollX / width);
-        const nearestPos = nearestIndex * width;
+        const snapThreshold = 100; // closer edge threshold
 
-        if (Math.abs(scrollX - nearestPos) < snapThreshold && scrollX !== nearestPos) {
+        if (minDistance < snapThreshold && scrollX !== nearestPos) {
           node.scrollTo({ left: nearestPos, behavior: 'smooth' });
         }
       }, 150);
@@ -83,24 +93,23 @@
 
 <div use:horizontalScroll class="h-full w-full overflow-x-auto overflow-y-hidden scroll-smooth flex custom-scrollbar">
   {#each eras as era, i (era.period)}
-    <section class="w-screen h-full shrink-0 snap-start relative flex flex-col pt-12 md:pt-24 px-8 md:px-20">
-
-      <!-- Era Header -->
-      <div class="absolute top-12 md:top-24 left-8 md:left-20 z-10">
-        <h2 class="text-sm tracking-[0.3em] uppercase text-sand/60 mb-2">{era.period}</h2>
-        <h1 class="text-4xl md:text-6xl font-light tracking-widest text-white uppercase">{era.pastor}</h1>
+    <section class="relative shrink-0 flex h-full">
+      <!-- Sticky Header -->
+      <div class="sticky left-0 top-0 h-[40dvh] md:h-full w-screen md:w-[50vw] bg-dark z-20 flex flex-col justify-center px-8 md:px-20 md:border-r border-sand/10 shrink-0">
+        <h2 class="text-sm tracking-[0.3em] text-sand/60 mb-2">{era.period}</h2>
+        <h1 class="text-4xl md:text-6xl font-light tracking-widest text-white">{era.pastor}</h1>
       </div>
 
-      <!-- The horizontal timeline line -->
-      <div class="absolute top-1/2 left-0 w-full h-px bg-sand/20 -translate-y-1/2"></div>
-
-      <!-- Milestones container -->
-      <div class="relative w-full h-full flex items-center justify-around z-10 pt-24">
-        {#each era.milestones as milestone (milestone.title)}
-          <div class="relative flex flex-col items-center w-64 {milestone.position === 'top' ? 'mb-[40vh]' : 'mt-[40vh]'}">
+      <!-- Milestones Container (scrolls past) -->
+      <div class="flex items-center h-[60dvh] md:h-full self-end md:self-auto z-10 shrink-0 -ml-[100vw] md:ml-0 pl-[10vw] md:pl-10 relative">
+        
+        <!-- horizontal timeline line -->
+        <div class="absolute top-1/2 left-0 w-full h-px bg-sand/20 -translate-y-1/2 -z-10"></div>
+        
+        {#each era.milestones as milestone}
+          <div class="relative flex flex-col items-center w-64 mx-8 md:mx-16 shrink-0 {milestone.position === 'top' ? 'mb-[20dvh] md:mb-[40dvh]' : 'mt-[20dvh] md:mt-[40dvh]'}">
             <!-- connecting line to the timeline -->
             <div class="absolute {milestone.position === 'top' ? '-bottom-10 h-10' : '-top-10 h-10'} w-px bg-sand/40 left-1/2 -translate-x-1/2"></div>
-
             <!-- dot on the timeline -->
             <div class="absolute {milestone.position === 'top' ? '-bottom-11' : '-top-11'} w-2 h-2 rounded-full bg-white left-1/2 -translate-x-1/2"></div>
 
@@ -110,24 +119,15 @@
             </div>
           </div>
         {/each}
+
+        <!-- Extra space at the end of the era -->
+        <div class="w-[20vw] md:w-[50vw] shrink-0"></div>
       </div>
-
-      <!-- Scroll indicator for the first slide -->
-      {#if i === 0}
-        <div class="absolute bottom-12 right-12 flex items-center gap-4 text-sand/60 animate-pulse">
-          <span class="text-xs tracking-widest uppercase">Scroll horizontally</span>
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-          </svg>
-        </div>
-      {/if}
-
     </section>
   {/each}
 </div>
 
 <style>
-  /* Hide standard scrollbar but keep functionality for a cleaner look if desired, or style it */
   .custom-scrollbar::-webkit-scrollbar {
     height: 6px;
   }

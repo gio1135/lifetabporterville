@@ -26,7 +26,7 @@
     </a>
   </div>
   <div class="border border-sand/20 bg-dark/50 p-8 rounded-lg shadow-sm">
-    <h2 class="text-2xl font-light tracking-widest text-white uppercase mb-6 text-center">Admin access</h2>
+    <h2 class="text-2xl font-light tracking-widest text-white mb-6 text-center">Admin access</h2>
 
     {#if form?.missing}
       <div class="bg-red-900/20 text-red-400 p-3 rounded mb-6 text-sm border border-red-500/20">
@@ -64,7 +64,7 @@
       <div class="pt-4">
         <button
           type="submit"
-          class="w-full py-3 bg-white text-dark uppercase tracking-widest text-sm font-medium rounded-md hover:bg-sand transition-colors"
+          class="w-full py-3 bg-white text-dark tracking-widest text-sm font-medium rounded-md hover:bg-sand transition-colors"
         >
           Log in
         </button>

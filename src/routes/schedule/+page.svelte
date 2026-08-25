@@ -69,30 +69,30 @@
   <title>Schedule | Life Tabernacle</title>
 </svelte:head>
 
-<div class="h-full flex flex-col items-center justify-center p-6 md:p-12 overflow-y-auto scroll-smooth">
-  <div class="w-full max-w-4xl bg-dark/60 backdrop-blur border border-sand/10 p-8 md:p-12">
+<div class="h-full w-full overflow-y-auto scroll-smooth flex justify-center custom-scrollbar pt-24 md:pt-32">
+  <div class="max-w-4xl w-full px-6 md:px-12 pb-32 bg-dark/60 backdrop-blur border border-sand/10 p-8 md:p-12">
     <div class="flex justify-between items-center mb-10 border-b border-sand/20 pb-6">
-      <h1 class="text-3xl md:text-5xl font-light tracking-widest uppercase">Service schedule</h1>
+      <h1 class="text-3xl md:text-5xl font-light tracking-widest">Service schedule</h1>
       
       {#if data.isLoggedIn}
         <div class="flex items-center gap-4">
           <button
             onclick={toggleEdit}
-            class="px-4 py-2 text-sm tracking-widest uppercase border border-sand/30 hover:bg-white hover:text-black transition-colors"
+            class="px-4 py-2 text-sm tracking-widest border border-sand/30 hover:bg-white hover:text-black transition-colors"
           >
             {isEditing ? 'Cancel edit' : 'Edit schedule'}
           </button>
           <form method="POST" action="?/logout" use:enhance class="inline">
             <button
               type="submit"
-              class="px-4 py-2 text-sm tracking-widest uppercase bg-red-900/30 text-red-400 hover:bg-red-900/50 transition-colors"
+              class="px-4 py-2 text-sm tracking-widest bg-red-900/30 text-red-400 hover:bg-red-900/50 transition-colors"
             >
               Logout
             </button>
           </form>
         </div>
       {:else}
-        <a href="/admin/login" class="text-xs tracking-widest uppercase text-sand/50 hover:text-white transition-colors">
+        <a href="/admin/login" class="text-xs tracking-widest text-sand/50 hover:text-white transition-colors">
           Admin
         </a>
       {/if}
@@ -115,7 +115,7 @@
           <div class="border border-sand/20 bg-dark/40 p-4 relative group">
             <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
               <div class="col-span-1 md:col-span-3">
-                <label for="dayOfWeek-{item.id}" class="block text-xs uppercase tracking-widest text-sand/70 mb-1">Day</label>
+                <label for="dayOfWeek-{item.id}" class="block text-xs tracking-widest text-sand/70 mb-1">Day</label>
                 <select
                   id="dayOfWeek-{item.id}"
                   bind:value={item.dayOfWeek}
@@ -128,7 +128,7 @@
               </div>
 
               <div class="col-span-1 md:col-span-3">
-                <label for="title-{item.id}" class="block text-xs uppercase tracking-widest text-sand/70 mb-1">Title</label>
+                <label for="title-{item.id}" class="block text-xs tracking-widest text-sand/70 mb-1">Title</label>
                 <input
                   id="title-{item.id}"
                   type="text"
@@ -138,7 +138,7 @@
               </div>
 
               <div class="col-span-1 md:col-span-4">
-                <label for="desc-{item.id}" class="block text-xs uppercase tracking-widest text-sand/70 mb-1">Subtitle</label>
+                <label for="desc-{item.id}" class="block text-xs tracking-widest text-sand/70 mb-1">Subtitle</label>
                 <input
                   id="desc-{item.id}"
                   type="text"
@@ -149,7 +149,7 @@
               </div>
 
               <div class="col-span-1 md:col-span-2">
-                <label for="time-{item.id}" class="block text-xs uppercase tracking-widest text-sand/70 mb-1">Time</label>
+                <label for="time-{item.id}" class="block text-xs tracking-widest text-sand/70 mb-1">Time</label>
                 <input
                   id="time-{item.id}"
                   type="text"
@@ -162,13 +162,13 @@
             <div class="flex items-center gap-3 mt-4 justify-end">
               <button
                 onclick={() => toggleCrossOut(item.id)}
-                class="px-3 py-1 text-xs tracking-widest uppercase border border-sand/30 hover:bg-white hover:text-black transition-colors {item.crossedOut ? 'bg-white text-black' : ''}"
+                class="px-3 py-1 text-xs tracking-widest border border-sand/30 hover:bg-white hover:text-black transition-colors {item.crossedOut ? 'bg-white text-black' : ''}"
               >
                 {item.crossedOut ? 'Uncross' : 'Cross out'}
               </button>
               <button
                 onclick={() => removeDay(item.id)}
-                class="px-3 py-1 text-xs tracking-widest uppercase bg-red-900/30 text-red-400 hover:bg-red-900/50 transition-colors border border-red-500/20"
+                class="px-3 py-1 text-xs tracking-widest bg-red-900/30 text-red-400 hover:bg-red-900/50 transition-colors border border-red-500/20"
               >
                 Remove
               </button>
@@ -179,7 +179,7 @@
         <div class="flex justify-center pt-4 border-t border-sand/20">
           <button
             onclick={addDay}
-            class="px-6 py-3 border border-sand hover:bg-sand hover:text-dark uppercase tracking-widest transition-colors"
+            class="px-6 py-3 border border-sand hover:bg-sand hover:text-dark tracking-widest transition-colors"
           >
             + Add Service
           </button>
@@ -212,7 +212,7 @@
           >
             <button
               type="submit"
-              class="px-6 py-3 bg-red-900/30 border border-red-500/30 text-red-400 hover:bg-red-900/50 uppercase tracking-widest transition-colors"
+              class="px-6 py-3 bg-red-900/30 border border-red-500/30 text-red-400 hover:bg-red-900/50 tracking-widest transition-colors"
             >
               Reset to default
             </button>
@@ -220,7 +220,7 @@
 
           <button
             onclick={doneEditing}
-            class="px-6 py-3 bg-white text-dark uppercase tracking-widest font-medium hover:bg-sand transition-colors"
+            class="px-6 py-3 bg-white text-dark tracking-widest font-medium hover:bg-sand transition-colors"
           >
             Done editing
           </button>
@@ -233,7 +233,7 @@
           <li class="py-6 flex flex-col md:flex-row items-start md:items-stretch group gap-6 md:gap-8">
             <!-- Day and Date Column -->
             <div class="flex flex-col shrink-0 w-24 md:w-32 md:border-r border-sand/20 md:pr-6 justify-center">
-              <span class="text-sand/70 uppercase text-sm tracking-widest">{daysOfWeek[item.dayOfWeek]}</span>
+              <span class="text-sand/70 text-sm tracking-widest">{daysOfWeek[item.dayOfWeek]}</span>
               <span class="text-xl md:text-2xl font-light tracking-widest text-white mt-1">{getDateString(item.dayOfWeek)}</span>
             </div>
 

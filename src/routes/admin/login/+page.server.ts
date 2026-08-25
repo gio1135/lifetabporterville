@@ -1,6 +1,5 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { env } from '$env/dynamic/private';
 
 export const load: PageServerLoad = async ({ cookies }) => {
   const session = cookies.get('admin_session');
@@ -10,7 +9,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
 };
 
 export const actions = {
-  default: async ({ request, cookies }) => {
+  default: async ({ request, cookies, platform }) => {
     const data = await request.formData();
     const username = data.get('username');
     const password = data.get('password');
@@ -19,8 +18,16 @@ export const actions = {
       return fail(400, { missing: true });
     }
 
-    const ADMIN_USER = env.ADMIN_USER || 'admin';
-    const ADMIN_PASS = env.ADMIN_PASS || 'admin';
+    // Fetch credentials from Cloudflare KV
+    let ADMIN_USER = 'Admin';
+    let ADMIN_PASS = 'RVcUYb04uTTr5xcw4Za*';
+    
+    if (platform?.env?.SCHEDULE_KV) {
+      const kvUser = await platform.env.SCHEDULE_KV.get('ADMIN_USER');
+      const kvPass = await platform.env.SCHEDULE_KV.get('ADMIN_PASS');
+      if (kvUser) ADMIN_USER = kvUser;
+      if (kvPass) ADMIN_PASS = kvPass;
+    }
 
     if (username === ADMIN_USER && password === ADMIN_PASS) {
       cookies.set('admin_session', 'authenticated', {
