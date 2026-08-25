@@ -42,11 +42,28 @@
   ];
 
   function horizontalScroll(node: HTMLElement) {
+    let targetLeft = 0;
+    let isWheeling = false;
+    let wheelTimer: number;
+
     function handleWheel(e: WheelEvent) {
       if (e.deltaY !== 0) {
         e.preventDefault();
-        // Increased multiplier from 2 to 4 for faster scrolling
-        node.scrollBy({ left: e.deltaY * 4, behavior: 'auto' });
+        
+        if (!isWheeling) {
+          targetLeft = node.scrollLeft;
+        }
+        
+        isWheeling = true;
+        window.clearTimeout(wheelTimer);
+        wheelTimer = window.setTimeout(() => {
+          isWheeling = false;
+        }, 150);
+
+        targetLeft += e.deltaY;
+        targetLeft = Math.max(0, Math.min(targetLeft, node.scrollWidth - node.clientWidth));
+        
+        node.scrollTo({ left: targetLeft, behavior: 'smooth' });
       }
     }
 
@@ -69,9 +86,9 @@
           }
         });
 
-        const snapThreshold = 100; // closer edge threshold
+        const snapThreshold = 120; // closer edge threshold
 
-        if (minDistance < snapThreshold && scrollX !== nearestPos) {
+        if (minDistance <= snapThreshold && scrollX !== nearestPos) {
           node.scrollTo({ left: nearestPos, behavior: 'smooth' });
         }
       }, 150);
@@ -101,8 +118,8 @@
       <div class="sticky left-0 top-0 h-[40dvh] md:h-full w-screen md:w-[33vw] bg-dark z-20 flex flex-col justify-center px-8 md:px-16 md:border-r border-sand/10 shrink-0 overflow-hidden">
         {#if era.image}
           <div class="absolute inset-0 z-0">
-            <enhanced:img src={era.image} alt={era.pastor} class="w-full h-full object-cover opacity-60 mix-blend-luminosity" />
-            <div class="absolute inset-0 bg-linear-to-r from-dark/80 to-dark"></div>
+            <enhanced:img src={era.image} alt={era.pastor} class="w-full h-full object-cover opacity-80" />
+            <div class="absolute inset-0 bg-linear-to-t from-dark via-dark/80 to-transparent"></div>
           </div>
         {/if}
         <div class="relative z-10">

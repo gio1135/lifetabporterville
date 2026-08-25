@@ -351,11 +351,20 @@
       <h2 class="text-4xl md:text-6xl font-light mb-12 text-white">Visit us</h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-        <div>
-          <h3 class="text-2xl text-white font-light mb-4">What to expect</h3>
-          <p class="text-lg text-sand/70 leading-relaxed">
-            Worship, biblical teaching, friendly atmosphere, no dress code, come as you are type of thing
-          </p>
+        <div class="flex flex-col space-y-8">
+          <div>
+            <h3 class="text-2xl text-white font-light mb-4">What to expect</h3>
+            <p class="text-lg text-sand/70 leading-relaxed">
+              Worship, biblical teaching, friendly atmosphere, no dress code, come as you are type of thing
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-2xl text-white font-light mb-4">Transportation</h3>
+            <p class="text-lg text-sand/70 leading-relaxed">
+              We offer free transportation if you need a ride
+            </p>
+          </div>
         </div>
 
         <div class="flex flex-col space-y-8">
