@@ -69,8 +69,8 @@
   <title>Schedule | Life Tabernacle</title>
 </svelte:head>
 
-<div class="h-full w-full overflow-y-auto scroll-smooth flex justify-center custom-scrollbar pt-24 md:pt-32">
-  <div class="max-w-4xl w-full px-6 md:px-12 pb-32 bg-dark/60 backdrop-blur border border-sand/10 p-8 md:p-12">
+<div class="h-full w-full overflow-y-auto scroll-smooth custom-scrollbar pt-24 md:pt-32">
+  <div class="max-w-4xl w-full mx-auto px-6 md:px-12 pb-32 bg-dark/60 backdrop-blur border border-sand/10 p-8 md:p-12">
     <div class="flex justify-between items-center mb-10 border-b border-sand/20 pb-6">
       <h1 class="text-3xl md:text-5xl font-light tracking-widest">Service schedule</h1>
       
