@@ -40,7 +40,7 @@
   {/if}
 
   {#if isMenuOpen}
-    <div class="fixed inset-0 bg-[#0f0f0f] z-50 flex flex-col items-center justify-center space-y-10 md:hidden">
+    <div class="fixed inset-0 bg-[#0f0f0f] z-40 flex flex-col items-center justify-center space-y-10 md:hidden">
       <a href="/schedule" class="text-3xl font-light text-white tracking-widest">Schedule</a>
       <a href="/history" class="text-3xl font-light text-white tracking-widest">History</a>
       <a href="/doctrine" class="text-3xl font-light text-white tracking-widest">What we believe</a>

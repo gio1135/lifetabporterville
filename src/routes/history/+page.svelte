@@ -101,7 +101,7 @@
       <div class="sticky left-0 top-0 h-[40dvh] md:h-full w-screen md:w-[33vw] bg-dark z-20 flex flex-col justify-center px-8 md:px-16 md:border-r border-sand/10 shrink-0 overflow-hidden">
         {#if era.image}
           <div class="absolute inset-0 z-0">
-            <enhanced:img src={era.image} alt={era.pastor} class="w-full h-full object-cover opacity-20 mix-blend-luminosity" />
+            <enhanced:img src={era.image} alt={era.pastor} class="w-full h-full object-cover opacity-60 mix-blend-luminosity" />
             <div class="absolute inset-0 bg-linear-to-r from-dark/80 to-dark"></div>
           </div>
         {/if}

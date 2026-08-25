@@ -28,6 +28,8 @@
   let featuresContainer: HTMLElement;
   let featurePanels: HTMLElement[] = [];
   let opportunityText: HTMLElement;
+  let trigger2: HTMLElement;
+  let trigger3: HTMLElement;
 
   let lastHeight = 0;
   let lastMaxScroll = 0;
@@ -104,27 +106,63 @@
     gsap.set([
       featurePanels[1].querySelector('.feature-image-container'),
       featurePanels[2].querySelector('.feature-image-container')
-    ], { scale: 0 }); // Start scaled down to 0
+    ], { clipPath: 'inset(50%)' });
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: featuresContainer,
-        scroller: mainContainer,
-        start: 'top top',
-        end: 'bottom bottom',
-        scrub: 0.2,
-      }
+    let state2 = 0;
+    const animateIn2 = () => {
+      if (state2 === 1) return;
+      state2 = 1;
+      gsap.to(featurePanels[0].querySelector('.feature-text-container'), { y: -50, opacity: 0, duration: 0.3, ease: 'power2.inOut', overwrite: true });
+      gsap.to(featurePanels[1].querySelector('.feature-text-container'), { y: 0, opacity: 1, duration: 0.3, ease: 'power2.out', delay: 0.1, overwrite: true });
+      gsap.to(featurePanels[1].querySelector('.feature-image-container'), { clipPath: 'inset(0%)', duration: 0.45, ease: 'power2.inOut', overwrite: true });
+    };
+
+    const animateOut2 = () => {
+      if (state2 === 0) return;
+      state2 = 0;
+      gsap.to(featurePanels[1].querySelector('.feature-text-container'), { y: 50, opacity: 0, duration: 0.3, ease: 'power2.inOut', overwrite: true });
+      gsap.to(featurePanels[1].querySelector('.feature-image-container'), { clipPath: 'inset(50%)', duration: 0.4, ease: 'power2.inOut', overwrite: true });
+      gsap.to(featurePanels[0].querySelector('.feature-text-container'), { y: 0, opacity: 1, duration: 0.3, ease: 'power2.out', delay: 0.1, overwrite: true });
+    };
+
+    ScrollTrigger.create({
+      trigger: trigger2,
+      scroller: mainContainer,
+      start: 'top 80%',
+      end: 'top 20%',
+      onEnter: animateIn2,
+      onLeave: animateIn2,
+      onEnterBack: animateOut2,
+      onLeaveBack: animateOut2
     });
 
-    // First transition
-    tl.to(featurePanels[0].querySelector('.feature-text-container'), { y: -50, opacity: 0, duration: 1, ease: 'none' })
-      .to(featurePanels[1].querySelector('.feature-text-container'), { y: 0, opacity: 1, duration: 1, ease: 'none' }, '<')
-      .to(featurePanels[1].querySelector('.feature-image-container'), { scale: 1, duration: 1, ease: 'none' }, '<');
+    let state3 = 0;
+    const animateIn3 = () => {
+      if (state3 === 1) return;
+      state3 = 1;
+      gsap.to(featurePanels[1].querySelector('.feature-text-container'), { y: -50, opacity: 0, duration: 0.3, ease: 'power2.inOut', overwrite: true });
+      gsap.to(featurePanels[2].querySelector('.feature-text-container'), { y: 0, opacity: 1, duration: 0.3, ease: 'power2.out', delay: 0.1, overwrite: true });
+      gsap.to(featurePanels[2].querySelector('.feature-image-container'), { clipPath: 'inset(0%)', duration: 0.45, ease: 'power2.inOut', overwrite: true });
+    };
 
-    // Second transition
-    tl.to(featurePanels[1].querySelector('.feature-text-container'), { y: -50, opacity: 0, duration: 1, ease: 'none' })
-      .to(featurePanels[2].querySelector('.feature-text-container'), { y: 0, opacity: 1, duration: 1, ease: 'none' }, '<')
-      .to(featurePanels[2].querySelector('.feature-image-container'), { scale: 1, duration: 1, ease: 'none' }, '<');
+    const animateOut3 = () => {
+      if (state3 === 0) return;
+      state3 = 0;
+      gsap.to(featurePanels[2].querySelector('.feature-text-container'), { y: 50, opacity: 0, duration: 0.3, ease: 'power2.inOut', overwrite: true });
+      gsap.to(featurePanels[2].querySelector('.feature-image-container'), { clipPath: 'inset(50%)', duration: 0.4, ease: 'power2.inOut', overwrite: true });
+      gsap.to(featurePanels[1].querySelector('.feature-text-container'), { y: 0, opacity: 1, duration: 0.3, ease: 'power2.out', delay: 0.1, overwrite: true });
+    };
+
+    ScrollTrigger.create({
+      trigger: trigger3,
+      scroller: mainContainer,
+      start: 'top 80%',
+      end: 'top 20%',
+      onEnter: animateIn3,
+      onLeave: animateIn3,
+      onEnterBack: animateOut3,
+      onLeaveBack: animateOut3
+    });
   });
 
   onDestroy(() => {
@@ -150,10 +188,9 @@
 
     <nav class="absolute top-0 left-0 w-full z-50 flex justify-end items-center px-6 md:px-16 py-8">
       <div class="hidden md:flex gap-8">
-        <a href="#opportunity" class="text-sand/80 hover:text-white tracking-widest text-sm transition-colors duration-300">Concept</a>
-        <a href="#stay" class="text-sand/80 hover:text-white tracking-widest text-sm transition-colors duration-300">Features</a>
-        <a href="#place" class="text-sand/80 hover:text-white tracking-widest text-sm transition-colors duration-300">Explore</a>
-        <a href="#answers" class="text-sand/80 hover:text-white tracking-widest text-sm transition-colors duration-300">FAQ</a>
+        <a href="/schedule" class="text-sand/80 hover:text-white tracking-widest text-sm transition-colors duration-300">Schedule</a>
+        <a href="/history" class="text-sand/80 hover:text-white tracking-widest text-sm transition-colors duration-300">History</a>
+        <a href="/doctrine" class="text-sand/80 hover:text-white tracking-widest text-sm transition-colors duration-300">What we believe</a>
       </div>
       <button class="md:hidden relative z-60 text-sand/80 hover:text-white focus:outline-none transition-colors duration-300" onclick={toggleMenu} aria-label="Toggle menu">
         {#if isMenuOpen}
@@ -166,19 +203,15 @@
 
     {#if isMenuOpen}
       <div class="fixed inset-0 bg-[#0f0f0f] z-40 flex flex-col items-center justify-center space-y-10 md:hidden">
-        <a href="#opportunity" onclick={toggleMenu} class="text-3xl font-light text-white tracking-widest">Concept</a>
-        <a href="#stay" onclick={toggleMenu} class="text-3xl font-light text-white tracking-widest">Features</a>
-        <a href="#place" onclick={toggleMenu} class="text-3xl font-light text-white tracking-widest">Explore</a>
-        <a href="#answers" onclick={toggleMenu} class="text-3xl font-light text-white tracking-widest">FAQ</a>
+        <a href="/schedule" onclick={toggleMenu} class="text-3xl font-light text-white tracking-widest">Schedule</a>
+        <a href="/history" onclick={toggleMenu} class="text-3xl font-light text-white tracking-widest">History</a>
+        <a href="/doctrine" onclick={toggleMenu} class="text-3xl font-light text-white tracking-widest">What we believe</a>
       </div>
     {/if}
 
     <div class="relative z-10 text-center flex flex-col items-center justify-center px-4 w-full h-full pt-20 pb-20">
       <h1 class="text-5xl md:text-8xl font-light tracking-widest text-white mb-6">Life Tabernacle</h1>
       <p class="text-xl md:text-3xl text-sand font-light tracking-wide mb-12">Where the Bible is believed and obeyed</p>
-      <a href="/schedule" class="inline-block border border-sand/50 text-white px-10 py-4 rounded-full tracking-widest hover:bg-white hover:text-black transition-colors duration-500">
-        View schedule
-      </a>
     </div>
   </section>
 
@@ -245,8 +278,8 @@
     </div>
 
     <div class="absolute top-0 w-full h-dvh snap-start snap-always pointer-events-none"></div>
-    <div class="absolute top-[100dvh] w-full h-dvh snap-start snap-always pointer-events-none"></div>
-    <div class="absolute top-[200dvh] w-full h-dvh snap-start snap-always pointer-events-none"></div>
+    <div bind:this={trigger2} class="absolute top-[100dvh] w-full h-dvh snap-start snap-always pointer-events-none"></div>
+    <div bind:this={trigger3} class="absolute top-[200dvh] w-full h-dvh snap-start snap-always pointer-events-none"></div>
   </section>
 
   <section id="place" class="w-full h-dvh snap-start snap-always shrink-0 px-8 md:px-24 bg-zinc-900 flex flex-col justify-center">
