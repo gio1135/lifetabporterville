@@ -1,394 +1,271 @@
-<script lang="ts">
-  import type { PageData, ActionData } from './$types';
-  import { fade, slide } from 'svelte/transition';
-  import { enhance } from '$app/forms';
+<script lang="ts">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+  import { onMount, tick, onDestroy } from 'svelte';
+  import { browser } from '$app/environment';
+  import gsap from 'gsap';
+  import ScrollTrigger from 'gsap/dist/ScrollTrigger';
 
-  type ScheduleItem = {
-    id: string;
-    dayOfWeek: number;
-    title: string;
-    description?: string;
-    time: string;
-    crossedOut: boolean;
-  };
+  if (browser) {
+    gsap.registerPlugin(ScrollTrigger);
+  }
 
-  let { data, form }: { data: PageData; form: ActionData } = $props();
+  let mainContainer: HTMLElement;
+  let featuresContainer: HTMLElement;
+  let featurePanels: HTMLElement[] = [];
+  let opportunityText: HTMLElement;
 
-  let showToast = $state(false);
-  let toastMessage = $state('');
+  const feature1Pool = [
+    '/images/features/IMG_8737.jpeg',
+    '/images/features/IMG_8741.jpeg',
+    '/images/features/IMG_8743.jpeg',
+    '/images/features/IMG_8744.jpeg'
+  ];
+  const feature2Pool = [
+    '/images/features/IMG_8748.jpeg',
+    '/images/features/IMG_8806.jpeg'
+  ];
+  const feature3Pool = [
+    '/images/features/IMG_8762.jpeg',
+    '/images/features/IMG_8761.jpeg'
+  ];
 
-  let isEditing = $state(false);
-  let editSchedule = $state(JSON.parse(JSON.stringify(data.schedule)));
+  let currentFeature1 = $state('');
+  let currentFeature2 = $state('');
+  let currentFeature3 = $state('');
 
-  let saveFormElement: HTMLFormElement | undefined = $state();
+  onMount(async () => {
+    if (!browser) return;
 
-  // When form submission returns success
-  $effect(() => {
-    if (form?.success) {
-      if (form.action === 'save' || form.action === 'reset') {
-        toastMessage = form.action === 'save' ? 'Saved' : 'Reset';
-        showToast = true;
-        setTimeout(() => {
-          showToast = false;
-        }, 3000);
+    currentFeature1 = feature1Pool[Math.floor(Math.random() * feature1Pool.length)];
+    currentFeature2 = feature2Pool[Math.floor(Math.random() * feature2Pool.length)];
+    currentFeature3 = feature3Pool[Math.floor(Math.random() * feature3Pool.length)];
+
+    await tick();
+
+    gsap.fromTo(opportunityText,
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1.5,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: opportunityText,
+          scroller: mainContainer,
+          start: 'top 80%',
+          toggleActions: 'play none none reverse'
+        }
       }
-    }
+    );
+
+    gsap.set([featurePanels[1], featurePanels[2]], { opacity: 1, pointerEvents: 'none' });
+    gsap.set([
+      featurePanels[1].querySelector('.feature-text-container'),
+      featurePanels[2].querySelector('.feature-text-container')
+    ], { y: 50, opacity: 0 });
+    gsap.set([
+      featurePanels[1].querySelector('.feature-image-container'),
+      featurePanels[2].querySelector('.feature-image-container')
+    ], { opacity: 0 });
+    gsap.set([
+      featurePanels[1].querySelector('img'),
+      featurePanels[2].querySelector('img')
+    ], { scale: 0 }); // Scale up from center (0 to 1)
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: featuresContainer,
+        scroller: mainContainer,
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 1,
+      }
+    });
+
+    // First transition
+    tl.to(featurePanels[0].querySelector('.feature-text-container'), { y: -50, opacity: 0, duration: 1 })
+      .to(featurePanels[0].querySelector('.feature-image-container'), { opacity: 0, duration: 1 }, '<')
+      .to(featurePanels[1].querySelector('.feature-text-container'), { y: 0, opacity: 1, duration: 1 }, '<')
+      .to(featurePanels[1].querySelector('.feature-image-container'), { opacity: 1, duration: 1 }, '<')
+      .to(featurePanels[1].querySelector('img'), { scale: 1, duration: 1 }, '<');
+
+    // Second transition
+    tl.to(featurePanels[1].querySelector('.feature-text-container'), { y: -50, opacity: 0, duration: 1 })
+      .to(featurePanels[1].querySelector('.feature-image-container'), { opacity: 0, duration: 1 }, '<')
+      .to(featurePanels[2].querySelector('.feature-text-container'), { y: 0, opacity: 1, duration: 1 }, '<')
+      .to(featurePanels[2].querySelector('.feature-image-container'), { opacity: 1, duration: 1 }, '<')
+      .to(featurePanels[2].querySelector('img'), { scale: 1, duration: 1 }, '<');
   });
 
-  function copyAddress() {
-    navigator.clipboard.writeText('939 N Main St, Porterville, CA, 93257');
-    toastMessage = 'Copied';
-    showToast = true;
-    setTimeout(() => {
-      showToast = false;
-    }, 3000);
-  }
-
-  const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-  function enterEditMode() {
-    editSchedule = JSON.parse(JSON.stringify(data.schedule));
-    isEditing = true;
-  }
-
-  function addDay() {
-    editSchedule.items.push({
-      id: crypto.randomUUID(),
-      dayOfWeek: 0,
-      title: 'New event',
-      description: '',
-      time: '12:00 PM',
-      crossedOut: false
-    });
-    sortItems();
-  }
-
-  function removeDay(id: string) {
-    editSchedule.items = editSchedule.items.filter((i: ScheduleItem) => i.id !== id);
-  }
-
-  function toggleCrossOut(item: ScheduleItem) {
-    item.crossedOut = !item.crossedOut;
-  }
-
-  function sortItems() {
-    editSchedule.items.sort((a: ScheduleItem, b: ScheduleItem) => a.dayOfWeek - b.dayOfWeek);
-  }
-
-  function handleDayChange(item: ScheduleItem, e: Event) {
-    item.dayOfWeek = parseInt((e.target as HTMLSelectElement).value, 10);
-    sortItems();
-  }
-
-  function doneEditing() {
-    if (saveFormElement) {
-      saveFormElement.requestSubmit();
+  onDestroy(() => {
+    if (browser) {
+      ScrollTrigger.getAll().forEach(t => t.kill());
     }
-    isEditing = false;
-  }
+  });
 </script>
 
 <svelte:head>
   <title>Life Tabernacle</title>
+  <meta name="description" content="Where the Bible is believed and obeyed" />
 </svelte:head>
 
-{#if showToast}
-  <div
-    transition:fade
-    class="fixed bottom-4 right-4 bg-green-600 text-white px-6 py-3 rounded-md shadow-lg font-medium z-50"
-  >
-    {toastMessage}
-  </div>
-{/if}
+<main bind:this={mainContainer} class="w-full h-dvh overflow-y-auto overflow-x-hidden snap-y snap-mandatory bg-dark relative scroll-smooth">
 
-<div class="flex flex-col items-center justify-center py-12 text-center space-y-8 animate-fade-in">
-  <div class="p-8 md:p-12 max-w-4xl w-full">
-    <h1 class="text-4xl md:text-6xl font-medium mb-6">Life Tabernacle</h1>
+  <section id="imagery" class="relative w-full h-dvh snap-start snap-always shrink-0 flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <img src="/images/hero.jpeg" alt="Church interior" class="w-full h-full object-cover opacity-60" />
+      <div class="absolute inset-0 bg-black/40"></div>
+    </div>
 
-    <div
-      class="flex flex-col md:flex-row items-center justify-center gap-6 mt-12 text-lg text-slate-600 dark:text-slate-400"
-    >
-      <div class="flex items-center space-x-3">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-          ><path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-          ></path><path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-          ></path></svg
-        >
-        <div class="flex items-center gap-2">
-          <a
-            href="https://maps.google.com/?q=939+N+Main+St,+Porterville,+CA,+93257"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="hover:underline"
-          >
-            939 N Main St, Porterville, CA, 93257
-          </a>
-          <button
-            onclick={copyAddress}
-            class="p-1 text-slate-400 hover:text-purple-600 dark:hover:text-amber-400 transition-colors rounded-md hover:bg-slate-100 dark:hover:bg-slate-800"
-            aria-label="Copy address"
-            title="Copy address"
-          >
-            <svg
-              class="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-              ></path></svg
-            >
-          </button>
+    <nav class="absolute top-0 left-0 w-full z-20 flex justify-end items-center px-6 md:px-16 py-8">
+      <div class="hidden md:flex gap-8">
+        <a href="#opportunity" class="text-sand/80 hover:text-white uppercase tracking-widest text-sm transition-colors duration-300">Concept</a>
+        <a href="#stay" class="text-sand/80 hover:text-white uppercase tracking-widest text-sm transition-colors duration-300">Features</a>
+        <a href="#place" class="text-sand/80 hover:text-white uppercase tracking-widest text-sm transition-colors duration-300">Explore</a>
+        <a href="#answers" class="text-sand/80 hover:text-white uppercase tracking-widest text-sm transition-colors duration-300">FAQ</a>
+      </div>
+    </nav>
+
+    <div class="relative z-10 text-center flex flex-col items-center justify-center px-4 w-full h-full pt-20 pb-20">
+      <h1 class="text-5xl md:text-8xl font-light tracking-widest text-white uppercase mb-6">Life tabernacle</h1>
+      <p class="text-xl md:text-3xl text-sand font-light tracking-wide mb-12">Where the Bible is believed and obeyed</p>
+      <a href="/schedule" class="inline-block border border-sand/50 text-white px-10 py-4 rounded-full tracking-widest uppercase hover:bg-white hover:text-black transition-colors duration-500">
+        View schedule
+      </a>
+    </div>
+  </section>
+
+  <section id="opportunity" class="w-full h-dvh snap-start snap-always shrink-0 px-8 md:px-24 bg-zinc-900 flex flex-col items-center justify-center text-center">
+    <div bind:this={opportunityText} class="max-w-5xl mx-auto foldable-padding opacity-0">
+      <h2 class="text-4xl md:text-6xl text-sand leading-tight font-light tracking-wide">
+        Tells the visitor that this is a church and maybe an inspirational quote or something
+      </h2>
+    </div>
+  </section>
+
+  <section id="stay" bind:this={featuresContainer} class="w-full h-[300dvh] relative shrink-0">
+    <div class="sticky top-0 w-full h-dvh overflow-hidden bg-dark">
+      <div
+        bind:this={featurePanels[0]}
+        class="absolute inset-0 flex flex-col md:flex-row items-center justify-center p-8 md:p-24 foldable-split"
+      >
+        <div class="feature-text-container w-full md:w-1/2 pr-0 md:pr-16 mb-8 md:mb-0 flex flex-col justify-center order-1 md:order-0">
+          <h2 class="text-4xl md:text-6xl font-light mb-6 text-white">The Bible</h2>
+          <p class="text-xl text-sand/80 leading-relaxed max-w-lg">
+            This section is about the Bible being what we believe and base everything on
+          </p>
+        </div>
+        <div class="feature-image-container w-full md:w-1/2 h-[40dvh] md:h-[60dvh] relative order-2 md:order-0 overflow-hidden rounded-xl shadow-2xl">
+          {#if currentFeature1}
+            <img src={currentFeature1} alt="Bible reading" class="w-full h-full object-cover" />
+          {/if}
+        </div>
+      </div>
+
+      <div
+        bind:this={featurePanels[1]}
+        class="absolute inset-0 flex flex-col md:flex-row items-center justify-center p-8 md:p-24 opacity-0 foldable-split"
+      >
+        <div class="feature-text-container w-full md:w-1/2 pr-0 md:pr-16 mb-8 md:mb-0 flex flex-col justify-center order-1 md:order-0">
+          <h2 class="text-4xl md:text-6xl font-light mb-6 text-white">Community</h2>
+          <p class="text-xl text-sand/80 leading-relaxed max-w-lg">
+            Make it sound like a place you want to go and people you'd want to be around
+          </p>
+        </div>
+        <div class="feature-image-container w-full md:w-1/2 h-[40dvh] md:h-[60dvh] relative order-2 md:order-0 overflow-hidden rounded-xl shadow-2xl">
+          {#if currentFeature2}
+            <img src={currentFeature2} alt="Community fellowship" class="w-full h-full object-cover" />
+          {/if}
+        </div>
+      </div>
+
+      <div
+        bind:this={featurePanels[2]}
+        class="absolute inset-0 flex flex-col md:flex-row items-center justify-center p-8 md:p-24 opacity-0 foldable-split"
+      >
+        <div class="feature-text-container w-full md:w-1/2 pr-0 md:pr-16 mb-8 md:mb-0 flex flex-col justify-center order-1 md:order-0">
+          <h2 class="text-4xl md:text-6xl font-light mb-6 text-white">The truth</h2>
+          <p class="text-xl text-sand/80 leading-relaxed max-w-lg">
+            Probably something about Acts 2:38 and the plan of salvation
+          </p>
+        </div>
+        <div class="feature-image-container w-full md:w-1/2 h-[40dvh] md:h-[60dvh] relative order-2 md:order-0 overflow-hidden rounded-xl shadow-2xl">
+          {#if currentFeature3}
+            <img src={currentFeature3} alt="Worship service" class="w-full h-full object-cover" />
+          {/if}
         </div>
       </div>
     </div>
-  </div>
-</div>
 
-<div class="max-w-3xl mx-auto py-8 px-4 animate-fade-in relative">
-  <div
-    class="mb-10 border-b border-slate-200 dark:border-slate-800 pb-4 text-center flex flex-col items-center"
-  >
-    <div class="flex items-center gap-4 justify-center">
-      <h2 class="text-3xl font-medium mb-2">Schedule</h2>
-      {#if data.isLoggedIn && !isEditing}
-        <button
-          onclick={enterEditMode}
-          class="mb-2 p-2 text-slate-500 hover:text-purple-600 dark:hover:text-amber-400 transition-colors"
-          aria-label="Edit schedule"
-        >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-            ><path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-            ></path></svg
-          >
-        </button>
-      {/if}
+    <div class="absolute top-0 w-full h-dvh snap-start snap-always pointer-events-none"></div>
+    <div class="absolute top-[100dvh] w-full h-dvh snap-start snap-always pointer-events-none"></div>
+    <div class="absolute top-[200dvh] w-full h-dvh snap-start snap-always pointer-events-none"></div>
+  </section>
+
+  <section id="place" class="w-full h-dvh snap-start snap-always shrink-0 px-8 md:px-24 bg-zinc-900 flex flex-col justify-center">
+    <h2 class="text-4xl md:text-6xl font-light mb-16 text-center text-white">Explore</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto w-full">
+      <a href="/schedule" class="group relative block h-[20dvh] md:h-[50dvh] overflow-hidden rounded-xl bg-dark border border-white/5 hover:border-white/20 transition-all duration-500">
+        <div class="absolute inset-0 flex items-center justify-center">
+          <h3 class="text-3xl font-light tracking-wide text-white group-hover:scale-110 transition-transform duration-700">Schedule</h3>
+        </div>
+      </a>
+      <a href="/history" class="group relative block h-[20dvh] md:h-[50dvh] overflow-hidden rounded-xl bg-dark border border-white/5 hover:border-white/20 transition-all duration-500">
+        <div class="absolute inset-0 flex items-center justify-center">
+          <h3 class="text-3xl font-light tracking-wide text-white group-hover:scale-110 transition-transform duration-700">History</h3>
+        </div>
+      </a>
+      <a href="/doctrine" class="group relative block h-[20dvh] md:h-[50dvh] overflow-hidden rounded-xl bg-dark border border-white/5 hover:border-white/20 transition-all duration-500">
+        <div class="absolute inset-0 flex items-center justify-center">
+          <h3 class="text-3xl font-light tracking-wide text-white group-hover:scale-110 transition-transform duration-700">What we believe</h3>
+        </div>
+      </a>
     </div>
-    {#if data.isOverride && !isEditing}
-      <p class="text-sm font-medium text-amber-600 dark:text-amber-400 inline-block mt-2">
-        Special schedule in effect this week
-      </p>
-    {/if}
-  </div>
+  </section>
 
-  <div class="overflow-hidden">
-    {#if isEditing}
-      <!-- Admin Edit Mode -->
-      <div class="space-y-6">
-        <p class="text-sm font-medium text-slate-500 dark:text-slate-400 text-center mb-6">
-          The schedule automatically resets to default every week
-        </p>
-        {#each editSchedule.items as item (item.id)}
-          <div
-            transition:slide
-            class="p-4 border border-slate-200 dark:border-slate-800 rounded-lg bg-white/50 dark:bg-black/20 flex flex-col md:flex-row gap-4 items-start md:items-center"
-          >
-            <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-              <div>
-                <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1"
-                  >Day</label
-                >
-                <select
-                  value={item.dayOfWeek}
-                  onchange={(e) => handleDayChange(item, e)}
-                  class="w-full px-2 py-1.5 text-sm rounded border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#1a0b2e]"
-                >
-                  {#each daysOfWeek as day, i (day)}
-                    <option value={i}>{day}</option>
-                  {/each}
-                </select>
-              </div>
+  <section id="answers" class="w-full h-dvh snap-start snap-always shrink-0 px-8 md:px-24 bg-dark flex flex-col justify-center">
+    <div class="max-w-4xl mx-auto w-full foldable-padding">
+      <h2 class="text-4xl md:text-6xl font-light mb-16 text-white text-center md:text-left">Common questions</h2>
 
-              <div>
-                <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1"
-                  >Time</label
-                >
-                <input
-                  type="text"
-                  bind:value={item.time}
-                  class="w-full px-2 py-1.5 text-sm rounded border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#1a0b2e]"
-                />
-              </div>
-
-              <div>
-                <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1"
-                  >Title</label
-                >
-                <input
-                  type="text"
-                  bind:value={item.title}
-                  class="w-full px-2 py-1.5 text-sm rounded border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#1a0b2e]"
-                />
-              </div>
-
-              <div>
-                <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1"
-                  >Description (optional)</label
-                >
-                <input
-                  type="text"
-                  bind:value={item.description}
-                  class="w-full px-2 py-1.5 text-sm rounded border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#1a0b2e]"
-                />
-              </div>
-
-              {#if item.dayOfWeek === 0 && item.title.toLowerCase().includes('morning')}
-                <div class="sm:col-span-2 mt-2">
-                  <button
-                    onclick={() => (editSchedule.sundaySchool = !editSchedule.sundaySchool)}
-                    class="px-3 py-1.5 rounded-full text-xs font-medium transition-colors cursor-pointer border
-                      {editSchedule.sundaySchool
-                      ? 'bg-purple-100 text-purple-700 border-purple-200 dark:bg-amber-500/20 dark:text-amber-400 dark:border-amber-500/30 hover:bg-purple-200 dark:hover:bg-amber-500/30'
-                      : 'bg-red-100 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800 hover:bg-red-200 dark:hover:bg-red-900/50'}"
-                  >
-                    {editSchedule.sundaySchool ? 'Sunday school' : 'No sunday school'}
-                  </button>
-                </div>
-              {/if}
-            </div>
-
-            <div class="flex items-center gap-2 mt-4 md:mt-0 w-full md:w-auto justify-end">
-              <button
-                onclick={() => toggleCrossOut(item)}
-                class="p-2 text-sm font-medium rounded {item.crossedOut
-                  ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'
-                  : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'} hover:opacity-80 transition-opacity"
-              >
-                {item.crossedOut ? 'Uncross' : 'Cross out'}
-              </button>
-              <button
-                onclick={() => removeDay(item.id)}
-                class="p-2 text-sm font-medium rounded bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 hover:opacity-80 transition-opacity"
-              >
-                Remove
-              </button>
-            </div>
-          </div>
-        {/each}
-
-        <div class="flex justify-center pt-4">
-          <button
-            onclick={addDay}
-            class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-          >
-            + Add day
-          </button>
+      <div class="space-y-12">
+        <div>
+          <h3 class="text-2xl text-white font-light mb-4">Question 1?</h3>
+          <p class="text-lg text-sand/70 leading-relaxed">
+            These are mainly to addres any other questions that someone might have when visiting the website
+          </p>
         </div>
 
-        <div class="flex justify-center gap-4 pt-4 mt-4">
-          <form
-            method="POST"
-            action="?/save"
-            class="inline"
-            use:enhance
-            bind:this={saveFormElement}
-          >
-            <input type="hidden" name="payload" value={JSON.stringify(editSchedule)} />
-            <button
-              type="submit"
-              class="px-6 py-2 bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 rounded font-medium hover:bg-purple-700 dark:hover:bg-gold-400 transition-colors hidden"
-            >
-              Save
-            </button>
-          </form>
+        <div>
+          <h3 class="text-2xl text-white font-light mb-4">Question 2?</h3>
+          <p class="text-lg text-sand/70 leading-relaxed">
+            Answer 2
+          </p>
+        </div>
 
-          <form
-            method="POST"
-            action="?/reset"
-            class="inline"
-            use:enhance={() => {
-              isEditing = false;
-            }}
-          >
-            <button
-              type="submit"
-              class="px-6 py-2 bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 rounded font-medium hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"
-            >
-              Reset
-            </button>
-          </form>
-
-          <button
-            onclick={doneEditing}
-            class="px-6 py-2 bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 rounded font-medium hover:bg-purple-700 dark:hover:bg-gold-400 transition-colors"
-          >
-            Done editing
-          </button>
+        <div>
+          <h3 class="text-2xl text-white font-light mb-4">Question 3?</h3>
+          <p class="text-lg text-sand/70 leading-relaxed">
+            Answer 3
+          </p>
         </div>
       </div>
-    {:else}
-      <!-- Public View Mode -->
-      <ul class="divide-y divide-slate-100 dark:divide-slate-800/50">
-        {#each data.schedule.items as item (item.id)}
-          <li class="py-5 flex flex-col md:flex-row justify-between items-start md:items-center">
-            <div>
-              <h3
-                class="text-lg font-medium flex flex-wrap items-center gap-3 {item.crossedOut
-                  ? 'line-through opacity-50'
-                  : ''}"
-              >
-                {daysOfWeek[item.dayOfWeek]} - {item.title}
-
-                {#if item.dayOfWeek === 0 && item.title.toLowerCase().includes('morning')}
-                  {#if data.schedule.sundaySchool}
-                    <span
-                      class="text-xs font-medium px-2 py-0.5 rounded bg-purple-100 text-purple-700 dark:bg-amber-500/20 dark:text-amber-400"
-                    >
-                      Sunday school
-                    </span>
-                  {:else}
-                    <span
-                      class="text-xs font-medium px-2 py-0.5 rounded bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
-                    >
-                      No sunday school
-                    </span>
-                  {/if}
-                {/if}
-              </h3>
-              {#if item.description}
-                <p
-                  class="text-sm text-slate-500 dark:text-slate-400 mt-0.5 {item.crossedOut
-                    ? 'line-through opacity-50'
-                    : ''}"
-                >
-                  {item.description}
-                </p>
-              {/if}
-            </div>
-
-            <div
-              class="text-lg font-medium text-slate-600 dark:text-slate-400 mt-2 md:mt-0 {item.crossedOut
-                ? 'line-through opacity-50'
-                : ''}"
-            >
-              {item.time}
-            </div>
-          </li>
-        {/each}
-      </ul>
-    {/if}
-
-    <div class="pt-8 mt-8 border-t border-slate-200 dark:border-slate-800 text-center">
-      <p class="text-slate-500 dark:text-slate-400 italic text-sm">
-        Services have prayer 30 minutes before. Prayer nights are 30 minutes of prayer with no
-        service
-      </p>
     </div>
-  </div>
-</div>
+  </section>
+
+</main>
+
+<style>
+  @media (horizontal-viewport-segments: 2) {
+    .foldable-split {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr;
+      gap: env(viewport-segment-width 0 0);
+    }
+
+    .foldable-padding {
+      padding-top: max(env(viewport-segment-top 0 0), 2rem);
+      padding-bottom: max(env(viewport-segment-bottom 0 0), 2rem);
+      padding-left: max(env(viewport-segment-left 0 0), 2rem);
+      padding-right: max(env(viewport-segment-right 0 0), 2rem);
+    }
+  }
+</style>

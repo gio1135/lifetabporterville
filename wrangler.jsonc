@@ -1,13 +1,7 @@
 {
-  "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "lifetabporterville",
-  "compatibility_date": "2026-07-11",
-  "compatibility_flags": ["nodejs_als"],
-  "pages_build_output_dir": ".svelte-kit/cloudflare",
-  "kv_namespaces": [
-    {
-      "binding": "SCHEDULE_KV",
-      "id": "a1f71adc8bb546308e2cfebc3a8b049a"
-    }
-  ]
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "lifetabporterville",
+	"compatibility_date": "2026-08-24",
+	"compatibility_flags": ["nodejs_als"],
+	"pages_build_output_dir": ".svelte-kit/cloudflare"
 }
