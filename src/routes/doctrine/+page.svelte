@@ -37,10 +37,10 @@
       <section class="mb-12">
         <h2 class="text-2xl font-light mb-4 text-white">Paragraphs</h2>
         <p class="mb-4">
-          This is a standard paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          This is a standard paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat
         </p>
         <p class="mb-4">
-          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
         </p>
       </section>
 
@@ -48,20 +48,20 @@
         <h2 class="text-2xl font-light mb-4 text-white">Lists</h2>
         <div class="grid md:grid-cols-2 gap-8">
           <div>
-            <h3 class="text-xl font-light mb-3 text-white">Unordered List</h3>
+            <h3 class="text-xl font-light mb-3 text-white">Unordered list</h3>
             <ul class="list-disc pl-6 space-y-2">
               <li>First item in the list</li>
-              <li>Second item with some longer text that might wrap to the next line depending on the screen size.</li>
+              <li>Second item with some longer text that might wrap to the next line depending on the screen size</li>
               <li>Third item
                 <ul class="list-circle pl-6 mt-2 space-y-2 text-sand/60">
-                  <li>Nested item A</li>
-                  <li>Nested item B</li>
+                  <li>Nested item a</li>
+                  <li>Nested item b</li>
                 </ul>
               </li>
             </ul>
           </div>
           <div>
-            <h3 class="text-xl font-light mb-3 text-white">Ordered List</h3>
+            <h3 class="text-xl font-light mb-3 text-white">Ordered ist</h3>
             <ol class="list-decimal pl-6 space-y-2">
               <li>Step one is very important</li>
               <li>Step two follows step one</li>
