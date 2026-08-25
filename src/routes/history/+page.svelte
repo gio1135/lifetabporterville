@@ -92,7 +92,7 @@
 </svelte:head>
 
 <div use:horizontalScroll class="h-full w-full overflow-x-auto overflow-y-hidden scroll-smooth flex custom-scrollbar">
-  {#each eras as era, i (era.period)}
+  {#each eras as era (era.period)}
     <section class="relative shrink-0 flex h-full">
       <!-- Sticky Header -->
       <div class="sticky left-0 top-0 h-[40dvh] md:h-full w-screen md:w-[50vw] bg-dark z-20 flex flex-col justify-center px-8 md:px-20 md:border-r border-sand/10 shrink-0">
@@ -101,12 +101,12 @@
       </div>
 
       <!-- Milestones Container (scrolls past) -->
-      <div class="flex items-center h-[60dvh] md:h-full self-end md:self-auto z-10 shrink-0 -ml-[100vw] md:ml-0 pl-[10vw] md:pl-10 relative">
+      <div class="flex items-center h-[60dvh] md:h-full self-end md:self-auto z-10 shrink-0 ml-[-100vw] md:ml-0 pl-[10vw] md:pl-10 relative">
         
         <!-- horizontal timeline line -->
         <div class="absolute top-1/2 left-0 w-full h-px bg-sand/20 -translate-y-1/2 -z-10"></div>
         
-        {#each era.milestones as milestone}
+        {#each era.milestones as milestone (milestone.title)}
           <div class="relative flex flex-col items-center w-64 mx-8 md:mx-16 shrink-0 {milestone.position === 'top' ? 'mb-[20dvh] md:mb-[40dvh]' : 'mt-[20dvh] md:mt-[40dvh]'}">
             <!-- connecting line to the timeline -->
             <div class="absolute {milestone.position === 'top' ? '-bottom-10 h-10' : '-top-10 h-10'} w-px bg-sand/40 left-1/2 -translate-x-1/2"></div>

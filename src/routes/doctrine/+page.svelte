@@ -1,5 +1,5 @@
 <script lang="ts">
-  let useDyslexicFont = false;
+  let useDyslexicFont = $state(false);
 
   function toggleFont() {
     useDyslexicFont = !useDyslexicFont;

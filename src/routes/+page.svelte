@@ -10,15 +10,15 @@
   const f1_2 = import.meta.glob('$lib/images/features/IMG_8741.jpeg', { query: { enhanced: true }, eager: true, import: 'default' });
   const f1_3 = import.meta.glob('$lib/images/features/IMG_8743.jpeg', { query: { enhanced: true }, eager: true, import: 'default' });
   const f1_4 = import.meta.glob('$lib/images/features/IMG_8744.jpeg', { query: { enhanced: true }, eager: true, import: 'default' });
-  const feature1Pool = [Object.values(f1)[0], Object.values(f1_2)[0], Object.values(f1_3)[0], Object.values(f1_4)[0]] as any[];
+  const feature1Pool = [Object.values(f1)[0], Object.values(f1_2)[0], Object.values(f1_3)[0], Object.values(f1_4)[0]] as string[];
 
   const f2 = import.meta.glob('$lib/images/features/IMG_8748.jpeg', { query: { enhanced: true }, eager: true, import: 'default' });
   const f2_2 = import.meta.glob('$lib/images/features/IMG_8806.jpeg', { query: { enhanced: true }, eager: true, import: 'default' });
-  const feature2Pool = [Object.values(f2)[0], Object.values(f2_2)[0]] as any[];
+  const feature2Pool = [Object.values(f2)[0], Object.values(f2_2)[0]] as string[];
 
   const f3 = import.meta.glob('$lib/images/features/IMG_8761.jpeg', { query: { enhanced: true }, eager: true, import: 'default' });
   const f3_2 = import.meta.glob('$lib/images/features/IMG_8762.jpeg', { query: { enhanced: true }, eager: true, import: 'default' });
-  const feature3Pool = [Object.values(f3)[0], Object.values(f3_2)[0]] as any[];
+  const feature3Pool = [Object.values(f3)[0], Object.values(f3_2)[0]] as string[];
 
   if (browser) {
     gsap.registerPlugin(ScrollTrigger);
@@ -58,9 +58,9 @@
     }, 50);
   }
 
-  let currentFeature1 = $state<any>(null);
-  let currentFeature2 = $state<any>(null);
-  let currentFeature3 = $state<any>(null);
+  let currentFeature1 = $state<string | null>(null);
+  let currentFeature2 = $state<string | null>(null);
+  let currentFeature3 = $state<string | null>(null);
 
   onMount(async () => {
     if (!browser) return;
