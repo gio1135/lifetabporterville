@@ -106,19 +106,19 @@
         scroller: mainContainer,
         start: 'top top',
         end: 'bottom bottom',
-        scrub: 1,
+        scrub: 0.2,
       }
     });
 
     // First transition
-    tl.to(featurePanels[0].querySelector('.feature-text-container'), { y: -50, opacity: 0, duration: 1 })
-      .to(featurePanels[1].querySelector('.feature-text-container'), { y: 0, opacity: 1, duration: 1 }, '<')
-      .to(featurePanels[1].querySelector('.feature-image-container'), { scale: 1, duration: 1 }, '<');
+    tl.to(featurePanels[0].querySelector('.feature-text-container'), { y: -50, opacity: 0, duration: 1, ease: 'none' })
+      .to(featurePanels[1].querySelector('.feature-text-container'), { y: 0, opacity: 1, duration: 1, ease: 'none' }, '<')
+      .to(featurePanels[1].querySelector('.feature-image-container'), { scale: 1, duration: 1, ease: 'none' }, '<');
 
     // Second transition
-    tl.to(featurePanels[1].querySelector('.feature-text-container'), { y: -50, opacity: 0, duration: 1 })
-      .to(featurePanels[2].querySelector('.feature-text-container'), { y: 0, opacity: 1, duration: 1 }, '<')
-      .to(featurePanels[2].querySelector('.feature-image-container'), { scale: 1, duration: 1 }, '<');
+    tl.to(featurePanels[1].querySelector('.feature-text-container'), { y: -50, opacity: 0, duration: 1, ease: 'none' })
+      .to(featurePanels[2].querySelector('.feature-text-container'), { y: 0, opacity: 1, duration: 1, ease: 'none' }, '<')
+      .to(featurePanels[2].querySelector('.feature-image-container'), { scale: 1, duration: 1, ease: 'none' }, '<');
   });
 
   onDestroy(() => {
@@ -152,7 +152,7 @@
     </nav>
 
     <div class="relative z-10 text-center flex flex-col items-center justify-center px-4 w-full h-full pt-20 pb-20">
-      <h1 class="text-5xl md:text-8xl font-light tracking-widest text-white mb-6">Life tabernacle</h1>
+      <h1 class="text-5xl md:text-8xl font-light tracking-widest text-white mb-6">Life Tabernacle</h1>
       <p class="text-xl md:text-3xl text-sand font-light tracking-wide mb-12">Where the Bible is believed and obeyed</p>
       <a href="/schedule" class="inline-block border border-sand/50 text-white px-10 py-4 rounded-full tracking-widest hover:bg-white hover:text-black transition-colors duration-500">
         View schedule
