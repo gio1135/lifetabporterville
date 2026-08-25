@@ -232,20 +232,22 @@
         {#each data.schedule.items as item (item.id)}
           <li class="py-6 flex flex-col md:flex-row items-start md:items-stretch group gap-6 md:gap-8">
             <!-- Day and Date Column -->
-            <div class="flex flex-col shrink-0 w-24 md:w-32 md:border-r border-sand/20 md:pr-6 justify-center">
+            <div class="flex flex-row md:flex-col items-baseline md:items-start shrink-0 w-full md:w-[15rem] md:border-r border-sand/20 md:pr-6 justify-start md:justify-center gap-3 md:gap-0">
               <span class="text-2xl md:text-3xl font-light tracking-widest text-white">{daysOfWeek[item.dayOfWeek]}</span>
-              <span class="text-sand/70 text-sm tracking-widest mt-1">{getDateString(item.dayOfWeek)}</span>
+              <span class="text-sand/70 text-sm tracking-widest md:mt-1">{getDateString(item.dayOfWeek)}</span>
             </div>
 
             <!-- Content Column -->
             <div class="flex-1 w-full flex flex-col md:flex-row justify-between items-start md:items-center">
-              <div class="flex flex-col">
-                <h3
-                  class="text-xl md:text-2xl font-light tracking-wide flex flex-wrap items-center gap-4 {item.crossedOut
-                    ? 'line-through opacity-40'
-                    : ''}"
-                >
-                  {item.title}
+              <div class="flex flex-col w-full">
+                <!-- Title & Mobile Time Row -->
+                <div class="flex flex-row justify-between items-baseline md:items-center w-full">
+                  <h3
+                    class="text-xl md:text-2xl font-light tracking-wide flex flex-wrap items-center gap-4 {item.crossedOut
+                      ? 'line-through opacity-40'
+                      : ''}"
+                  >
+                    {item.title}
 
                   {#if item.dayOfWeek === 0 && item.title.toLowerCase().includes('morning')}
                     {#if data.schedule.sundaySchool}
@@ -262,7 +264,18 @@
                       </span>
                     {/if}
                   {/if}
-                </h3>
+                  </h3>
+                  
+                  <!-- Mobile Time -->
+                  <div
+                    class="md:hidden text-lg font-light tracking-wider shrink-0 ml-4 {item.crossedOut
+                      ? 'line-through opacity-40'
+                      : ''}"
+                  >
+                    {item.time}
+                  </div>
+                </div>
+
                 {#if item.description}
                   <p
                     class="text-sand/60 mt-2 {item.crossedOut
@@ -274,8 +287,9 @@
                 {/if}
               </div>
 
+              <!-- Desktop Time -->
               <div
-                class="text-2xl font-light tracking-wider mt-4 md:mt-0 {item.crossedOut
+                class="hidden md:block text-2xl font-light tracking-wider shrink-0 md:ml-6 {item.crossedOut
                   ? 'line-through opacity-40'
                   : ''}"
               >
