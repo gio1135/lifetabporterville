@@ -11,7 +11,7 @@
 <div class="h-dvh flex flex-col w-full">
   {#if $page.url.pathname !== '/'}
     <nav class="flex items-center justify-between px-6 md:px-16 py-6 bg-dark/80 backdrop-blur border-b border-sand/10 z-50 shrink-0">
-      <a href="/" class="text-xl font-light tracking-widest text-white">Life tabernacle</a>
+      <a href="/" class="text-xl font-light tracking-widest text-white">Life Tabernacle</a>
       <div class="hidden md:flex gap-8">
         <a href="/schedule" class="text-sand/80 hover:text-white tracking-widest text-sm transition-colors duration-300">Schedule</a>
         <a href="/history" class="text-sand/80 hover:text-white tracking-widest text-sm transition-colors duration-300">History</a>

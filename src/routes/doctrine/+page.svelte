@@ -7,15 +7,14 @@
 </script>
 
 <svelte:head>
-  <title>Typography Showcase | Life Tabernacle</title>
+  <title>What we believe | Life Tabernacle</title>
 </svelte:head>
 
 <div class="h-full w-full overflow-y-auto scroll-smooth {useDyslexicFont ? 'font-dyslexic' : ''}">
   <div class="max-w-4xl mx-auto px-6 md:px-12 py-24 pb-32">
     <header class="flex flex-col md:flex-row md:items-end justify-between border-b pb-8 mb-12 gap-6">
       <div>
-        <h1 class="text-4xl md:text-5xl font-light tracking-widest mb-4 text-white">Typography Showcase</h1>
-        <p class="text-lg text-sand/80 leading-relaxed tracking-wide">A reference for typography styles.</p>
+        <h1 class="text-4xl md:text-5xl font-light tracking-widest mb-4 text-white">What we believe</h1>
       </div>
 
       <button
