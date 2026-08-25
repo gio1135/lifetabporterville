@@ -1,4 +1,6 @@
 <script lang="ts">
+  import stephenImg from '$lib/assets/pastors/stephen_marchbanks.jpeg?enhanced';
+
   const eras = [
     {
       pastor: 'Rev. Webb',
@@ -30,6 +32,7 @@
     {
       pastor: 'Stephen Marchbanks',
       period: 'Season 4',
+      image: stephenImg,
       milestones: [
         { title: 'Event one', desc: 'Description of what happened', position: 'bottom' },
         { title: 'Event two', desc: 'Description of what happened', position: 'top' },
@@ -95,9 +98,17 @@
   {#each eras as era (era.period)}
     <section class="relative shrink-0 flex h-full">
       <!-- Sticky Header -->
-      <div class="sticky left-0 top-0 h-[40dvh] md:h-full w-screen md:w-[50vw] bg-dark z-20 flex flex-col justify-center px-8 md:px-20 md:border-r border-sand/10 shrink-0">
-        <h2 class="text-sm tracking-[0.3em] text-sand/60 mb-2">{era.period}</h2>
-        <h1 class="text-4xl md:text-6xl font-light tracking-widest text-white">{era.pastor}</h1>
+      <div class="sticky left-0 top-0 h-[40dvh] md:h-full w-screen md:w-[33vw] bg-dark z-20 flex flex-col justify-center px-8 md:px-16 md:border-r border-sand/10 shrink-0 relative overflow-hidden">
+        {#if era.image}
+          <div class="absolute inset-0 z-0">
+            <enhanced:img src={era.image} alt={era.pastor} class="w-full h-full object-cover opacity-20 mix-blend-luminosity" />
+            <div class="absolute inset-0 bg-gradient-to-r from-dark/80 to-dark"></div>
+          </div>
+        {/if}
+        <div class="relative z-10">
+          <h2 class="text-sm tracking-[0.3em] text-sand/60 mb-2">{era.period}</h2>
+          <h1 class="text-4xl md:text-5xl font-light tracking-widest text-white">{era.pastor}</h1>
+        </div>
       </div>
 
       <!-- Milestones Container (scrolls past) -->
@@ -121,7 +132,7 @@
         {/each}
 
         <!-- Extra space at the end of the era -->
-        <div class="w-[20vw] md:w-[50vw] shrink-0"></div>
+        <div class="w-[20vw] md:w-[33vw] shrink-0"></div>
       </div>
     </section>
   {/each}
