@@ -1,8 +1,8 @@
-<script lang="ts">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+<script lang="ts">
   import { onMount, tick, onDestroy } from 'svelte';
   import { browser } from '$app/environment';
   import gsap from 'gsap';
-  import ScrollTrigger from 'gsap/dist/ScrollTrigger';
+  import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 
   if (browser) {
     gsap.registerPlugin(ScrollTrigger);
@@ -12,6 +12,35 @@
   let featuresContainer: HTMLElement;
   let featurePanels: HTMLElement[] = [];
   let opportunityText: HTMLElement;
+
+  let lastHeight = 0;
+  let lastMaxScroll = 0;
+
+  function handleResize() {
+    if (!mainContainer || !browser) return;
+    
+    // Give browser a tiny moment to recalculate dvh layouts
+    setTimeout(() => {
+      const currentHeight = window.innerHeight;
+      const currentMaxScroll = mainContainer.scrollHeight - mainContainer.clientHeight;
+      
+      if (lastHeight === 0) {
+        lastHeight = currentHeight;
+        lastMaxScroll = currentMaxScroll;
+        return;
+      }
+
+      if (currentHeight !== lastHeight) {
+        if (lastMaxScroll > 0 && currentMaxScroll > 0) {
+          const scrollProportion = mainContainer.scrollTop / lastMaxScroll;
+          mainContainer.scrollTop = scrollProportion * currentMaxScroll;
+          ScrollTrigger.refresh();
+        }
+        lastHeight = currentHeight;
+        lastMaxScroll = currentMaxScroll;
+      }
+    }, 50);
+  }
 
   const feature1Pool = [
     '/images/features/IMG_8737.jpeg',
@@ -34,6 +63,9 @@
 
   onMount(async () => {
     if (!browser) return;
+
+    window.addEventListener('resize', handleResize);
+    setTimeout(handleResize, 50);
 
     currentFeature1 = feature1Pool[Math.floor(Math.random() * feature1Pool.length)];
     currentFeature2 = feature2Pool[Math.floor(Math.random() * feature2Pool.length)];
@@ -65,11 +97,7 @@
     gsap.set([
       featurePanels[1].querySelector('.feature-image-container'),
       featurePanels[2].querySelector('.feature-image-container')
-    ], { opacity: 0 });
-    gsap.set([
-      featurePanels[1].querySelector('img'),
-      featurePanels[2].querySelector('img')
-    ], { scale: 0 }); // Scale up from center (0 to 1)
+    ], { scale: 0 }); // Start scaled down to 0
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -83,21 +111,18 @@
 
     // First transition
     tl.to(featurePanels[0].querySelector('.feature-text-container'), { y: -50, opacity: 0, duration: 1 })
-      .to(featurePanels[0].querySelector('.feature-image-container'), { opacity: 0, duration: 1 }, '<')
       .to(featurePanels[1].querySelector('.feature-text-container'), { y: 0, opacity: 1, duration: 1 }, '<')
-      .to(featurePanels[1].querySelector('.feature-image-container'), { opacity: 1, duration: 1 }, '<')
-      .to(featurePanels[1].querySelector('img'), { scale: 1, duration: 1 }, '<');
+      .to(featurePanels[1].querySelector('.feature-image-container'), { scale: 1, duration: 1 }, '<');
 
     // Second transition
     tl.to(featurePanels[1].querySelector('.feature-text-container'), { y: -50, opacity: 0, duration: 1 })
-      .to(featurePanels[1].querySelector('.feature-image-container'), { opacity: 0, duration: 1 }, '<')
       .to(featurePanels[2].querySelector('.feature-text-container'), { y: 0, opacity: 1, duration: 1 }, '<')
-      .to(featurePanels[2].querySelector('.feature-image-container'), { opacity: 1, duration: 1 }, '<')
-      .to(featurePanels[2].querySelector('img'), { scale: 1, duration: 1 }, '<');
+      .to(featurePanels[2].querySelector('.feature-image-container'), { scale: 1, duration: 1 }, '<');
   });
 
   onDestroy(() => {
     if (browser) {
+      window.removeEventListener('resize', handleResize);
       ScrollTrigger.getAll().forEach(t => t.kill());
     }
   });
@@ -224,7 +249,7 @@
 
   <section id="answers" class="w-full h-dvh snap-start snap-always shrink-0 px-8 md:px-24 bg-dark flex flex-col justify-center">
     <div class="max-w-4xl mx-auto w-full foldable-padding">
-      <h2 class="text-4xl md:text-6xl font-light mb-16 text-white text-center md:text-left">Common questions</h2>
+      <h2 class="text-4xl md:text-6xl font-light mb-16 text-white text-center md:text-left">Answers</h2>
 
       <div class="space-y-12">
         <div>
