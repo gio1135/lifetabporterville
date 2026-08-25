@@ -232,7 +232,7 @@
         {#each data.schedule.items as item (item.id)}
           <li class="py-6 flex flex-col md:flex-row items-start md:items-stretch group gap-6 md:gap-8">
             <!-- Day and Date Column -->
-            <div class="flex flex-row md:flex-col items-baseline md:items-start shrink-0 w-full md:w-[15rem] md:border-r border-sand/20 md:pr-6 justify-start md:justify-center gap-3 md:gap-0">
+            <div class="flex flex-row md:flex-col items-baseline md:items-start shrink-0 w-full md:w-60 md:border-r border-sand/20 md:pr-6 justify-start md:justify-center gap-3 md:gap-0">
               <span class="text-2xl md:text-3xl font-light tracking-widest text-white">{daysOfWeek[item.dayOfWeek]}</span>
               <span class="text-sand/70 text-sm tracking-widest md:mt-1">{getDateString(item.dayOfWeek)}</span>
             </div>
