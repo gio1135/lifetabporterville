@@ -7,7 +7,7 @@
 	"kv_namespaces": [
 		{
 			"binding": "SCHEDULE_KV",
-			"id": "preview_id"
+			"id": "00000000000000000000000000000000"
 		}
 	]
 }
