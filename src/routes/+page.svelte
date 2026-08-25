@@ -36,12 +36,12 @@
 
   function handleResize() {
     if (!mainContainer || !browser) return;
-    
+
     // Give browser a tiny moment to recalculate dvh layouts
     setTimeout(() => {
       const currentHeight = window.innerHeight;
       const currentMaxScroll = mainContainer.scrollHeight - mainContainer.clientHeight;
-      
+
       if (lastHeight === 0) {
         lastHeight = currentHeight;
         lastMaxScroll = currentMaxScroll;
@@ -65,6 +65,20 @@
   let currentFeature3 = $state<string | null>(null);
 
   let isMenuOpen = $state(false);
+  let addressCopied = $state(false);
+  let phoneCopied = $state(false);
+
+  function copyAddress() {
+    navigator.clipboard.writeText('939 N Main St, Porterville, CA 93257');
+    addressCopied = true;
+    setTimeout(() => addressCopied = false, 2000);
+  }
+
+  function copyPhone() {
+    navigator.clipboard.writeText('(559) 781-8068');
+    phoneCopied = true;
+    setTimeout(() => phoneCopied = false, 2000);
+  }
 
   function toggleMenu() {
     isMenuOpen = !isMenuOpen;
@@ -327,6 +341,55 @@
           <p class="text-lg text-sand/70 leading-relaxed">
             Answer 3
           </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="visit" class="w-full h-dvh snap-start snap-always shrink-0 px-8 md:px-24 bg-zinc-900 flex flex-col justify-center">
+    <div class="max-w-4xl mx-auto w-full foldable-padding text-center md:text-left">
+      <h2 class="text-4xl md:text-6xl font-light mb-12 text-white">Visit us</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div>
+          <h3 class="text-2xl text-white font-light mb-4">What to expect</h3>
+          <p class="text-lg text-sand/70 leading-relaxed">
+            Worship, biblical teaching, friendly atmosphere, no dress code, come as you are type of thing
+          </p>
+        </div>
+
+        <div class="flex flex-col space-y-8">
+          <div>
+            <h3 class="text-2xl text-white font-light mb-4">Location</h3>
+            <div class="flex items-center justify-center md:justify-start gap-4">
+              <a href="https://maps.google.com/?q=939+N+Main+St,+Porterville,+CA+93257" target="_blank" rel="noopener noreferrer" class="text-lg text-sand/70 hover:text-white transition-colors underline-offset-4 hover:underline">
+                939 N Main St, Porterville, CA 93257
+              </a>
+              <button onclick={copyAddress} class="p-2 rounded-full hover:bg-white/10 transition-colors text-sand/70 hover:text-white" aria-label="Copy address" title="Copy address">
+                {#if addressCopied}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-400"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                {:else}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                {/if}
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-2xl text-white font-light mb-4">Contact</h3>
+            <div class="flex items-center justify-center md:justify-start gap-4">
+              <a href="tel:+15597818068" class="text-lg text-sand/70 hover:text-white transition-colors">
+                (559) 781-8068
+              </a>
+              <button onclick={copyPhone} class="p-2 rounded-full hover:bg-white/10 transition-colors text-sand/70 hover:text-white" aria-label="Copy phone number" title="Copy phone number">
+                {#if phoneCopied}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-400"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                {:else}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                {/if}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
