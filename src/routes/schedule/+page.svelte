@@ -233,8 +233,8 @@
           <li class="py-6 flex flex-col md:flex-row items-start md:items-stretch group gap-6 md:gap-8">
             <!-- Day and Date Column -->
             <div class="flex flex-col shrink-0 w-24 md:w-32 md:border-r border-sand/20 md:pr-6 justify-center">
-              <span class="text-sand/70 text-sm tracking-widest">{daysOfWeek[item.dayOfWeek]}</span>
-              <span class="text-xl md:text-2xl font-light tracking-widest text-white mt-1">{getDateString(item.dayOfWeek)}</span>
+              <span class="text-2xl md:text-3xl font-light tracking-widest text-white">{daysOfWeek[item.dayOfWeek]}</span>
+              <span class="text-sand/70 text-sm tracking-widest mt-1">{getDateString(item.dayOfWeek)}</span>
             </div>
 
             <!-- Content Column -->
