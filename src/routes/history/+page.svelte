@@ -3,7 +3,7 @@
 
   const eras = [
     {
-      pastor: 'Rev. Webb',
+      pastor: 'Pastor Webb',
       period: 'Season 1',
       milestones: [
         { title: 'Event one', desc: 'Description of what happened', position: 'top' },
@@ -12,7 +12,7 @@
       ]
     },
     {
-      pastor: 'Rev. Webb',
+      pastor: 'Pastor Webb',
       period: 'Season 2',
       milestones: [
         { title: 'Event one', desc: 'Description of what happened', position: 'bottom' },

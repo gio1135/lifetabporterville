@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang='ts'>
   let useDyslexicFont = $state(false);
 
   function toggleFont() {
@@ -10,97 +10,136 @@
   <title>What we believe | Life Tabernacle</title>
 </svelte:head>
 
-<div class="h-full w-full overflow-y-auto scroll-smooth {useDyslexicFont ? 'font-dyslexic' : ''}">
-  <div class="max-w-4xl mx-auto px-6 md:px-12 py-24 pb-32">
-    <header class="flex flex-col md:flex-row md:items-end justify-between border-b pb-8 mb-12 gap-6">
-      <div>
-        <h1 class="text-4xl md:text-5xl font-light tracking-widest mb-4 text-white">What we believe</h1>
-      </div>
+<div class='h-full w-full overflow-y-auto scroll-smooth {useDyslexicFont ? "font-dyslexic" : ""}'>
+  <div class='mx-auto px-6 md:px-12 py-24 pb-32 transition-all duration-300 {useDyslexicFont ? "max-w-6xl" : "max-w-4xl"}'>
+    <header class='flex flex-col items-start md:flex-row md:items-end justify-between border-b border-white/10 pb-8 mb-12 gap-4 md:gap-0'>
+      <h1 class='text-4xl md:text-5xl font-light tracking-widest text-white whitespace-nowrap'>What we believe</h1>
 
       <button
         onclick={toggleFont}
-        class="text-xs text-sand/50 hover:text-white transition-colors underline underline-offset-4 tracking-widest"
+        class='text-xs text-sand/50 hover:text-white transition-colors underline underline-offset-4 tracking-widest whitespace-nowrap'
         aria-pressed={useDyslexicFont}
       >
         {useDyslexicFont ? 'Disable' : 'Enable'} dyslexia font
       </button>
     </header>
 
-    <article class="prose prose-lg prose-invert max-w-none text-left text-sand/80" style="line-height: 1.65; font-size: 1.125rem; letter-spacing: 0.01em;">
-      <section class="mb-12">
-        <h1 class="text-3xl md:text-4xl font-light mb-6 text-white">Header 1 (h1)</h1>
-        <h2 class="text-2xl md:text-3xl font-light mb-4 text-white">Header 2 (h2)</h2>
-        <h3 class="text-xl md:text-2xl font-light mb-3 text-white">Header 3 (h3)</h3>
-        <h4 class="text-lg md:text-xl font-light mb-2 text-white">Header 4 (h4)</h4>
-      </section>
-
-      <section class="mb-12">
-        <h2 class="text-2xl font-light mb-4 text-white">Paragraphs</h2>
-        <p class="mb-4">
-          This is a standard paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat
-        </p>
-        <p class="mb-4">
-          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+    <article class='prose prose-lg prose-invert max-w-none text-left text-sand/80' style='line-height: 1.65; font-size: 1.125rem; letter-spacing: 0.01em;'>
+      <section class='mb-12'>
+        <h2 class='text-3xl font-light mb-6 text-white'>Typography showcase</h2>
+        <p class='mb-4'>
+          This page serves as a reference for all typographic elements and components used throughout the application. It demonstrates how different HTML tags are styled using the current Tailwind configuration
         </p>
       </section>
 
-      <section class="mb-12">
-        <h2 class="text-2xl font-light mb-4 text-white">Lists</h2>
-        <div class="grid md:grid-cols-2 gap-8">
+      <section class='mb-12'>
+        <h2 class='text-2xl font-light mb-4 text-white'>Headings</h2>
+        <h1>Heading 1 (h1)</h1>
+        <h2>Heading 2 (h2)</h2>
+        <h3>Heading 3 (h3)</h3>
+        <h4>Heading 4 (h4)</h4>
+        <h5>Heading 5 (h5)</h5>
+        <h6>Heading 6 (h6)</h6>
+      </section>
+
+      <section class='mb-12'>
+        <h2 class='text-2xl font-light mb-4 text-white'>Paragraphs and inline styles</h2>
+        <p class='mb-4'>
+          This is a standard paragraph. In a world that constantly shifts its rules and morals, the scripture remains absolute truth. It is the only reliable anchor to hold onto, providing the strength and guidance needed to navigate through life
+        </p>
+        <p class='mb-4'>
+          You can use <strong>bold text</strong> for emphasis, <em>italic text</em> for subtle distinction, or <code>inline code</code> to highlight technical terms. There are also <a href='/' class='underline hover:text-white'>hyperlinks</a> that transition on hover
+        </p>
+      </section>
+
+      <section class='mb-12'>
+        <h2 class='text-2xl font-light mb-4 text-white'>Blockquotes</h2>
+        <blockquote class='border-l-2 border-white/20 pl-6 italic text-sand/60 my-8'>
+          Then Peter said unto them, Repent, and be baptized every one of you in the name of Jesus Christ for the remission of sins, and ye shall receive the gift of the Holy Ghost.
+        </blockquote>
+      </section>
+
+      <section class='mb-12'>
+        <h2 class='text-2xl font-light mb-4 text-white'>Lists</h2>
+        <div class='grid grid-cols-1 md:grid-cols-2 gap-8'>
           <div>
-            <h3 class="text-xl font-light mb-3 text-white">Unordered list</h3>
-            <ul class="list-disc pl-6 space-y-2">
-              <li>First item in the list</li>
-              <li>Second item with some longer text that might wrap to the next line depending on the screen size</li>
-              <li>Third item
-                <ul class="list-circle pl-6 mt-2 space-y-2 text-sand/60">
-                  <li>Nested item a</li>
-                  <li>Nested item b</li>
+            <h3 class='text-xl font-light mb-4 text-white'>Unordered list</h3>
+            <ul class='list-disc list-inside space-y-2'>
+              <li>Repentance</li>
+              <li>Baptism in the name of Jesus Christ</li>
+              <li>Receiving the Holy Ghost
+                <ul class='list-disc list-inside ml-6 mt-2 space-y-2'>
+                  <li>Speaking in tongues</li>
+                  <li>Power to live above sin</li>
                 </ul>
               </li>
+              <li>Living a separated life</li>
             </ul>
           </div>
           <div>
-            <h3 class="text-xl font-light mb-3 text-white">Ordered ist</h3>
-            <ol class="list-decimal pl-6 space-y-2">
-              <li>Step one is very important</li>
-              <li>Step two follows step one</li>
-              <li>Step three concludes the process</li>
+            <h3 class='text-xl font-light mb-4 text-white'>Ordered list</h3>
+            <ol class='list-decimal list-inside space-y-2'>
+              <li>First step</li>
+              <li>Second step</li>
+              <li>Third step
+                <ol class='list-decimal list-inside ml-6 mt-2 space-y-2'>
+                  <li>Sub-step one</li>
+                  <li>Sub-step two</li>
+                </ol>
+              </li>
+              <li>Fourth step</li>
             </ol>
           </div>
         </div>
       </section>
 
-      <section class="mb-12">
-        <h2 class="text-2xl font-light mb-4 text-white">Table</h2>
-        <div class="overflow-x-auto">
-          <table class="min-w-full border-collapse border border-white/10">
-            <thead class="bg-white/5">
-              <tr>
-                <th class="border border-white/10 px-4 py-2 text-left text-sm font-light tracking-widest text-white">Name</th>
-                <th class="border border-white/10 px-4 py-2 text-left text-sm font-light tracking-widest text-white">Role</th>
-                <th class="border border-white/10 px-4 py-2 text-left text-sm font-light tracking-widest text-white">Email</th>
+      <section class='mb-12'>
+        <h2 class='text-2xl font-light mb-4 text-white'>Tables</h2>
+        <div class='overflow-x-auto'>
+          <table class='w-full text-left border-collapse'>
+            <thead>
+              <tr class='border-b border-white/20'>
+                <th class='py-3 px-4 font-normal text-white'>Doctrine</th>
+                <th class='py-3 px-4 font-normal text-white'>Scripture</th>
+                <th class='py-3 px-4 font-normal text-white'>Description</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-white/10 bg-transparent">
-              <tr>
-                <td class="border border-white/10 px-4 py-2 text-sm text-sand/80">Jane Doe</td>
-                <td class="border border-white/10 px-4 py-2 text-sm text-sand/80">Designer</td>
-                <td class="border border-white/10 px-4 py-2 text-sm text-sand/80">jane@example.com</td>
+            <tbody>
+              <tr class='border-b border-white/10'>
+                <td class='py-3 px-4'>One God</td>
+                <td class='py-3 px-4'>Deuteronomy 6:4</td>
+                <td class='py-3 px-4'>He is not divided into three separate persons</td>
               </tr>
-              <tr class="bg-white/5">
-                <td class="border border-white/10 px-4 py-2 text-sm text-sand/80">John Smith</td>
-                <td class="border border-white/10 px-4 py-2 text-sm text-sand/80">Developer</td>
-                <td class="border border-white/10 px-4 py-2 text-sm text-sand/80">john@example.com</td>
+              <tr class='border-b border-white/10'>
+                <td class='py-3 px-4'>Foundation</td>
+                <td class='py-3 px-4'>Psalms 119:105</td>
+                <td class='py-3 px-4'>The Bible lights our path</td>
+              </tr>
+              <tr class='border-b border-white/10'>
+                <td class='py-3 px-4'>Salvation</td>
+                <td class='py-3 px-4'>Acts 2:38</td>
+                <td class='py-3 px-4'>Repentance, baptism, and recieving the Holy Ghost</td>
               </tr>
             </tbody>
           </table>
         </div>
       </section>
 
+      <section class='mb-12'>
+        <h2 class='text-2xl font-light mb-4 text-white'>Images</h2>
+        <figure class='my-8'>
+          <div class='w-full h-64 bg-white/5 rounded flex items-center justify-center text-sand/30 border border-white/10'>
+            Image placeholder
+          </div>
+          <figcaption class='text-sm text-center text-sand/50 mt-4'>
+            Caption for the image
+          </figcaption>
+        </figure>
+      </section>
+
       {#if useDyslexicFont}
-        <p class="text-sm text-sand/50 mt-12 border-t border-white/10 pt-4">
-          Dyslexia-friendly font provided by <a href="https://opendyslexic.org/" target="_blank" rel="noopener noreferrer" class="underline hover:text-white">OpenDyslexic</a>
+        <p class='text-sm text-sand/50 mt-12 border-t border-white/10 pt-4'>
+          Dyslexia-friendly font provided by <a href='https://opendyslexic.org/about' target='_blank' rel='noopener noreferrer' class='underline hover:text-white'>OpenDyslexic</a>
         </p>
       {/if}
     </article>
