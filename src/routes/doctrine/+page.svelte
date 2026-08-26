@@ -13,7 +13,7 @@
 <div class='h-full w-full overflow-y-auto scroll-smooth {useDyslexicFont ? "font-dyslexic" : ""}'>
   <div class='mx-auto px-6 md:px-12 py-24 pb-32 transition-all duration-300 {useDyslexicFont ? "max-w-6xl" : "max-w-4xl"}'>
     <header class='flex flex-col items-start md:flex-row md:items-end justify-between border-b border-white/10 pb-8 mb-12 gap-4 md:gap-0'>
-      <h1 class='text-4xl md:text-5xl font-light tracking-widest text-white whitespace-nowrap'>What we believe</h1>
+      <h1 class='text-4xl md:text-5xl font-light tracking-widest text-white'>What we believe</h1>
 
       <button
         onclick={toggleFont}
@@ -25,13 +25,6 @@
     </header>
 
     <article class='prose prose-lg prose-invert max-w-none text-left text-sand/80' style='line-height: 1.65; font-size: 1.125rem; letter-spacing: 0.01em;'>
-      <section class='mb-12'>
-        <h2 class='text-3xl font-light mb-6 text-white'>Typography showcase</h2>
-        <p class='mb-4'>
-          This page serves as a reference for all typographic elements and components used throughout the application. It demonstrates how different HTML tags are styled using the current Tailwind configuration
-        </p>
-      </section>
-
       <section class='mb-12'>
         <h2 class='text-2xl font-light mb-4 text-white'>Headings</h2>
         <h1>Heading 1 (h1)</h1>
@@ -45,10 +38,10 @@
       <section class='mb-12'>
         <h2 class='text-2xl font-light mb-4 text-white'>Paragraphs and inline styles</h2>
         <p class='mb-4'>
-          This is a standard paragraph. In a world that constantly shifts its rules and morals, the scripture remains absolute truth. It is the only reliable anchor to hold onto, providing the strength and guidance needed to navigate through life
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dictum arcu eget ullamcorper porttitor. Curabitur eleifend lacinia diam a rutrum. Nunc sit amet lacus aliquam, ultrices libero quis, auctor neque. Nam nec leo vitae quam congue sagittis. Vestibulum a est arcu. Quisque faucibus, elit sit amet venenatis sagittis, odio dui consectetur sem, sed malesuada lectus tortor et ante. Maecenas scelerisque purus ac quam hendrerit, a congue ex vulputate. Quisque fermentum nec massa vitae egestas
         </p>
         <p class='mb-4'>
-          You can use <strong>bold text</strong> for emphasis, <em>italic text</em> for subtle distinction, or <code>inline code</code> to highlight technical terms. There are also <a href='/' class='underline hover:text-white'>hyperlinks</a> that transition on hover
+          <strong>Bold text</strong>, <em>italic text</em>, <code>monospace</code>, <a href='./' class='underline hover:text-white'>links</a>
         </p>
       </section>
 
@@ -154,10 +147,16 @@
     font-style: normal;
     font-display: swap;
   }
-  
+
   :global(.font-dyslexic) {
     font-family: 'OpenDyslexic', sans-serif !important;
     letter-spacing: 0.05em;
     word-spacing: 0.1em;
+  }
+
+  @media (max-width: 767px) {
+    :global(.font-dyslexic .prose) {
+      font-size: 0.875rem !important;
+    }
   }
 </style>
