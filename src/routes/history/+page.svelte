@@ -3,16 +3,16 @@
 
   const eras = [
     {
-      pastor: 'Pastor Webb',
+      pastor: 'C.B Webb',
       period: 'Season 1',
       milestones: [
-        { title: 'Event one', desc: 'Description of what happened', position: 'top' },
+        { title: 'Founded Life Tabernacle', desc: 'Happened in 1955', position: 'top' },
         { title: 'Event two', desc: 'Description of what happened', position: 'bottom' },
         { title: 'Event three', desc: 'Description of what happened', position: 'top' },
       ]
     },
     {
-      pastor: 'Pastor Webb',
+      pastor: 'Mike Webb',
       period: 'Season 2',
       milestones: [
         { title: 'Event one', desc: 'Description of what happened', position: 'bottom' },
@@ -49,11 +49,11 @@
     function handleWheel(e: WheelEvent) {
       if (e.deltaY !== 0) {
         e.preventDefault();
-        
+
         if (!isWheeling) {
           targetLeft = node.scrollLeft;
         }
-        
+
         isWheeling = true;
         window.clearTimeout(wheelTimer);
         wheelTimer = window.setTimeout(() => {
@@ -62,7 +62,7 @@
 
         targetLeft += e.deltaY;
         targetLeft = Math.max(0, Math.min(targetLeft, node.scrollWidth - node.clientWidth));
-        
+
         node.scrollTo({ left: targetLeft, behavior: 'smooth' });
       }
     }
@@ -73,10 +73,10 @@
       isScrolling = window.setTimeout(() => {
         const scrollX = node.scrollLeft;
         const sections = Array.from(node.querySelectorAll('section'));
-        
+
         let nearestPos = 0;
         let minDistance = Infinity;
-        
+
         sections.forEach(section => {
           const pos = section.offsetLeft;
           const distance = Math.abs(scrollX - pos);
@@ -130,10 +130,10 @@
 
       <!-- Milestones Container (scrolls past) -->
       <div class="flex items-center h-[60dvh] md:h-full self-end md:self-auto z-10 shrink-0 ml-[-100vw] md:ml-0 pl-[10vw] md:pl-10 relative">
-        
+
         <!-- horizontal timeline line -->
         <div class="absolute top-1/2 left-0 w-full h-px bg-sand/20 -translate-y-1/2 -z-10"></div>
-        
+
         {#each era.milestones as milestone (milestone.title)}
           <div class="relative flex flex-col items-center w-64 mx-8 md:mx-16 shrink-0 {milestone.position === 'top' ? 'mb-[20dvh] md:mb-[40dvh]' : 'mt-[20dvh] md:mt-[40dvh]'}">
             <!-- connecting line to the timeline -->
