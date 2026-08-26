@@ -227,6 +227,11 @@
       <h1 class="text-5xl md:text-8xl font-light tracking-widest text-white mb-6">Life Tabernacle</h1>
       <p class="text-xl md:text-3xl text-sand font-light tracking-wide mb-12">Where the Bible is believed and obeyed</p>
     </div>
+
+    <!-- Scroll Line -->
+    <div class="absolute z-20 w-px h-16 bg-white/10 overflow-hidden pointer-events-none rounded-full bottom-[15%] right-8 md:bottom-10 md:inset-x-0 md:mx-auto">
+      <div class="w-full h-8 bg-linear-to-b from-transparent via-white to-transparent animate-scroll-line"></div>
+    </div>
   </section>
 
   <section id="opportunity" class="w-full h-dvh snap-start snap-always shrink-0 px-8 md:px-24 bg-zinc-900 flex flex-col items-center justify-center text-center">
@@ -407,6 +412,20 @@
 </main>
 
 <style>
+  @keyframes scroll-line {
+    0% {
+      transform: translateY(200%);
+    }
+    100% {
+      transform: translateY(-100%);
+    }
+  }
+
+  .animate-scroll-line {
+    animation: scroll-line 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+  }
+
+
   @media (horizontal-viewport-segments: 2) {
     .foldable-split {
       display: grid !important;
