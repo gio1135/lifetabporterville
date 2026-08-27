@@ -266,7 +266,7 @@
         class="absolute inset-0 flex flex-col md:flex-row items-center justify-center p-8 md:p-24 opacity-0 foldable-split"
       >
         <div class="feature-text-container w-full md:w-1/2 pr-0 md:pr-16 mb-8 md:mb-0 flex flex-col justify-center order-1 md:order-0">
-          <h2 class="text-4xl md:text-6xl font-light mb-6 text-white">Community</h2>
+          <h2 class="text-4xl md:text-6xl font-light mb-6 text-white">Fellowship</h2>
           <p class="text-xl text-sand/80 leading-relaxed max-w-lg">
             Make it sound like a place you want to go and people you'd want to be around
           </p>
@@ -304,18 +304,24 @@
   <section id="place" class="w-full h-dvh snap-start snap-always shrink-0 px-8 md:px-24 bg-zinc-900 flex flex-col justify-center">
     <h2 class="text-4xl md:text-6xl font-light mb-16 text-center text-white">Explore</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto w-full">
-      <a href="/schedule" class="group relative block h-[20dvh] md:h-[50dvh] overflow-hidden rounded-xl bg-dark border border-white/5 hover:border-white/20 transition-all duration-500">
-        <div class="absolute inset-0 flex items-center justify-center">
+      <a href="/schedule" class="group relative block h-[20dvh] md:h-[50dvh] overflow-hidden rounded-xl bg-linear-to-br from-zinc-800 to-zinc-900 border border-white/10 hover:border-white/30 transition-all duration-500 shadow-lg hover:shadow-2xl">
+        <div class="absolute inset-0 bg-linear-to-br from-amber-500/20 to-orange-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+        <div class="absolute inset-0 flex items-center justify-center flex-col gap-6">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-sand/50 group-hover:text-amber-400 group-hover:scale-110 transition-all duration-700"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
           <h3 class="text-3xl font-light tracking-wide text-white group-hover:scale-110 transition-transform duration-700">Schedule</h3>
         </div>
       </a>
-      <a href="/history" class="group relative block h-[20dvh] md:h-[50dvh] overflow-hidden rounded-xl bg-dark border border-white/5 hover:border-white/20 transition-all duration-500">
-        <div class="absolute inset-0 flex items-center justify-center">
+      <a href="/history" class="group relative block h-[20dvh] md:h-[50dvh] overflow-hidden rounded-xl bg-linear-to-br from-zinc-800 to-zinc-900 border border-white/10 hover:border-white/30 transition-all duration-500 shadow-lg hover:shadow-2xl">
+        <div class="absolute inset-0 bg-linear-to-br from-blue-500/20 to-indigo-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+        <div class="absolute inset-0 flex items-center justify-center flex-col gap-6">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-sand/50 group-hover:text-blue-400 group-hover:scale-110 transition-all duration-700"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
           <h3 class="text-3xl font-light tracking-wide text-white group-hover:scale-110 transition-transform duration-700">History</h3>
         </div>
       </a>
-      <a href="/doctrine" class="group relative block h-[20dvh] md:h-[50dvh] overflow-hidden rounded-xl bg-dark border border-white/5 hover:border-white/20 transition-all duration-500">
-        <div class="absolute inset-0 flex items-center justify-center">
+      <a href="/doctrine" class="group relative block h-[20dvh] md:h-[50dvh] overflow-hidden rounded-xl bg-linear-to-br from-zinc-800 to-zinc-900 border border-white/10 hover:border-white/30 transition-all duration-500 shadow-lg hover:shadow-2xl">
+        <div class="absolute inset-0 bg-linear-to-br from-emerald-500/20 to-teal-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+        <div class="absolute inset-0 flex items-center justify-center flex-col gap-6">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-sand/50 group-hover:text-emerald-400 group-hover:scale-110 transition-all duration-700"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
           <h3 class="text-3xl font-light tracking-wide text-white group-hover:scale-110 transition-transform duration-700">What we believe</h3>
         </div>
       </a>

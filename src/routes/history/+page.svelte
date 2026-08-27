@@ -202,7 +202,7 @@
   {#each eras as era (era.period)}
     <section class="relative shrink-0 flex h-full">
       <!-- Sticky Header -->
-      <div class="sticky left-0 top-0 h-[40dvh] md:h-full w-screen md:w-[33vw] bg-dark z-20 flex flex-col justify-center px-8 md:px-16 md:border-r border-sand/10 shrink-0 overflow-hidden">
+      <div class="sticky left-0 top-0 h-[25dvh] md:h-full w-screen md:w-[33vw] bg-dark z-20 flex flex-col justify-center px-8 md:px-16 md:border-r border-sand/10 shrink-0 overflow-hidden">
         {#if era.image}
           <div class="absolute inset-0 z-0">
             <enhanced:img src={era.image} alt={era.pastor} class="w-full h-full object-cover opacity-80" />
@@ -216,7 +216,7 @@
       </div>
 
       <!-- Milestones Container -->
-      <div class="flex items-center h-[60dvh] md:h-full self-end md:self-auto z-10 shrink-0 ml-[-100vw] md:ml-0 pl-[10vw] md:pl-10 relative">
+      <div class="flex items-center h-[75dvh] md:h-full self-end md:self-auto z-10 shrink-0 ml-[-100vw] md:ml-0 pl-[10vw] md:pl-10 relative">
 
         <!-- horizontal timeline line -->
         <div class="absolute top-1/2 left-0 w-full h-px bg-sand/20 -translate-y-1/2 -z-10"></div>
@@ -234,7 +234,7 @@
               <!-- Event Card -->
               <div class="absolute bottom-[calc(50%+4rem)] md:bottom-[calc(50%+6rem)] w-full flex justify-center">
                 <button
-                  class="bg-dark/80 backdrop-blur border border-sand/10 p-6 rounded text-left transform transition-all duration-300 w-full {milestone.hasArticle && phase === 'idle' ? 'hover:-translate-y-1 hover:bg-dark cursor-pointer ring-1 ring-transparent hover:ring-sand/20' : 'cursor-default'} {selectedEvent?.id === milestone.id ? 'opacity-0 pointer-events-none' : 'opacity-100'}"
+                  class="bg-dark/80 backdrop-blur border border-sand/10 p-6 rounded text-left transform transition-all duration-300 w-full {milestone.hasArticle && phase === 'idle' ? 'hover:-translate-y-1 hover:bg-dark cursor-pointer ring-1 ring-transparent hover:ring-sand/20' : 'cursor-default'} {selectedEvent?.id === milestone.id && phase !== 'idle' ? 'opacity-0 pointer-events-none' : 'opacity-100'}"
                   onclick={(e) => expand(milestone, e)}
                 >
                   <span class="text-xs tracking-widest text-sand/50 uppercase mb-2 block">{milestone.date}</span>
@@ -255,7 +255,7 @@
               <!-- Event Card -->
               <div class="absolute top-[calc(50%+4rem)] md:top-[calc(50%+6rem)] w-full flex justify-center">
                 <button
-                  class="bg-dark/80 backdrop-blur border border-sand/10 p-6 rounded text-left transform transition-all duration-300 w-full {milestone.hasArticle && phase === 'idle' ? 'hover:translate-y-1 hover:bg-dark cursor-pointer ring-1 ring-transparent hover:ring-sand/20' : 'cursor-default'} {selectedEvent?.id === milestone.id ? 'opacity-0 pointer-events-none' : 'opacity-100'}"
+                  class="bg-dark/80 backdrop-blur border border-sand/10 p-6 rounded text-left transform transition-all duration-300 w-full {milestone.hasArticle && phase === 'idle' ? 'hover:translate-y-1 hover:bg-dark cursor-pointer ring-1 ring-transparent hover:ring-sand/20' : 'cursor-default'} {selectedEvent?.id === milestone.id && phase !== 'idle' ? 'opacity-0 pointer-events-none' : 'opacity-100'}"
                   onclick={(e) => expand(milestone, e)}
                 >
                   <span class="text-xs tracking-widest text-sand/50 uppercase mb-2 block">{milestone.date}</span>
