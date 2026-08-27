@@ -237,7 +237,7 @@
   <section id="opportunity" class="w-full h-dvh snap-start snap-always shrink-0 px-8 md:px-24 bg-zinc-900 flex flex-col items-center justify-center text-center">
     <div bind:this={opportunityText} class="max-w-5xl mx-auto foldable-padding opacity-0">
       <h2 class="text-4xl md:text-6xl text-sand leading-tight font-light tracking-wide">
-        Tells the visitor that this is a church and maybe an inspirational quote or something
+        No matter where you come from, what you’ve gone through, there’s a place here for you
       </h2>
     </div>
   </section>
@@ -251,7 +251,7 @@
         <div class="feature-text-container w-full md:w-1/2 pr-0 md:pr-16 mb-8 md:mb-0 flex flex-col justify-center order-1 md:order-0">
           <h2 class="text-4xl md:text-6xl font-light mb-6 text-white">The Bible</h2>
           <p class="text-xl text-sand/80 leading-relaxed max-w-lg">
-            This section is about the Bible being what we believe and base everything on
+            We believe the Bible is the inspired, infallible, inerrant Word of God. Everything at Life Tabernacle is rooted directly in scripture
           </p>
         </div>
         <div class="feature-image-container w-full md:w-1/2 h-[40dvh] md:h-[60dvh] relative order-2 md:order-0 overflow-hidden rounded-xl">
@@ -268,7 +268,7 @@
         <div class="feature-text-container w-full md:w-1/2 pr-0 md:pr-16 mb-8 md:mb-0 flex flex-col justify-center order-1 md:order-0">
           <h2 class="text-4xl md:text-6xl font-light mb-6 text-white">Fellowship</h2>
           <p class="text-xl text-sand/80 leading-relaxed max-w-lg">
-            Make it sound like a place you want to go and people you'd want to be around
+            Church is more than just a building. Here you will find a genuine and caring community
           </p>
         </div>
         <div class="feature-image-container w-full md:w-1/2 h-[40dvh] md:h-[60dvh] relative order-2 md:order-0 overflow-hidden rounded-xl">
@@ -285,7 +285,7 @@
         <div class="feature-text-container w-full md:w-1/2 pr-0 md:pr-16 mb-8 md:mb-0 flex flex-col justify-center order-1 md:order-0">
           <h2 class="text-4xl md:text-6xl font-light mb-6 text-white">The truth</h2>
           <p class="text-xl text-sand/80 leading-relaxed max-w-lg">
-            Probably something about Acts 2:38 and the plan of salvation
+            Jesus gave the keys to the kingdom to Peter, and in Acts 2:38, he outlines the plan of salvation. The truth is that to be saves, you have to repent, be baptized in the name of Jesus Christ for the remission of your sins, and receive the gift of the Holy Ghost
           </p>
         </div>
         <div class="feature-image-container w-full md:w-1/2 h-[40dvh] md:h-[60dvh] relative order-2 md:order-0 overflow-hidden rounded-xl">
@@ -334,23 +334,23 @@
 
       <div class="space-y-12">
         <div>
-          <h3 class="text-2xl text-white font-light mb-4">Question 1?</h3>
+          <h3 class="text-2xl text-white font-light mb-4">I've never been to your church, how do I know what to expect?</h3>
           <p class="text-lg text-sand/70 leading-relaxed">
-            These are mainly to addres any other questions that someone might have when visiting the website
+            Expect the unexpected
           </p>
         </div>
 
         <div>
-          <h3 class="text-2xl text-white font-light mb-4">Question 2?</h3>
+          <h3 class="text-2xl text-white font-light mb-4">Is there a dress code?</h3>
           <p class="text-lg text-sand/70 leading-relaxed">
-            Answer 2
+            No dress code. Although, most people will be dressed formally
           </p>
         </div>
 
         <div>
-          <h3 class="text-2xl text-white font-light mb-4">Question 3?</h3>
+          <h3 class="text-2xl text-white font-light mb-4">What about my kids?</h3>
           <p class="text-lg text-sand/70 leading-relaxed">
-            Answer 3
+            Bring your kids there's even sunday school
           </p>
         </div>
       </div>
@@ -364,26 +364,10 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
         <div class="flex flex-col space-y-8">
           <div>
-            <h3 class="text-2xl text-white font-light mb-4">What to expect</h3>
-            <p class="text-lg text-sand/70 leading-relaxed">
-              Worship, biblical teaching, friendly atmosphere, no dress code, come as you are type of thing
-            </p>
-          </div>
-
-          <div>
-            <h3 class="text-2xl text-white font-light mb-4">Transportation</h3>
-            <p class="text-lg text-sand/70 leading-relaxed">
-              We offer free transportation if you need a ride
-            </p>
-          </div>
-        </div>
-
-        <div class="flex flex-col space-y-8">
-          <div>
             <h3 class="text-2xl text-white font-light mb-4">Location</h3>
             <div class="flex items-center justify-center md:justify-start gap-4">
               <a href="https://maps.google.com/?q=939+N+Main+St,+Porterville,+CA+93257" target="_blank" rel="noopener noreferrer" class="text-lg text-sand/70 hover:text-white transition-colors underline-offset-4 hover:underline">
-                939 N Main St, Porterville, CA 93257
+                939 N Main St
               </a>
               <button onclick={copyAddress} class="p-2 rounded-full hover:bg-white/10 transition-colors text-sand/70 hover:text-white" aria-label="Copy address" title="Copy address">
                 {#if addressCopied}
@@ -409,6 +393,15 @@
                 {/if}
               </button>
             </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col space-y-8">
+          <div>
+            <h3 class="text-2xl text-white font-light mb-4">Transportation</h3>
+            <p class="text-lg text-sand/70 leading-relaxed">
+              We offer free transportation if you need a ride. Just give us a call
+            </p>
           </div>
         </div>
       </div>

@@ -2,6 +2,7 @@
   import { page } from '$app/stores';
   import './layout.css';
   import favicon from '$lib/assets/favicon.svg';
+  import PageTransition from '$lib/components/PageTransition.svelte';
 
   let { children } = $props();
   let isMenuOpen = $state(false);
@@ -18,6 +19,8 @@
   });
 </script>
 
+<PageTransition />
+
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
 
 <div class="h-dvh flex flex-col w-full relative">
@@ -25,6 +28,7 @@
     <nav class="flex items-center justify-between px-6 md:px-16 py-6 bg-dark/80 backdrop-blur border-b border-sand/10 z-50 shrink-0">
       <a href="/" class="text-xl font-light tracking-widest text-white relative z-60">Life Tabernacle</a>
       <div class="hidden md:flex gap-8">
+        <a href="/" class="text-sand/80 hover:text-white tracking-widest text-sm transition-colors duration-300">Home</a>
         <a href="/schedule" class="text-sand/80 hover:text-white tracking-widest text-sm transition-colors duration-300">Schedule</a>
         <a href="/history" class="text-sand/80 hover:text-white tracking-widest text-sm transition-colors duration-300">History</a>
         <a href="/doctrine" class="text-sand/80 hover:text-white tracking-widest text-sm transition-colors duration-300">What we believe</a>
@@ -41,6 +45,7 @@
 
   {#if isMenuOpen}
     <div class="fixed inset-0 bg-[#0f0f0f] z-40 flex flex-col items-center justify-center space-y-10 md:hidden">
+      <a href="/" class="text-3xl font-light text-white tracking-widest">Home</a>
       <a href="/schedule" class="text-3xl font-light text-white tracking-widest">Schedule</a>
       <a href="/history" class="text-3xl font-light text-white tracking-widest">History</a>
       <a href="/doctrine" class="text-3xl font-light text-white tracking-widest">What we believe</a>
