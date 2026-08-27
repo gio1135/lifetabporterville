@@ -1,5 +1,5 @@
 <script lang='ts'>
-  import { fontState } from '$lib/fontState.svelte.js';
+  import { fontState } from '$lib/fontState.svelte';
 </script>
 
 <svelte:head>

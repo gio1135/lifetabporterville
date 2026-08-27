@@ -76,7 +76,7 @@
       milestones: [
         { id: 's2-m1', title: 'Milestone 1', desc: 'Description of what happened', position: 'bottom', date: 'Year' },
         { id: 's2-m2', title: 'Milestone 2', desc: 'Description of what happened', position: 'top', date: 'Year' },
-        { id: 's2-m3', title: 'Milestone 3', desc: 'Description of what happened', position: 'bottom', date: 'Year' },
+        { id: 's2-m3', title: 'Milestone 3', desc: 'Description of what happe   ned', position: 'bottom', date: 'Year' },
       ]
     },
     {
