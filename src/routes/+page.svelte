@@ -237,7 +237,7 @@
   <section id="opportunity" class="w-full h-dvh snap-start snap-always shrink-0 px-8 md:px-24 bg-zinc-900 flex flex-col items-center justify-center text-center">
     <div bind:this={opportunityText} class="max-w-5xl mx-auto foldable-padding opacity-0">
       <h2 class="text-4xl md:text-6xl text-sand leading-tight font-light tracking-wide">
-        No matter where you come from, what you’ve gone through, there’s a place here for you
+        Now therefore ye are no more strangers and foreigners, but fellowcitizens with the saints, and of the household of God;
       </h2>
     </div>
   </section>
@@ -248,10 +248,10 @@
         bind:this={featurePanels[0]}
         class="absolute inset-0 flex flex-col md:flex-row items-center justify-center p-8 md:p-24 foldable-split"
       >
-        <div class="feature-text-container w-full md:w-1/2 pr-0 md:pr-16 mb-8 md:mb-0 flex flex-col justify-center order-1 md:order-0">
+        <div class="feature-text-container w-full md:w-1/2 flex-1 md:flex-none pr-0 md:pr-16 mb-8 md:mb-0 flex flex-col justify-center order-1 md:order-0">
           <h2 class="text-4xl md:text-6xl font-light mb-6 text-white">The Bible</h2>
           <p class="text-xl text-sand/80 leading-relaxed max-w-lg">
-            We believe the Bible is the inspired, infallible, inerrant Word of God. Everything at Life Tabernacle is rooted directly in scripture
+            We believe the Bible is the inspired, infallible, inerrant Word of the living God. Everything at Life Tabernacle is rooted directly in scripture
           </p>
         </div>
         <div class="feature-image-container w-full md:w-1/2 h-[40dvh] md:h-[60dvh] relative order-2 md:order-0 overflow-hidden rounded-xl">
@@ -265,7 +265,7 @@
         bind:this={featurePanels[1]}
         class="absolute inset-0 flex flex-col md:flex-row items-center justify-center p-8 md:p-24 opacity-0 foldable-split"
       >
-        <div class="feature-text-container w-full md:w-1/2 pr-0 md:pr-16 mb-8 md:mb-0 flex flex-col justify-center order-1 md:order-0">
+        <div class="feature-text-container w-full md:w-1/2 flex-1 md:flex-none pr-0 md:pr-16 mb-8 md:mb-0 flex flex-col justify-center order-1 md:order-0">
           <h2 class="text-4xl md:text-6xl font-light mb-6 text-white">Fellowship</h2>
           <p class="text-xl text-sand/80 leading-relaxed max-w-lg">
             Church is more than just a building. Here you will find a genuine and caring community
@@ -282,10 +282,10 @@
         bind:this={featurePanels[2]}
         class="absolute inset-0 flex flex-col md:flex-row items-center justify-center p-8 md:p-24 opacity-0 foldable-split"
       >
-        <div class="feature-text-container w-full md:w-1/2 pr-0 md:pr-16 mb-8 md:mb-0 flex flex-col justify-center order-1 md:order-0">
+        <div class="feature-text-container w-full md:w-1/2 flex-1 md:flex-none pr-0 md:pr-16 mb-8 md:mb-0 flex flex-col justify-center order-1 md:order-0">
           <h2 class="text-4xl md:text-6xl font-light mb-6 text-white">The truth</h2>
           <p class="text-xl text-sand/80 leading-relaxed max-w-lg">
-            Jesus gave the keys to the kingdom to Peter, and in Acts 2:38, he outlines the plan of salvation. The truth is that to be saves, you have to repent, be baptized in the name of Jesus Christ for the remission of your sins, and receive the gift of the Holy Ghost
+            Then Peter said unto them, Repent, and be baptized every one of you in the name of Jesus Christ for the remission of sins, and ye shall receive the gift of the Holy Ghost.
           </p>
         </div>
         <div class="feature-image-container w-full md:w-1/2 h-[40dvh] md:h-[60dvh] relative order-2 md:order-0 overflow-hidden rounded-xl">
