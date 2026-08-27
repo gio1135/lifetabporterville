@@ -222,54 +222,52 @@
         <div class="absolute top-1/2 left-0 w-full h-px bg-sand/20 -translate-y-1/2 -z-10"></div>
 
         {#each era.milestones as milestone (milestone.id)}
-          <div class="relative flex flex-col items-center justify-center w-64 mx-8 md:mx-16 shrink-0 h-full group">
+          <div class="relative flex flex-col items-center w-64 mx-8 md:mx-16 shrink-0 h-full group">
+            <!-- Top Half -->
+            <div class="flex-1 w-full flex flex-col pb-8 md:pb-12 relative z-30">
+              {#if milestone.position === 'top'}
+                <button
+                  class="mt-auto shrink-0 bg-dark/80 backdrop-blur border border-sand/10 p-6 rounded text-left transform transition-all duration-300 w-full {milestone.hasArticle && phase === 'idle' ? 'hover:-translate-y-1 hover:bg-dark cursor-pointer ring-1 ring-transparent hover:ring-sand/20' : 'cursor-default'} {selectedEvent?.id === milestone.id && phase !== 'idle' ? 'opacity-0 pointer-events-none' : 'opacity-100'}"
+                  onclick={(e) => expand(milestone, e)}
+                >
+                  <span class="text-xs tracking-widest text-sand/50 uppercase mb-2 block">{milestone.date}</span>
+                  <h3 class="text-xl font-light tracking-wider text-white mb-2">{milestone.title}</h3>
+                  <p class="text-sm text-sand/70 leading-relaxed {milestone.hasArticle ? 'mb-4' : 'mb-0'}">{milestone.desc}</p>
+                  {#if milestone.hasArticle}
+                    <div class="text-sand/50 flex justify-end mt-4 {phase === 'idle' ? 'group-hover:text-white transition-colors' : ''}">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </div>
+                  {/if}
+                </button>
+              {/if}
+            </div>
 
-            <!-- dot on the timeline -->
+            <!-- Timeline dot & lines -->
             <div class="absolute top-1/2 left-1/2 w-3 h-3 rounded-full bg-white -translate-x-1/2 -translate-y-1/2 z-20 shadow-[0_0_10px_rgba(255,255,255,0.3)] transition-all duration-300 {milestone.hasArticle ? 'group-hover:scale-150' : ''}"></div>
-
             {#if milestone.position === 'top'}
-              <!-- connecting line -->
-              <div class="absolute bottom-1/2 left-1/2 w-px bg-sand/40 -translate-x-1/2 h-16 md:h-24 transition-all duration-300 {milestone.hasArticle ? 'group-hover:bg-sand/80' : ''}"></div>
-
-              <!-- Event Card -->
-              <div class="absolute bottom-[calc(50%+4rem)] md:bottom-[calc(50%+6rem)] w-full flex justify-center">
-                <button
-                  class="bg-dark/80 backdrop-blur border border-sand/10 p-6 rounded text-left transform transition-all duration-300 w-full {milestone.hasArticle && phase === 'idle' ? 'hover:-translate-y-1 hover:bg-dark cursor-pointer ring-1 ring-transparent hover:ring-sand/20' : 'cursor-default'} {selectedEvent?.id === milestone.id && phase !== 'idle' ? 'opacity-0 pointer-events-none' : 'opacity-100'}"
-                  onclick={(e) => expand(milestone, e)}
-                >
-                  <span class="text-xs tracking-widest text-sand/50 uppercase mb-2 block">{milestone.date}</span>
-                  <h3 class="text-xl font-light tracking-wider text-white mb-2">{milestone.title}</h3>
-                  <p class="text-sm text-sand/70 leading-relaxed {milestone.hasArticle ? 'mb-4' : 'mb-0'}">{milestone.desc}</p>
-
-                  {#if milestone.hasArticle}
-                    <div class="text-sand/50 flex justify-end mt-4 {phase === 'idle' ? 'group-hover:text-white transition-colors' : ''}">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                    </div>
-                  {/if}
-                </button>
-              </div>
+              <div class="absolute bottom-1/2 left-1/2 w-px bg-sand/40 -translate-x-1/2 h-8 md:h-12 transition-all duration-300 {milestone.hasArticle ? 'group-hover:bg-sand/80' : ''}"></div>
             {:else}
-              <!-- connecting line -->
-              <div class="absolute top-1/2 left-1/2 w-px bg-sand/40 -translate-x-1/2 h-16 md:h-24 transition-all duration-300 {milestone.hasArticle ? 'group-hover:bg-sand/80' : ''}"></div>
+              <div class="absolute top-1/2 left-1/2 w-px bg-sand/40 -translate-x-1/2 h-8 md:h-12 transition-all duration-300 {milestone.hasArticle ? 'group-hover:bg-sand/80' : ''}"></div>
+            {/if}
 
-              <!-- Event Card -->
-              <div class="absolute top-[calc(50%+4rem)] md:top-[calc(50%+6rem)] w-full flex justify-center">
+            <!-- Bottom Half -->
+            <div class="flex-1 w-full flex flex-col pt-8 md:pt-12 relative z-30">
+              {#if milestone.position === 'bottom'}
                 <button
-                  class="bg-dark/80 backdrop-blur border border-sand/10 p-6 rounded text-left transform transition-all duration-300 w-full {milestone.hasArticle && phase === 'idle' ? 'hover:translate-y-1 hover:bg-dark cursor-pointer ring-1 ring-transparent hover:ring-sand/20' : 'cursor-default'} {selectedEvent?.id === milestone.id && phase !== 'idle' ? 'opacity-0 pointer-events-none' : 'opacity-100'}"
+                  class="mb-auto shrink-0 bg-dark/80 backdrop-blur border border-sand/10 p-6 rounded text-left transform transition-all duration-300 w-full {milestone.hasArticle && phase === 'idle' ? 'hover:translate-y-1 hover:bg-dark cursor-pointer ring-1 ring-transparent hover:ring-sand/20' : 'cursor-default'} {selectedEvent?.id === milestone.id && phase !== 'idle' ? 'opacity-0 pointer-events-none' : 'opacity-100'}"
                   onclick={(e) => expand(milestone, e)}
                 >
                   <span class="text-xs tracking-widest text-sand/50 uppercase mb-2 block">{milestone.date}</span>
                   <h3 class="text-xl font-light tracking-wider text-white mb-2">{milestone.title}</h3>
                   <p class="text-sm text-sand/70 leading-relaxed {milestone.hasArticle ? 'mb-4' : 'mb-0'}">{milestone.desc}</p>
-
                   {#if milestone.hasArticle}
                     <div class="text-sand/50 flex justify-end mt-4 {phase === 'idle' ? 'group-hover:text-white transition-colors' : ''}">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                     </div>
                   {/if}
                 </button>
-              </div>
-            {/if}
+              {/if}
+            </div>
           </div>
         {/each}
 
