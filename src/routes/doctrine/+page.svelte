@@ -1,26 +1,22 @@
 <script lang='ts'>
-  let useDyslexicFont = $state(false);
-
-  function toggleFont() {
-    useDyslexicFont = !useDyslexicFont;
-  }
+  import { fontState } from '$lib/fontState.svelte';
 </script>
 
 <svelte:head>
   <title>What we believe | Life Tabernacle</title>
 </svelte:head>
 
-<div class='h-full w-full overflow-y-auto scroll-smooth {useDyslexicFont ? "font-dyslexic" : ""}'>
-  <div class='mx-auto px-6 md:px-12 py-24 pb-32 transition-all duration-300 {useDyslexicFont ? "max-w-6xl" : "max-w-4xl"}'>
+<div class='h-full w-full overflow-y-auto scroll-smooth {fontState.useDyslexicFont ? "font-dyslexic" : ""}'>
+  <div class='mx-auto px-6 md:px-12 py-24 pb-32 transition-all duration-300 {fontState.useDyslexicFont ? "max-w-6xl" : "max-w-4xl"}'>
     <header class='flex flex-col items-start md:flex-row md:items-end justify-between border-b border-white/10 pb-8 mb-12 gap-4 md:gap-0'>
       <h1 class='text-4xl md:text-5xl font-light tracking-widest text-white'>What we believe</h1>
 
       <button
-        onclick={toggleFont}
+        onclick={() => fontState.toggle()}
         class='text-xs text-sand/50 hover:text-white transition-colors underline underline-offset-4 tracking-widest whitespace-nowrap'
-        aria-pressed={useDyslexicFont}
+        aria-pressed={fontState.useDyslexicFont}
       >
-        {useDyslexicFont ? 'Disable' : 'Enable'} dyslexia font
+        {fontState.useDyslexicFont ? 'Disable' : 'Enable'} dyslexia font
       </button>
     </header>
 
@@ -130,7 +126,7 @@
         </figure>
       </section>
 
-      {#if useDyslexicFont}
+      {#if fontState.useDyslexicFont}
         <p class='text-sm text-sand/50 mt-12 border-t border-white/10 pt-4'>
           Dyslexia-friendly font provided by <a href='https://opendyslexic.org/about' target='_blank' rel='noopener noreferrer' class='underline hover:text-white'>OpenDyslexic</a>
         </p>
