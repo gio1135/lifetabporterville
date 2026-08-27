@@ -56,7 +56,7 @@
 			<div class="pt-4">
 				<button
 					type="submit"
-					class="w-full rounded-md bg-white py-3 text-sm font-medium tracking-widest text-dark transition-colors hover:bg-sand">
+					class="w-full cursor-pointer rounded-md bg-white py-3 text-sm font-medium tracking-widest text-dark transition-colors hover:bg-sand">
 					Log in
 				</button>
 			</div>

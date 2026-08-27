@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { slide, fade } from 'svelte/transition';
+	import { slide } from 'svelte/transition';
 	import { cubicOut, quartInOut } from 'svelte/easing';
 
 	function slideY(node: Element, { delay = 0, duration = 400, easing = cubicOut, enabled = true }) {

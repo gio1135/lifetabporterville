@@ -390,7 +390,7 @@
 		class="flex h-dvh w-full shrink-0 snap-start snap-always flex-col items-center justify-center bg-zinc-900 px-8 text-center md:px-24">
 		<div bind:this={opportunityText} class="foldable-padding mx-auto max-w-5xl opacity-0">
 			<h2 class="text-4xl leading-tight font-light tracking-wide text-sand md:text-6xl">
-				redeeming the time, because the days are evil.
+				Redeeming the time, because the days are evil.
 			</h2>
 		</div>
 	</section>

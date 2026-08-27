@@ -10,7 +10,25 @@
 
 	let isEditing = $state(false);
 	let editSchedule = $state<Schedule>({ sundaySchool: true, items: [] });
-	let saveFormElement: HTMLFormElement | undefined = $state();
+
+	function convertTo24Hour(timeStr: string): string {
+		if (!timeStr || !timeStr.includes(' ')) return timeStr;
+		const [time, modifier] = timeStr.trim().split(/\s+/);
+		if (!time || !modifier) return timeStr;
+		let [hours, minutes] = time.split(':');
+		if (hours === '12') hours = '00';
+		if (modifier.toUpperCase() === 'PM') hours = String(parseInt(hours, 10) + 12);
+		return `${hours.padStart(2, '0')}:${minutes}`;
+	}
+
+	function convertTo12Hour(timeStr: string): string {
+		if (!timeStr || timeStr.includes(' ') || !timeStr.includes(':')) return timeStr;
+		const [hours, minutes] = timeStr.split(':');
+		let h = parseInt(hours, 10);
+		const ampm = h >= 12 ? 'PM' : 'AM';
+		h = h % 12 || 12;
+		return `${h}:${minutes} ${ampm}`;
+	}
 
 	function getDateString(dayOfWeek: number): string {
 		const d = new SvelteDate();
@@ -27,6 +45,9 @@
 	function toggleEdit() {
 		if (!isEditing) {
 			editSchedule = JSON.parse(JSON.stringify(data.schedule));
+			editSchedule.items.forEach((item) => {
+				item.time = convertTo24Hour(item.time);
+			});
 		}
 		isEditing = !isEditing;
 	}
@@ -35,8 +56,9 @@
 		editSchedule.items.push({
 			id: `custom-${Date.now()}`,
 			dayOfWeek: 0,
-			title: 'New service',
-			time: '10:00 AM',
+			title: '',
+			description: '',
+			time: '',
 			crossedOut: false
 		});
 	}
@@ -50,10 +72,6 @@
 		if (item) {
 			item.crossedOut = !item.crossedOut;
 		}
-	}
-
-	function doneEditing() {
-		saveFormElement?.requestSubmit();
 	}
 
 	function getGroupedItems(items: Schedule['items']) {
@@ -89,13 +107,13 @@
 				<div class="flex items-center gap-4">
 					<button
 						onclick={toggleEdit}
-						class="border border-sand/30 px-4 py-2 text-sm tracking-widest transition-colors hover:bg-white hover:text-black">
-						{isEditing ? 'Cancel edit' : 'Edit schedule'}
+						class="cursor-pointer border border-sand/30 px-4 py-2 text-sm tracking-widest transition-colors hover:bg-white hover:text-black">
+						{isEditing ? 'Cancel edit' : 'Edit'}
 					</button>
 					<form method="POST" action="?/logout" use:enhance class="inline">
 						<button
 							type="submit"
-							class="bg-red-900/30 px-4 py-2 text-sm tracking-widest text-red-400 transition-colors hover:bg-red-900/50">
+							class="cursor-pointer bg-red-900/30 px-4 py-2 text-sm tracking-widest text-red-400 transition-colors hover:bg-red-900/50">
 							Logout
 						</button>
 					</form>
@@ -114,8 +132,8 @@
 						type="checkbox"
 						id="sundaySchool"
 						bind:checked={editSchedule.sundaySchool}
-						class="h-5 w-5 accent-sand" />
-					<label for="sundaySchool" class="text-lg font-medium tracking-wider">Sunday school active</label>
+						class="h-5 w-5 cursor-pointer accent-sand" />
+					<label for="sundaySchool" class="cursor-pointer text-lg font-medium tracking-wider">Sunday school</label>
 				</div>
 
 				{#each editSchedule.items as item (item.id)}
@@ -126,9 +144,9 @@
 								<select
 									id="dayOfWeek-{item.id}"
 									bind:value={item.dayOfWeek}
-									class="w-full border border-sand/30 bg-dark px-3 py-2 text-white transition-colors focus:border-white focus:outline-none">
+									class="w-full cursor-pointer border border-sand/30 bg-dark px-3 py-2 text-white transition-colors focus:border-white focus:outline-none">
 									{#each daysOfWeek as day (day)}
-										<option value={daysOfWeek.indexOf(day)}>{day}</option>
+										<option value={daysOfWeek.indexOf(day)}>{day} ({getDateString(daysOfWeek.indexOf(day))})</option>
 									{/each}
 								</select>
 							</div>
@@ -148,7 +166,6 @@
 									id="desc-{item.id}"
 									type="text"
 									bind:value={item.description}
-									placeholder="Optional details..."
 									class="w-full border border-sand/30 bg-dark px-3 py-2 text-white transition-colors focus:border-white focus:outline-none" />
 							</div>
 
@@ -156,23 +173,23 @@
 								<label for="time-{item.id}" class="mb-1 block text-xs tracking-widest text-sand/70">Time</label>
 								<input
 									id="time-{item.id}"
-									type="text"
+									type="time"
 									bind:value={item.time}
-									class="w-full border border-sand/30 bg-dark px-3 py-2 text-white transition-colors focus:border-white focus:outline-none" />
+									class="w-full cursor-pointer border border-sand/30 bg-dark px-3 py-2 text-white transition-colors focus:border-white focus:outline-none" />
 							</div>
 						</div>
 
 						<div class="mt-4 flex items-center justify-end gap-3">
 							<button
 								onclick={() => toggleCrossOut(item.id)}
-								class="border border-sand/30 px-3 py-1 text-xs tracking-widest transition-colors hover:bg-white hover:text-black {item.crossedOut
+								class="cursor-pointer border border-sand/30 px-3 py-1 text-xs tracking-widest transition-colors hover:bg-white hover:text-black {item.crossedOut
 									? 'bg-white text-black'
 									: ''}">
 								{item.crossedOut ? 'Uncross' : 'Cross out'}
 							</button>
 							<button
 								onclick={() => removeDay(item.id)}
-								class="border border-red-500/20 bg-red-900/30 px-3 py-1 text-xs tracking-widest text-red-400 transition-colors hover:bg-red-900/50">
+								class="cursor-pointer border border-red-500/20 bg-red-900/30 px-3 py-1 text-xs tracking-widest text-red-400 transition-colors hover:bg-red-900/50">
 								Remove
 							</button>
 						</div>
@@ -182,36 +199,45 @@
 				<div class="flex justify-center border-t border-sand/20 pt-4">
 					<button
 						onclick={addDay}
-						class="border border-sand px-6 py-3 tracking-widest transition-colors hover:bg-sand hover:text-dark">
-						+ Add Service
+						class="cursor-pointer border border-sand px-6 py-3 tracking-widest transition-colors hover:bg-sand hover:text-dark">
+						Add new
 					</button>
 				</div>
 
 				<div class="mt-4 flex justify-center gap-4 pt-4">
-					<form method="POST" action="?/save" class="inline" use:enhance bind:this={saveFormElement}>
-						<input type="hidden" name="payload" value={JSON.stringify(editSchedule)} />
-						<button type="submit" class="hidden"> Save </button>
-					</form>
-
 					<form
 						method="POST"
 						action="?/reset"
 						class="inline"
 						use:enhance={() => {
-							isEditing = false;
+							return async ({ update }) => {
+								await update();
+								isEditing = false;
+							};
 						}}>
 						<button
 							type="submit"
-							class="border border-red-500/30 bg-red-900/30 px-6 py-3 tracking-widest text-red-400 transition-colors hover:bg-red-900/50">
-							Reset to default
+							class="cursor-pointer border border-red-500/30 bg-red-900/30 px-6 py-3 tracking-widest text-red-400 transition-colors hover:bg-red-900/50">
+							Reset
 						</button>
 					</form>
 
-					<button
-						onclick={doneEditing}
-						class="bg-white px-6 py-3 font-medium tracking-widest text-dark transition-colors hover:bg-sand">
-						Done editing
-					</button>
+					<form method="POST" action="?/save" class="inline" use:enhance={() => {
+						return async ({ update }) => {
+							await update();
+							isEditing = false;
+						};
+					}}>
+						<input type="hidden" name="payload" value={JSON.stringify({
+							...editSchedule,
+							items: editSchedule.items.map(item => ({ ...item, time: convertTo12Hour(item.time) }))
+						})} />
+						<button
+							type="submit"
+							class="cursor-pointer bg-white px-6 py-3 font-medium tracking-widest text-dark transition-colors hover:bg-sand">
+							Done
+						</button>
+					</form>
 				</div>
 			</div>
 		{:else}

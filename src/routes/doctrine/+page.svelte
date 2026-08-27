@@ -41,7 +41,7 @@
 					We believe that the ONLY way to receive this wonderful new life is by following the plan laid out by Peter in
 					<ScriptureRef reference="Acts 2:38" />
 				</p>
-				<p>We believe that the Church’s purpose is to stay holy as the Bride of Christ</p>
+				<p>We believe that the Church’s purpose is to stay holy as the Bride of Christ</p>             
 			</section>
 
 			{#if fontState.useDyslexicFont}
