@@ -63,6 +63,22 @@
   function doneEditing() {
     saveFormElement?.requestSubmit();
   }
+
+  function getGroupedItems(items: Schedule['items']) {
+    return items.reduce((acc, item) => {
+      let group = acc.find(g => g.dayOfWeek === item.dayOfWeek);
+      if (group) {
+        group.items.push(item);
+      } else {
+        acc.push({
+          id: `group-${item.dayOfWeek}`,
+          dayOfWeek: item.dayOfWeek,
+          items: [item]
+        });
+      }
+      return acc;
+    }, [] as { id: string; dayOfWeek: number; items: typeof items }[]);
+  }
 </script>
 
 <svelte:head>
@@ -229,72 +245,76 @@
     {:else}
       <!-- Public View Mode -->
       <ul class="divide-y divide-sand/10">
-        {#each data.schedule.items as item (item.id)}
+        {#each getGroupedItems(data.schedule.items) as group (group.id)}
           <li class="py-6 flex flex-col md:flex-row items-start md:items-stretch group gap-6 md:gap-8">
             <!-- Day and Date Column -->
             <div class="flex flex-row md:flex-col items-baseline md:items-start shrink-0 w-full md:w-60 md:border-r border-sand/20 md:pr-6 justify-start md:justify-center gap-3 md:gap-0">
-              <span class="text-2xl md:text-3xl font-light tracking-widest text-white">{daysOfWeek[item.dayOfWeek]}</span>
-              <span class="text-sand/70 text-sm tracking-widest md:mt-1">{getDateString(item.dayOfWeek)}</span>
+              <span class="text-2xl md:text-3xl font-light tracking-widest text-white">{daysOfWeek[group.dayOfWeek]}</span>
+              <span class="text-sand/70 text-sm tracking-widest md:mt-1">{getDateString(group.dayOfWeek)}</span>
             </div>
 
             <!-- Content Column -->
-            <div class="flex-1 w-full flex flex-col md:flex-row justify-between items-start md:items-center">
-              <div class="flex flex-col w-full">
-                <!-- Title & Mobile Time Row -->
-                <div class="flex flex-row justify-between items-baseline md:items-center w-full">
-                  <h3
-                    class="text-xl md:text-2xl font-light tracking-wide flex flex-wrap items-center gap-4 {item.crossedOut
-                      ? 'line-through opacity-40'
-                      : ''}"
-                  >
-                    {item.title}
+            <div class="flex-1 w-full flex flex-col gap-8 justify-center">
+              {#each group.items as item (item.id)}
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center w-full">
+                  <div class="flex flex-col w-full">
+                    <!-- Title & Mobile Time Row -->
+                    <div class="flex flex-row justify-between items-baseline md:items-center w-full">
+                      <h3
+                        class="text-xl md:text-2xl font-light tracking-wide flex flex-wrap items-center gap-4 {item.crossedOut
+                          ? 'line-through opacity-40'
+                          : ''}"
+                      >
+                        {item.title}
 
-                  {#if item.dayOfWeek === 0 && item.title.toLowerCase().includes('morning')}
-                    {#if data.schedule.sundaySchool}
-                      <span
-                        class="text-xs tracking-widest px-2 py-1 border border-sand/40 text-sand"
+                      {#if item.dayOfWeek === 0 && item.title.toLowerCase().includes('morning')}
+                        {#if data.schedule.sundaySchool}
+                          <span
+                            class="text-xs tracking-widest px-2 py-1 border border-sand/40 text-sand"
+                          >
+                            Sunday school
+                          </span>
+                        {:else}
+                          <span
+                            class="text-xs tracking-widest px-2 py-1 border border-red-500/30 bg-red-900/20 text-red-400"
+                          >
+                            No sunday school
+                          </span>
+                        {/if}
+                      {/if}
+                      </h3>
+                      
+                      <!-- Mobile Time -->
+                      <div
+                        class="md:hidden text-lg font-light tracking-wider shrink-0 ml-4 {item.crossedOut
+                          ? 'line-through opacity-40'
+                          : ''}"
                       >
-                        Sunday school
-                      </span>
-                    {:else}
-                      <span
-                        class="text-xs tracking-widest px-2 py-1 border border-red-500/30 bg-red-900/20 text-red-400"
+                        {item.time}
+                      </div>
+                    </div>
+
+                    {#if item.description}
+                      <p
+                        class="text-sand/60 mt-2 {item.crossedOut
+                          ? 'line-through opacity-40'
+                          : ''}"
                       >
-                        No sunday school
-                      </span>
+                        {item.description}
+                      </p>
                     {/if}
-                  {/if}
-                  </h3>
-                  
-                  <!-- Mobile Time -->
+                  </div>
+
+                  <!-- Desktop Time -->
                   <div
-                    class="md:hidden text-lg font-light tracking-wider shrink-0 ml-4 {item.crossedOut
+                    class="hidden md:block text-2xl font-light tracking-wider shrink-0 md:ml-6 {item.crossedOut
                       ? 'line-through opacity-40'
                       : ''}"
                   >
                     {item.time}
                   </div>
                 </div>
-
-                {#if item.description}
-                  <p
-                    class="text-sand/60 mt-2 {item.crossedOut
-                      ? 'line-through opacity-40'
-                      : ''}"
-                  >
-                    {item.description}
-                  </p>
-                {/if}
-              </div>
-
-              <!-- Desktop Time -->
-              <div
-                class="hidden md:block text-2xl font-light tracking-wider shrink-0 md:ml-6 {item.crossedOut
-                  ? 'line-through opacity-40'
-                  : ''}"
-              >
-                {item.time}
-              </div>
+              {/each}
             </div>
           </li>
         {/each}
