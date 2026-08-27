@@ -1,7 +1,7 @@
 <script lang="ts">
   import stephenImg from '$lib/assets/pastors/stephen_marchbanks.jpeg?enhanced';
   import type { Picture } from '@sveltejs/enhanced-img';
-  import { fontState } from '$lib/fontState.svelte';
+  import { fontState } from '$lib/fontState.svelte.js';
   import type { Snippet } from 'svelte';
 
   type Milestone = {
