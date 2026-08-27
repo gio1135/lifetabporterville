@@ -53,11 +53,7 @@
 		await new Promise((r) => setTimeout(r, 10));
 
 		if (transitionContainer) {
-			await gsap.fromTo(
-				transitionContainer,
-				{ opacity: 0 },
-				{ opacity: 1, duration: 0.4, ease: 'power2.inOut' }
-			);
+			await gsap.fromTo(transitionContainer, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power2.inOut' });
 		}
 
 		await playIconAnimation();
@@ -92,10 +88,7 @@
 <div
 	bind:this={transitionContainer}
 	class="fixed inset-0 z-100 flex items-center justify-center bg-black opacity-0"
-	style="display: {isTransitioning ? 'flex' : 'none'}; pointer-events: {isTransitioning
-		? 'auto'
-		: 'none'};"
->
+	style="display: {isTransitioning ? 'flex' : 'none'}; pointer-events: {isTransitioning ? 'auto' : 'none'};">
 	{#if currentIcon === 'home'}
 		<ChurchTransition bind:this={churchComponent} />
 	{:else if currentIcon === 'history'}

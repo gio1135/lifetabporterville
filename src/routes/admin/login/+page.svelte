@@ -12,16 +12,10 @@
 	<div class="mb-4">
 		<a
 			href="/schedule"
-			class="inline-flex items-center text-sm font-medium text-sand/80 transition-colors hover:text-white"
-		>
+			class="inline-flex items-center text-sm font-medium text-sand/80 transition-colors hover:text-white">
 			<svg class="mr-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-				><path
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					stroke-width="2"
-					d="M10 19l-7-7m0 0l7-7m-7 7h18"
-				></path></svg
-			>
+				><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path
+				></svg>
 			Back
 		</a>
 	</div>
@@ -47,8 +41,7 @@
 					type="text"
 					id="username"
 					name="username"
-					class="w-full rounded-md border border-sand/20 bg-dark/80 px-3 py-2 text-white transition-colors focus:border-white focus:outline-none"
-				/>
+					class="w-full rounded-md border border-sand/20 bg-dark/80 px-3 py-2 text-white transition-colors focus:border-white focus:outline-none" />
 			</div>
 
 			<div>
@@ -57,15 +50,13 @@
 					type="password"
 					id="password"
 					name="password"
-					class="w-full rounded-md border border-sand/20 bg-dark/80 px-3 py-2 text-white transition-colors focus:border-white focus:outline-none"
-				/>
+					class="w-full rounded-md border border-sand/20 bg-dark/80 px-3 py-2 text-white transition-colors focus:border-white focus:outline-none" />
 			</div>
 
 			<div class="pt-4">
 				<button
 					type="submit"
-					class="w-full rounded-md bg-white py-3 text-sm font-medium tracking-widest text-dark transition-colors hover:bg-sand"
-				>
+					class="w-full rounded-md bg-white py-3 text-sm font-medium tracking-widest text-dark transition-colors hover:bg-sand">
 					Log in
 				</button>
 			</div>

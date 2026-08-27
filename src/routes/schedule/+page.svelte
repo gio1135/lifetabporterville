@@ -81,9 +81,7 @@
 </svelte:head>
 
 <div class="custom-scrollbar h-full w-full overflow-y-auto scroll-smooth pt-24 md:pt-32">
-	<div
-		class="mx-auto w-full max-w-4xl border border-sand/10 bg-dark/60 p-8 px-6 pb-32 backdrop-blur md:p-12 md:px-12"
-	>
+	<div class="mx-auto w-full max-w-4xl border border-sand/10 bg-dark/60 p-8 px-6 pb-32 backdrop-blur md:p-12 md:px-12">
 		<div class="mb-10 flex items-center justify-between border-b border-sand/20 pb-6">
 			<h1 class="text-3xl font-light tracking-widest md:text-5xl">Service schedule</h1>
 
@@ -91,24 +89,19 @@
 				<div class="flex items-center gap-4">
 					<button
 						onclick={toggleEdit}
-						class="border border-sand/30 px-4 py-2 text-sm tracking-widest transition-colors hover:bg-white hover:text-black"
-					>
+						class="border border-sand/30 px-4 py-2 text-sm tracking-widest transition-colors hover:bg-white hover:text-black">
 						{isEditing ? 'Cancel edit' : 'Edit schedule'}
 					</button>
 					<form method="POST" action="?/logout" use:enhance class="inline">
 						<button
 							type="submit"
-							class="bg-red-900/30 px-4 py-2 text-sm tracking-widest text-red-400 transition-colors hover:bg-red-900/50"
-						>
+							class="bg-red-900/30 px-4 py-2 text-sm tracking-widest text-red-400 transition-colors hover:bg-red-900/50">
 							Logout
 						</button>
 					</form>
 				</div>
 			{:else}
-				<a
-					href="/admin/login"
-					class="text-xs tracking-widest text-sand/50 transition-colors hover:text-white"
-				>
+				<a href="/admin/login" class="text-xs tracking-widest text-sand/50 transition-colors hover:text-white">
 					Admin
 				</a>
 			{/if}
@@ -121,26 +114,19 @@
 						type="checkbox"
 						id="sundaySchool"
 						bind:checked={editSchedule.sundaySchool}
-						class="h-5 w-5 accent-sand"
-					/>
-					<label for="sundaySchool" class="text-lg font-medium tracking-wider"
-						>Sunday school active</label
-					>
+						class="h-5 w-5 accent-sand" />
+					<label for="sundaySchool" class="text-lg font-medium tracking-wider">Sunday school active</label>
 				</div>
 
 				{#each editSchedule.items as item (item.id)}
 					<div class="group relative border border-sand/20 bg-dark/40 p-4">
 						<div class="grid grid-cols-1 gap-4 md:grid-cols-12">
 							<div class="col-span-1 md:col-span-3">
-								<label
-									for="dayOfWeek-{item.id}"
-									class="mb-1 block text-xs tracking-widest text-sand/70">Day</label
-								>
+								<label for="dayOfWeek-{item.id}" class="mb-1 block text-xs tracking-widest text-sand/70">Day</label>
 								<select
 									id="dayOfWeek-{item.id}"
 									bind:value={item.dayOfWeek}
-									class="w-full border border-sand/30 bg-dark px-3 py-2 text-white transition-colors focus:border-white focus:outline-none"
-								>
+									class="w-full border border-sand/30 bg-dark px-3 py-2 text-white transition-colors focus:border-white focus:outline-none">
 									{#each daysOfWeek as day (day)}
 										<option value={daysOfWeek.indexOf(day)}>{day}</option>
 									{/each}
@@ -148,40 +134,31 @@
 							</div>
 
 							<div class="col-span-1 md:col-span-3">
-								<label for="title-{item.id}" class="mb-1 block text-xs tracking-widest text-sand/70"
-									>Title</label
-								>
+								<label for="title-{item.id}" class="mb-1 block text-xs tracking-widest text-sand/70">Title</label>
 								<input
 									id="title-{item.id}"
 									type="text"
 									bind:value={item.title}
-									class="w-full border border-sand/30 bg-dark px-3 py-2 text-white transition-colors focus:border-white focus:outline-none"
-								/>
+									class="w-full border border-sand/30 bg-dark px-3 py-2 text-white transition-colors focus:border-white focus:outline-none" />
 							</div>
 
 							<div class="col-span-1 md:col-span-4">
-								<label for="desc-{item.id}" class="mb-1 block text-xs tracking-widest text-sand/70"
-									>Subtitle</label
-								>
+								<label for="desc-{item.id}" class="mb-1 block text-xs tracking-widest text-sand/70">Subtitle</label>
 								<input
 									id="desc-{item.id}"
 									type="text"
 									bind:value={item.description}
 									placeholder="Optional details..."
-									class="w-full border border-sand/30 bg-dark px-3 py-2 text-white transition-colors focus:border-white focus:outline-none"
-								/>
+									class="w-full border border-sand/30 bg-dark px-3 py-2 text-white transition-colors focus:border-white focus:outline-none" />
 							</div>
 
 							<div class="col-span-1 md:col-span-2">
-								<label for="time-{item.id}" class="mb-1 block text-xs tracking-widest text-sand/70"
-									>Time</label
-								>
+								<label for="time-{item.id}" class="mb-1 block text-xs tracking-widest text-sand/70">Time</label>
 								<input
 									id="time-{item.id}"
 									type="text"
 									bind:value={item.time}
-									class="w-full border border-sand/30 bg-dark px-3 py-2 text-white transition-colors focus:border-white focus:outline-none"
-								/>
+									class="w-full border border-sand/30 bg-dark px-3 py-2 text-white transition-colors focus:border-white focus:outline-none" />
 							</div>
 						</div>
 
@@ -190,14 +167,12 @@
 								onclick={() => toggleCrossOut(item.id)}
 								class="border border-sand/30 px-3 py-1 text-xs tracking-widest transition-colors hover:bg-white hover:text-black {item.crossedOut
 									? 'bg-white text-black'
-									: ''}"
-							>
+									: ''}">
 								{item.crossedOut ? 'Uncross' : 'Cross out'}
 							</button>
 							<button
 								onclick={() => removeDay(item.id)}
-								class="border border-red-500/20 bg-red-900/30 px-3 py-1 text-xs tracking-widest text-red-400 transition-colors hover:bg-red-900/50"
-							>
+								class="border border-red-500/20 bg-red-900/30 px-3 py-1 text-xs tracking-widest text-red-400 transition-colors hover:bg-red-900/50">
 								Remove
 							</button>
 						</div>
@@ -207,20 +182,13 @@
 				<div class="flex justify-center border-t border-sand/20 pt-4">
 					<button
 						onclick={addDay}
-						class="border border-sand px-6 py-3 tracking-widest transition-colors hover:bg-sand hover:text-dark"
-					>
+						class="border border-sand px-6 py-3 tracking-widest transition-colors hover:bg-sand hover:text-dark">
 						+ Add Service
 					</button>
 				</div>
 
 				<div class="mt-4 flex justify-center gap-4 pt-4">
-					<form
-						method="POST"
-						action="?/save"
-						class="inline"
-						use:enhance
-						bind:this={saveFormElement}
-					>
+					<form method="POST" action="?/save" class="inline" use:enhance bind:this={saveFormElement}>
 						<input type="hidden" name="payload" value={JSON.stringify(editSchedule)} />
 						<button type="submit" class="hidden"> Save </button>
 					</form>
@@ -231,20 +199,17 @@
 						class="inline"
 						use:enhance={() => {
 							isEditing = false;
-						}}
-					>
+						}}>
 						<button
 							type="submit"
-							class="border border-red-500/30 bg-red-900/30 px-6 py-3 tracking-widest text-red-400 transition-colors hover:bg-red-900/50"
-						>
+							class="border border-red-500/30 bg-red-900/30 px-6 py-3 tracking-widest text-red-400 transition-colors hover:bg-red-900/50">
 							Reset to default
 						</button>
 					</form>
 
 					<button
 						onclick={doneEditing}
-						class="bg-white px-6 py-3 font-medium tracking-widest text-dark transition-colors hover:bg-sand"
-					>
+						class="bg-white px-6 py-3 font-medium tracking-widest text-dark transition-colors hover:bg-sand">
 						Done editing
 					</button>
 				</div>
@@ -252,47 +217,33 @@
 		{:else}
 			<ul class="divide-y divide-sand/10">
 				{#each getGroupedItems(data.schedule.items) as group (group.id)}
-					<li
-						class="group flex flex-col items-start gap-6 py-6 md:flex-row md:items-stretch md:gap-8"
-					>
+					<li class="group flex flex-col items-start gap-6 py-6 md:flex-row md:items-stretch md:gap-8">
 						<div
-							class="flex w-full shrink-0 flex-row items-baseline justify-start gap-3 border-sand/20 md:w-60 md:flex-col md:items-start md:justify-center md:gap-0 md:border-r md:pr-6"
-						>
+							class="flex w-full shrink-0 flex-row items-baseline justify-start gap-3 border-sand/20 md:w-60 md:flex-col md:items-start md:justify-center md:gap-0 md:border-r md:pr-6">
 							<span class="text-2xl font-light tracking-widest text-white md:text-3xl"
-								>{daysOfWeek[group.dayOfWeek]}</span
-							>
-							<span class="text-sm tracking-widest text-sand/70 md:mt-1"
-								>{getDateString(group.dayOfWeek)}</span
-							>
+								>{daysOfWeek[group.dayOfWeek]}</span>
+							<span class="text-sm tracking-widest text-sand/70 md:mt-1">{getDateString(group.dayOfWeek)}</span>
 						</div>
 
 						<div class="flex w-full flex-1 flex-col justify-center gap-8">
 							{#each group.items as item (item.id)}
-								<div
-									class="flex w-full flex-col items-start justify-between md:flex-row md:items-center"
-								>
+								<div class="flex w-full flex-col items-start justify-between md:flex-row md:items-center">
 									<div class="flex w-full flex-col">
-										<div
-											class="flex w-full flex-row items-baseline justify-between md:items-center"
-										>
+										<div class="flex w-full flex-row items-baseline justify-between md:items-center">
 											<h3
 												class="flex flex-wrap items-center gap-4 text-xl font-light tracking-wide md:text-2xl {item.crossedOut
 													? 'line-through opacity-40'
-													: ''}"
-											>
+													: ''}">
 												{item.title}
 
 												{#if item.dayOfWeek === 0 && item.title.toLowerCase().includes('morning')}
 													{#if data.schedule.sundaySchool}
-														<span
-															class="border border-sand/40 px-2 py-1 text-xs tracking-widest text-sand"
-														>
+														<span class="border border-sand/40 px-2 py-1 text-xs tracking-widest text-sand">
 															Sunday school
 														</span>
 													{:else}
 														<span
-															class="border border-red-500/30 bg-red-900/20 px-2 py-1 text-xs tracking-widest text-red-400"
-														>
+															class="border border-red-500/30 bg-red-900/20 px-2 py-1 text-xs tracking-widest text-red-400">
 															No sunday school
 														</span>
 													{/if}
@@ -302,16 +253,13 @@
 											<div
 												class="ml-4 shrink-0 text-lg font-light tracking-wider md:hidden {item.crossedOut
 													? 'line-through opacity-40'
-													: ''}"
-											>
+													: ''}">
 												{item.time}
 											</div>
 										</div>
 
 										{#if item.description}
-											<p
-												class="mt-2 text-sand/60 {item.crossedOut ? 'line-through opacity-40' : ''}"
-											>
+											<p class="mt-2 text-sand/60 {item.crossedOut ? 'line-through opacity-40' : ''}">
 												{item.description}
 											</p>
 										{/if}
@@ -320,8 +268,7 @@
 									<div
 										class="hidden shrink-0 text-2xl font-light tracking-wider md:ml-6 md:block {item.crossedOut
 											? 'line-through opacity-40'
-											: ''}"
-									>
+											: ''}">
 										{item.time}
 									</div>
 								</div>
@@ -334,8 +281,7 @@
 
 		<div class="mt-6 pt-10 text-center">
 			<p class="text-sm tracking-wide text-sand/50">
-				Services have prayer 30 minutes before. Prayer nights are 30 minutes of prayer with no
-				service
+				Services have prayer 30 minutes before. Prayer nights are 30 minutes of prayer with no service
 			</p>
 		</div>
 	</div>
