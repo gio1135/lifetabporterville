@@ -55,9 +55,11 @@
 							class:hc:bg-white={accessibility.highContrast}>
 						</div>
 						<div
-							class="dot absolute top-1 left-1 h-4 w-4 rounded-full bg-white transition-transform"
-							class:translate-x-5={accessibility.highContrast}
-							class:bg-black={accessibility.highContrast}>
+							class="dot absolute top-1 left-1 h-4 w-4 rounded-full transition-transform"
+							class:bg-white={!accessibility.highContrast}
+							class:bg-black={accessibility.highContrast}
+							class:hc:bg-black={accessibility.highContrast}
+							class:translate-x-5={accessibility.highContrast}>
 						</div>
 					</div>
 				</label>
@@ -76,9 +78,11 @@
 							class:hc:bg-white={accessibility.dyslexiaFont}>
 						</div>
 						<div
-							class="dot absolute top-1 left-1 h-4 w-4 rounded-full bg-white transition-transform"
-							class:translate-x-5={accessibility.dyslexiaFont}
-							class:bg-black={accessibility.dyslexiaFont}>
+							class="dot absolute top-1 left-1 h-4 w-4 rounded-full transition-transform"
+							class:bg-white={!accessibility.dyslexiaFont}
+							class:bg-black={accessibility.dyslexiaFont}
+							class:hc:bg-black={accessibility.dyslexiaFont}
+							class:translate-x-5={accessibility.dyslexiaFont}>
 						</div>
 					</div>
 				</label>

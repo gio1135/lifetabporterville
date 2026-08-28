@@ -7,12 +7,46 @@
 	import { accessibility } from '$lib/stores/accessibility.svelte';
 	import { browser } from '$app/environment';
 
+	import { onMount } from 'svelte';
+
 	let { children } = $props();
 	let isMenuOpen = $state(false);
 
 	function toggleMenu() {
 		isMenuOpen = !isMenuOpen;
 	}
+
+	function calculateFontSize() {
+		if (!browser) return;
+		
+		let baseSize = 16;
+		
+		// Scale down proportionally on smaller screens (below 1024px)
+		if (window.innerWidth < 1024) {
+			baseSize = Math.max(12, (window.innerWidth / 1024) * 16);
+		}
+		
+		// Reduce font size by 15% when dyslexia font is active due to its wider glyphs
+		if (accessibility.dyslexiaFont) {
+			baseSize *= 0.85;
+		}
+
+		// Reduce font size slightly when high contrast is active due to its wider, bolder styling
+		if (accessibility.highContrast) {
+			baseSize *= 0.95;
+		}
+		
+		document.documentElement.style.fontSize = `${baseSize}px`;
+	}
+
+	onMount(() => {
+		if (!browser) return;
+		window.addEventListener('resize', calculateFontSize);
+		calculateFontSize();
+		return () => {
+			window.removeEventListener('resize', calculateFontSize);
+		};
+	});
 
 	$effect(() => {
 		if ($page.url.pathname) {
@@ -33,6 +67,11 @@
 			} else {
 				document.documentElement.classList.remove('font-dyslexia');
 			}
+			
+			calculateFontSize();
+			setTimeout(() => {
+				window.dispatchEvent(new Event('resize'));
+			}, 50);
 		}
 	});
 </script>
