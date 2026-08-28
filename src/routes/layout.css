@@ -75,9 +75,27 @@
 	html.high-contrast .text-white\/80 {
 		color: #ffffff !important;
 	}
-	html.high-contrast .border-white\/10 {
+	html.high-contrast [class*="border-white/"],
+	html.high-contrast [class*="border-sand/"] {
 		border-color: #ffffff !important;
 	}
+
+	html.high-contrast .border { border-width: 2px !important; }
+	html.high-contrast .border-t { border-top-width: 2px !important; }
+	html.high-contrast .border-r { border-right-width: 2px !important; }
+	html.high-contrast .border-b { border-bottom-width: 2px !important; }
+	html.high-contrast .border-l { border-left-width: 2px !important; }
+
+	html.high-contrast .h-px {
+		height: 2px !important;
+		background-color: #ffffff !important;
+	}
+	
+	html.high-contrast .w-px {
+		width: 2px !important;
+		background-color: #ffffff !important;
+	}
+
 	html.high-contrast .bg-white\/10 {
 		background-color: #ffffff !important;
 		color: #000000 !important;

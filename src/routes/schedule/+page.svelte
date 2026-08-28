@@ -99,7 +99,7 @@
 </svelte:head>
 
 <div class="custom-scrollbar h-full w-full overflow-y-auto scroll-smooth pt-24 md:pt-32">
-	<div class="mx-auto w-full max-w-4xl border border-sand/10 bg-dark/60 p-8 px-6 pb-32 backdrop-blur md:p-12 md:px-12">
+	<div class="mx-auto w-full max-w-4xl md:border md:border-sand/10 md:bg-dark/60 p-8 px-6 pb-32 md:backdrop-blur md:p-12 md:px-12">
 		<div class="mb-10 flex items-center justify-between border-b border-sand/20 pb-6">
 			<h1 class="text-3xl font-light tracking-widest md:text-5xl">Service schedule</h1>
 

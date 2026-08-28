@@ -5,6 +5,9 @@
 	import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 	import heroImg from '$lib/images/hero.jpeg?enhanced';
 	import { accessibility } from '$lib/stores/accessibility.svelte';
+	import type { PageData } from './$types';
+
+	let { data }: { data: PageData } = $props();
 
 	const f1 = import.meta.glob('$lib/images/features/IMG_8737.jpeg', {
 		query: { enhanced: true },
@@ -415,8 +418,9 @@
 	<section
 		id="opportunity"
 		class="flex h-dvh w-full shrink-0 snap-start snap-always flex-col items-center justify-center bg-zinc-900 px-8 text-center md:px-24">
-		<div bind:this={opportunityText} class="foldable-padding mx-auto max-w-5xl dyslexia:max-w-7xl opacity-0">
-			<h2 class="text-4xl leading-tight font-light tracking-wide text-sand md:text-6xl">Redeeming the time, because the days are evil.</h2>
+		<div bind:this={opportunityText} class="foldable-padding mx-auto max-w-5xl dyslexia:max-w-7xl opacity-0 flex flex-col items-center gap-6">
+			<h2 class="text-4xl leading-tight font-light tracking-wide text-sand md:text-6xl">"{data.opportunityVerse.text}"</h2>
+			<span class="text-xl font-light tracking-widest text-sand/60 hc:text-white/80">{data.opportunityVerse.reference}</span>
 		</div>
 	</section>
 
@@ -519,7 +523,7 @@
 			<div class="space-y-12">
 				<div>
 					<h3 class="mb-4 text-2xl font-light text-white">I've never been to church, how do I know what to expect?</h3>
-					<p class="text-lg leading-relaxed text-sand/70">Music, worship, preaching, maybe something else</p>
+					<p class="text-lg leading-relaxed text-sand/70">Authentic prayer, anointed music, joyful worship, powerful preaching, and a touch of God like you’ve never experienced before</p>
 				</div>
 
 				<div>
