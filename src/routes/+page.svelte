@@ -590,6 +590,7 @@
 					<div>
 						<h3 class="mb-4 text-2xl font-light text-white">Location</h3>
 						<div class="flex items-center justify-center gap-4 md:justify-start">
+							<div class="h-9 w-9 md:hidden"></div>
 							<a
 								href="https://maps.google.com/?q=939+N+Main+St,+Porterville,+CA+93257"
 								target="_blank"
@@ -636,6 +637,7 @@
 					<div>
 						<h3 class="mb-4 text-2xl font-light text-white">Contact</h3>
 						<div class="flex items-center justify-center gap-4 md:justify-start">
+							<div class="h-9 w-9 md:hidden"></div>
 							<a href="tel:+15597818068" class="text-lg text-sand/70 transition-colors hover:text-white">
 								(559) 781-8068
 							</a>
