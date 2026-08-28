@@ -21,9 +21,10 @@
 		
 		let baseSize = 16;
 		
-		// Scale down proportionally on smaller screens (below 1024px)
+		// Use a softer scale for mobile: ranges from 14px at 320px width to 16px at 600px width
 		if (window.innerWidth < 1024) {
-			baseSize = Math.max(12, (window.innerWidth / 1024) * 16);
+			baseSize = 14 + ((window.innerWidth - 320) / (600 - 320)) * 2;
+			baseSize = Math.max(14, Math.min(16, baseSize));
 		}
 		
 		// Reduce font size by 15% when dyslexia font is active due to its wider glyphs

@@ -426,7 +426,7 @@
 				bind:this={featurePanels[0]}
 				class="foldable-split absolute inset-0 flex flex-col items-center justify-center p-8 md:flex-row md:p-24">
 				<div
-					class="feature-text-container order-1 mb-8 flex w-full flex-1 flex-col justify-center pr-0 md:order-0 md:mb-0 md:w-1/2 md:flex-none md:pr-16">
+					class="feature-text-container order-1 mb-6 flex h-[35dvh] w-full flex-col justify-start pr-0 md:order-0 md:mb-0 md:h-auto md:w-1/2 md:justify-center md:flex-none md:pr-16">
 					<h2 class="mb-6 text-4xl font-light text-white md:text-6xl">The Bible</h2>
 					<p class="max-w-lg dyslexia:max-w-2xl text-xl leading-relaxed text-sand/80">We believe the Bible is the inspired, infallible, inerrant Word of the living God. Everything at Life Tabernacle is rooted directly in scripture</p>
 				</div>
@@ -446,7 +446,7 @@
 				bind:this={featurePanels[1]}
 				class="foldable-split absolute inset-0 flex flex-col items-center justify-center p-8 opacity-0 md:flex-row md:p-24">
 				<div
-					class="feature-text-container order-1 mb-8 flex w-full flex-1 flex-col justify-center pr-0 md:order-0 md:mb-0 md:w-1/2 md:flex-none md:pr-16">
+					class="feature-text-container order-1 mb-6 flex h-[35dvh] w-full flex-col justify-start pr-0 md:order-0 md:mb-0 md:h-auto md:w-1/2 md:justify-center md:flex-none md:pr-16">
 					<h2 class="mb-6 text-4xl font-light text-white md:text-6xl">Fellowship</h2>
 					<p class="max-w-lg dyslexia:max-w-2xl text-xl leading-relaxed text-sand/80">Now therefore ye are no more strangers and foreigners, but fellowcitizens with the saints, and of the household of God;</p>
 				</div>
@@ -458,7 +458,7 @@
 			</div>
 
 			<div bind:this={featurePanels[2]} class="foldable-split absolute inset-0 flex flex-col items-center justify-center p-8 opacity-0 md:flex-row md:p-24">
-				<div class="feature-text-container order-1 mb-8 flex w-full flex-1 flex-col justify-center pr-0 md:order-0 md:mb-0 md:w-1/2 md:flex-none md:pr-16">
+				<div class="feature-text-container order-1 mb-6 flex h-[35dvh] w-full flex-col justify-start pr-0 md:order-0 md:mb-0 md:h-auto md:w-1/2 md:justify-center md:flex-none md:pr-16">
 					<h2 class="mb-6 text-4xl font-light text-white md:text-6xl">The truth</h2>
 					<p class="max-w-lg dyslexia:max-w-2xl text-xl leading-relaxed text-sand/80">Then Peter said unto them, Repent, and be baptized every one of you in the name of Jesus Christ for the remission of sins, and ye shall receive the gift of the Holy Ghost.</p>
 				</div>
