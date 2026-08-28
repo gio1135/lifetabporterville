@@ -3,6 +3,9 @@
 	import './layout.css';
 	import favicon from '$lib/assets/favicon.svg';
 	import PageTransition from '$lib/components/PageTransition.svelte';
+	import AccessibilityMenu from '$lib/components/AccessibilityMenu.svelte';
+	import { accessibility } from '$lib/stores/accessibility.svelte';
+	import { browser } from '$app/environment';
 
 	let { children } = $props();
 	let isMenuOpen = $state(false);
@@ -16,11 +19,36 @@
 			isMenuOpen = false;
 		}
 	});
+
+	$effect(() => {
+		if (browser) {
+			if (accessibility.highContrast) {
+				document.documentElement.classList.add('high-contrast');
+			} else {
+				document.documentElement.classList.remove('high-contrast');
+			}
+
+			if (accessibility.dyslexiaFont) {
+				document.documentElement.classList.add('font-dyslexia');
+			} else {
+				document.documentElement.classList.remove('font-dyslexia');
+			}
+		}
+	});
 </script>
 
 <PageTransition />
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
+
+<a
+	href="#main-content"
+	class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-100 focus:rounded focus:bg-white focus:px-4 focus:py-2 focus:text-black focus:outline-none focus:ring-2 focus:ring-black"
+>
+	Skip to content
+</a>
+
+<AccessibilityMenu />
 
 <div class="relative flex h-dvh w-full flex-col">
 	{#if $page.url.pathname !== '/'}
@@ -38,6 +66,8 @@
 			<button
 				class="relative z-60 text-sand/80 transition-colors duration-300 hover:text-white focus:outline-none md:hidden"
 				onclick={toggleMenu}
+				aria-expanded={isMenuOpen}
+				aria-controls="mobile-menu"
 				aria-label="Toggle menu">
 				{#if isMenuOpen}
 					<svg
@@ -72,7 +102,7 @@
 	{/if}
 
 	{#if isMenuOpen}
-		<div class="fixed inset-0 z-40 flex flex-col items-center justify-center space-y-10 bg-[#0f0f0f] md:hidden">
+		<div id="mobile-menu" class="fixed inset-0 z-40 flex flex-col items-center justify-center space-y-10 bg-[#0f0f0f] md:hidden">
 			<a href="/" class="text-3xl font-light tracking-widest text-white">Home</a>
 			<a href="/schedule" class="text-3xl font-light tracking-widest text-white">Schedule</a>
 			<a href="/history" class="text-3xl font-light tracking-widest text-white">History</a>
@@ -80,7 +110,7 @@
 		</div>
 	{/if}
 
-	<main class="relative w-full flex-1 overflow-hidden">
+	<main id="main-content" class="relative w-full flex-1 overflow-hidden" tabindex="-1">
 		{@render children()}
 	</main>
 </div>

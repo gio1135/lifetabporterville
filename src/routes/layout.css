@@ -1,16 +1,89 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
+
 @theme {
 	--color-sand: #d7d1c6;
 	--color-dark: #121212;
 }
 
+@custom-variant hc (.high-contrast &);
+@custom-variant dyslexia (.font-dyslexia &);
+
+@font-face {
+	font-family: 'OpenDyslexic';
+	src: url('/fonts/opendyslexic/OpenDyslexic-Regular.otf') format('opentype');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'OpenDyslexic';
+	src: url('/fonts/opendyslexic/OpenDyslexic-Bold.otf') format('opentype');
+	font-weight: bold;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'OpenDyslexic';
+	src: url('/fonts/opendyslexic/OpenDyslexic-Italic.otf') format('opentype');
+	font-weight: normal;
+	font-style: italic;
+}
+@font-face {
+	font-family: 'OpenDyslexic';
+	src: url('/fonts/opendyslexic/OpenDyslexic-BoldItalic.otf') format('opentype');
+	font-weight: bold;
+	font-style: italic;
+}
+
 @layer base {
+	html.font-dyslexia {
+		font-family: 'OpenDyslexic', sans-serif !important;
+	}
+
+	html.font-dyslexia * {
+		font-family: 'OpenDyslexic', sans-serif !important;
+		letter-spacing: normal !important;
+	}
+
 	body {
 		@apply bg-dark text-sand antialiased;
 		margin: 0;
 		padding: 0;
 		height: 100dvh;
 		overflow: hidden;
+	}
+
+	/* High Contrast Modes */
+	html.high-contrast body {
+		background-color: #000000 !important;
+		color: #ffffff !important;
+		font-weight: 700 !important;
+		letter-spacing: 0.05em !important;
+	}
+	html.high-contrast * {
+		font-weight: 700 !important;
+	}
+	html.high-contrast .bg-zinc-900,
+	html.high-contrast .bg-zinc-800,
+	html.high-contrast .bg-\[\#0f0f0f\],
+	html.high-contrast .bg-dark {
+		background-color: #000000 !important;
+	}
+	html.high-contrast .text-sand,
+	html.high-contrast .text-sand\/80,
+	html.high-contrast .text-sand\/70,
+	html.high-contrast .text-sand\/50,
+	html.high-contrast .text-white\/80 {
+		color: #ffffff !important;
+	}
+	html.high-contrast .border-white\/10 {
+		border-color: #ffffff !important;
+	}
+	html.high-contrast .bg-white\/10 {
+		background-color: #ffffff !important;
+		color: #000000 !important;
+	}
+	html.high-contrast .ring-white\/10,
+	html.high-contrast .ring-white\/20 {
+		--tw-ring-color: #ffffff !important;
 	}
 }

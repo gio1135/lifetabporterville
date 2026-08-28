@@ -1,7 +1,7 @@
 <script lang="ts">
 	import stephenImg from '$lib/assets/pastors/stephen_marchbanks.jpeg?enhanced';
 	import type { Picture } from '@sveltejs/enhanced-img';
-	import { fontState } from '$lib/fontState.svelte.ts';
+	import { accessibility } from '$lib/stores/accessibility.svelte';
 	import type { Snippet } from 'svelte';
 
 	type Milestone = {
@@ -273,20 +273,7 @@
 
 <div
 	use:horizontalScroll
-	class="custom-scrollbar flex h-full w-full overflow-x-auto overflow-y-hidden scroll-smooth {fontState.useDyslexicFont
-		? 'font-dyslexic'
-		: ''}">
-	<div
-		class="fixed top-8 right-8 z-40 transition-opacity duration-300 md:right-12 {phase !== 'idle'
-			? 'pointer-events-none opacity-0'
-			: 'opacity-100'}">
-		<button
-			onclick={() => fontState.toggle()}
-			class="rounded-full border border-white/10 bg-dark/50 px-4 py-2 text-xs tracking-widest whitespace-nowrap text-sand/50 underline underline-offset-4 backdrop-blur-md transition-colors hover:text-white"
-			aria-pressed={fontState.useDyslexicFont}>
-			{fontState.useDyslexicFont ? 'Disable' : 'Enable'} dyslexia font
-		</button>
-	</div>
+	class="custom-scrollbar flex h-full w-full overflow-x-auto overflow-y-hidden scroll-smooth">
 
 	{#each eras as era (era.period)}
 		<section class="relative flex h-full shrink-0">
@@ -298,11 +285,11 @@
 							src={era.image}
 							alt={era.pastor}
 							class="h-full w-full object-cover object-[50%_33%] md:object-center" />
-						<div class="absolute inset-0 bg-linear-to-b from-transparent from-40% to-dark"></div>
+						<div class="absolute inset-0 bg-linear-to-b from-transparent from-40% to-dark hc:hidden"></div>
 					</div>
 				{/if}
-				<div class="relative z-10">
-					<h2 class="mb-2 text-sm tracking-[0.3em] text-sand/60">{era.period}</h2>
+				<div class="relative z-10 hc:rounded-2xl hc:bg-black/95 hc:p-6 hc:ring-1 hc:ring-white/20 hc:backdrop-blur-md">
+					<h2 class="mb-2 text-sm tracking-[0.3em] text-sand/60 hc:text-white/80">{era.period}</h2>
 					<h1 class="text-4xl font-light tracking-widest text-white md:text-5xl">{era.pastor}</h1>
 				</div>
 			</div>
@@ -312,7 +299,7 @@
 				<div class="absolute top-1/2 left-0 -z-10 h-px w-full -translate-y-1/2 bg-sand/20"></div>
 
 				{#each era.milestones as milestone (milestone.id)}
-					<div class="group relative mx-8 flex h-full w-64 shrink-0 flex-col items-center md:mx-16">
+					<div class="group relative mx-8 flex h-full w-64 shrink-0 flex-col items-center md:mx-16 dyslexia:w-80">
 						<div class="relative z-30 flex w-full flex-1 flex-col pb-8 md:pb-12">
 							{#if milestone.position === 'top'}
 								<button
@@ -424,7 +411,7 @@
 
 {#if selectedEvent && cardRect}
 	<div
-		class="pointer-events-none fixed inset-0 z-100 bg-dark/95 transition-opacity duration-300 {phase !== 'idle'
+		class="pointer-events-none fixed inset-0 z-100 bg-dark/95 hc:bg-black transition-opacity duration-300 {phase !== 'idle'
 			? 'opacity-100'
 			: 'opacity-0'}"
 		style="visibility: {phase !== 'idle' ? 'visible' : 'hidden'}; transition: opacity 300ms, visibility 300ms;">
@@ -444,7 +431,7 @@
 		<div
 			class="relative w-full {phase === 'fading_timeline' || phase === 'idle'
 				? 'p-6'
-				: 'p-8 md:p-16'} transition-all duration-500 {fontState.useDyslexicFont ? 'font-dyslexic' : ''}">
+				: 'p-8 md:p-16'} transition-all duration-500 {accessibility.dyslexiaFont ? 'font-dyslexic' : ''}">
 			<button
 				onclick={collapse}
 				class="group absolute top-4 left-4 flex cursor-pointer items-center gap-2 text-xs tracking-widest text-sand/50 transition-colors hover:text-white md:top-8 md:left-8 {phase ===
@@ -504,7 +491,7 @@
 				<div class="overflow-hidden">
 					{#if selectedEvent.articleContent}
 						<article
-							class="prose prose-invert {fontState.useDyslexicFont
+							class="prose prose-invert {accessibility.dyslexiaFont
 								? 'max-w-[90vw] text-base md:text-lg'
 								: 'max-w-4xl text-lg md:text-xl'} mx-auto pb-8 text-left text-sand/80 transition-all duration-500"
 							style="line-height: 1.65; letter-spacing: 0.01em;">

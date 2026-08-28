@@ -306,9 +306,7 @@
 		{/if}
 
 		<div class="mt-6 pt-10 text-center">
-			<p class="text-sm tracking-wide text-sand/50">
-				Services have prayer 30 minutes before. Prayer nights are 30 minutes of prayer with no service
-			</p>
+			<p class="text-sm tracking-wide text-sand/50">Services have prayer 30 minutes before. Prayer nights are 30 minutes of prayer with no service</p>
 		</div>
 	</div>
 </div>

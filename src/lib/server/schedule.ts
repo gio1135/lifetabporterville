@@ -47,7 +47,7 @@ export const defaultSchedule: Schedule = {
 			id: 'default-friday-volleyball',
 			dayOfWeek: 5,
 			title: 'Family night',
-			description: 'at zalud park',
+			description: 'at Zalud Park',
 			time: '4:00 PM',
 			crossedOut: false
 		}

@@ -4,6 +4,7 @@
 	import gsap from 'gsap';
 	import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 	import heroImg from '$lib/images/hero.jpeg?enhanced';
+	import { accessibility } from '$lib/stores/accessibility.svelte';
 
 	const f1 = import.meta.glob('$lib/images/features/IMG_8737.jpeg', {
 		query: { enhanced: true },
@@ -117,6 +118,20 @@
 
 	function toggleMenu() {
 		isMenuOpen = !isMenuOpen;
+	}
+
+	function handleKeydown(e: KeyboardEvent) {
+		if (e.key === 'PageDown') {
+			e.preventDefault();
+			if (mainContainer) {
+				mainContainer.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+			}
+		} else if (e.key === 'PageUp') {
+			e.preventDefault();
+			if (mainContainer) {
+				mainContainer.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
+			}
+		}
 	}
 
 	onMount(async () => {
@@ -306,6 +321,8 @@
 	<meta name="description" content="Where the Bible is believed and obeyed" />
 </svelte:head>
 
+<svelte:window onkeydown={handleKeydown} />
+
 <main
 	bind:this={mainContainer}
 	class="relative h-dvh w-full snap-y snap-mandatory overflow-x-hidden overflow-y-auto scroll-smooth bg-dark">
@@ -333,6 +350,8 @@
 			<button
 				class="relative z-60 text-sand/80 transition-colors duration-300 hover:text-white focus:outline-none md:hidden"
 				onclick={toggleMenu}
+				aria-expanded={isMenuOpen}
+				aria-controls="home-mobile-menu"
 				aria-label="Toggle menu">
 				{#if isMenuOpen}
 					<svg
@@ -366,7 +385,7 @@
 		</nav>
 
 		{#if isMenuOpen}
-			<div class="fixed inset-0 z-40 flex flex-col items-center justify-center space-y-10 bg-[#0f0f0f] md:hidden">
+			<div id="home-mobile-menu" class="fixed inset-0 z-40 flex flex-col items-center justify-center space-y-10 bg-[#0f0f0f] md:hidden">
 				<a href="/schedule" onclick={toggleMenu} class="text-3xl font-light tracking-widest text-white">Schedule</a>
 				<a href="/history" onclick={toggleMenu} class="text-3xl font-light tracking-widest text-white">History</a>
 				<a href="/doctrine" onclick={toggleMenu} class="text-3xl font-light tracking-widest text-white"
@@ -375,23 +394,29 @@
 		{/if}
 
 		<div class="relative z-10 flex h-full w-full flex-col items-center justify-center px-4 pt-20 pb-20 text-center">
-			<h1 class="mb-6 text-5xl font-light tracking-widest text-white md:text-8xl">Life Tabernacle</h1>
-			<p class="mb-12 text-xl font-light tracking-wide text-sand md:text-3xl">Where the Bible is believed and obeyed</p>
+			<div class="hc:bg-black/95 hc:p-8 hc:rounded-2xl hc:backdrop-blur-md hc:ring-1 hc:ring-white/20">
+				<h1 class="mb-6 text-5xl font-light tracking-widest text-white md:text-8xl">Life Tabernacle</h1>
+				<p class="mb-12 text-xl font-light tracking-wide text-sand md:text-3xl">Where the Bible is believed and obeyed</p>
+			</div>
 		</div>
 
-		<div
-			class="pointer-events-none absolute right-8 bottom-[15%] z-20 h-16 w-px overflow-hidden rounded-full bg-white/10 md:inset-x-0 md:bottom-10 md:mx-auto">
-			<div class="animate-scroll-line h-8 w-full bg-linear-to-b from-transparent via-white to-transparent"></div>
-		</div>
+		{#if accessibility.highContrast || accessibility.dyslexiaFont}
+			<div class="absolute right-8 bottom-[15%] z-20 text-center font-bold tracking-widest text-white/90 md:inset-x-0 md:bottom-10 md:mx-auto">
+				Scroll to continue
+			</div>
+		{:else}
+			<div
+				class="pointer-events-none absolute right-8 bottom-[15%] z-20 h-16 w-px overflow-hidden rounded-full bg-white/10 md:inset-x-0 md:bottom-10 md:mx-auto">
+				<div class="animate-scroll-line h-8 w-full bg-linear-to-b from-transparent via-white to-transparent"></div>
+			</div>
+		{/if}
 	</section>
 
 	<section
 		id="opportunity"
 		class="flex h-dvh w-full shrink-0 snap-start snap-always flex-col items-center justify-center bg-zinc-900 px-8 text-center md:px-24">
-		<div bind:this={opportunityText} class="foldable-padding mx-auto max-w-5xl opacity-0">
-			<h2 class="text-4xl leading-tight font-light tracking-wide text-sand md:text-6xl">
-				Redeeming the time, because the days are evil.
-			</h2>
+		<div bind:this={opportunityText} class="foldable-padding mx-auto max-w-5xl dyslexia:max-w-7xl opacity-0">
+			<h2 class="text-4xl leading-tight font-light tracking-wide text-sand md:text-6xl">Redeeming the time, because the days are evil.</h2>
 		</div>
 	</section>
 
@@ -403,10 +428,7 @@
 				<div
 					class="feature-text-container order-1 mb-8 flex w-full flex-1 flex-col justify-center pr-0 md:order-0 md:mb-0 md:w-1/2 md:flex-none md:pr-16">
 					<h2 class="mb-6 text-4xl font-light text-white md:text-6xl">The Bible</h2>
-					<p class="max-w-lg text-xl leading-relaxed text-sand/80">
-						We believe the Bible is the inspired, infallible, inerrant Word of the living God. Everything at Life
-						Tabernacle is rooted directly in scripture
-					</p>
+					<p class="max-w-lg dyslexia:max-w-2xl text-xl leading-relaxed text-sand/80">We believe the Bible is the inspired, infallible, inerrant Word of the living God. Everything at Life Tabernacle is rooted directly in scripture</p>
 				</div>
 				<div
 					class="feature-image-container relative order-2 h-[40dvh] w-full overflow-hidden rounded-xl md:order-0 md:h-[60dvh] md:w-1/2">
@@ -426,32 +448,21 @@
 				<div
 					class="feature-text-container order-1 mb-8 flex w-full flex-1 flex-col justify-center pr-0 md:order-0 md:mb-0 md:w-1/2 md:flex-none md:pr-16">
 					<h2 class="mb-6 text-4xl font-light text-white md:text-6xl">Fellowship</h2>
-					<p class="max-w-lg text-xl leading-relaxed text-sand/80">
-						Now therefore ye are no more strangers and foreigners, but fellowcitizens with the saints, and of the
-						household of God;
-					</p>
+					<p class="max-w-lg dyslexia:max-w-2xl text-xl leading-relaxed text-sand/80">Now therefore ye are no more strangers and foreigners, but fellowcitizens with the saints, and of the household of God;</p>
 				</div>
-				<div
-					class="feature-image-container relative order-2 h-[40dvh] w-full overflow-hidden rounded-xl md:order-0 md:h-[60dvh] md:w-1/2">
+				<div class="feature-image-container relative order-2 h-[40dvh] w-full overflow-hidden rounded-xl md:order-0 md:h-[60dvh] md:w-1/2">
 					{#if currentFeature2}
 						<enhanced:img src={currentFeature2} alt="Community fellowship" class="h-full w-full object-cover" />
 					{/if}
 				</div>
 			</div>
 
-			<div
-				bind:this={featurePanels[2]}
-				class="foldable-split absolute inset-0 flex flex-col items-center justify-center p-8 opacity-0 md:flex-row md:p-24">
-				<div
-					class="feature-text-container order-1 mb-8 flex w-full flex-1 flex-col justify-center pr-0 md:order-0 md:mb-0 md:w-1/2 md:flex-none md:pr-16">
+			<div bind:this={featurePanels[2]} class="foldable-split absolute inset-0 flex flex-col items-center justify-center p-8 opacity-0 md:flex-row md:p-24">
+				<div class="feature-text-container order-1 mb-8 flex w-full flex-1 flex-col justify-center pr-0 md:order-0 md:mb-0 md:w-1/2 md:flex-none md:pr-16">
 					<h2 class="mb-6 text-4xl font-light text-white md:text-6xl">The truth</h2>
-					<p class="max-w-lg text-xl leading-relaxed text-sand/80">
-						Then Peter said unto them, Repent, and be baptized every one of you in the name of Jesus Christ for the
-						remission of sins, and ye shall receive the gift of the Holy Ghost.
-					</p>
+					<p class="max-w-lg dyslexia:max-w-2xl text-xl leading-relaxed text-sand/80">Then Peter said unto them, Repent, and be baptized every one of you in the name of Jesus Christ for the remission of sins, and ye shall receive the gift of the Holy Ghost.</p>
 				</div>
-				<div
-					class="feature-image-container relative order-2 h-[40dvh] w-full overflow-hidden rounded-xl md:order-0 md:h-[60dvh] md:w-1/2">
+				<div class="feature-image-container relative order-2 h-[40dvh] w-full overflow-hidden rounded-xl md:order-0 md:h-[60dvh] md:w-1/2">
 					{#if currentFeature3}
 						<enhanced:img src={currentFeature3} alt="Worship service" class="h-full w-full object-cover" />
 					{/if}
@@ -470,31 +481,12 @@
 		id="place"
 		class="flex h-dvh w-full shrink-0 snap-start snap-always flex-col justify-center bg-zinc-900 px-8 md:px-24">
 		<h2 class="mb-16 text-center text-4xl font-light text-white md:text-6xl">Explore</h2>
-		<div class="mx-auto grid w-full max-w-7xl grid-cols-1 gap-8 md:grid-cols-3">
-			<a
-				href="/schedule"
-				class="group relative block h-[20dvh] overflow-hidden rounded-xl border border-white/10 bg-linear-to-br from-zinc-800 to-zinc-900 shadow-lg transition-all duration-500 hover:border-white/30 hover:shadow-2xl md:h-[50dvh]">
-				<div
-					class="absolute inset-0 bg-linear-to-br from-amber-500/20 to-orange-600/20 opacity-0 transition-opacity duration-700 group-hover:opacity-100">
-				</div>
+		<div class="mx-auto grid w-full max-w-7xl dyslexia:max-w-360 grid-cols-1 gap-8 md:grid-cols-3">
+			<a href="/schedule" class="group relative block h-[20dvh] overflow-hidden rounded-xl border border-white/10 bg-linear-to-br from-zinc-800 to-zinc-900 shadow-lg transition-all duration-500 hover:border-white/30 hover:shadow-2xl md:h-[50dvh]">
+				<div class="absolute inset-0 bg-linear-to-br from-amber-500/20 to-orange-600/20 opacity-0 transition-opacity duration-700 group-hover:opacity-100"></div>
 				<div class="absolute inset-0 flex flex-col items-center justify-center gap-6">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="48"
-						height="48"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="1"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						class="text-sand/50 transition-all duration-700 group-hover:scale-110 group-hover:text-amber-400"
-						><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line
-						><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-					<h3
-						class="text-3xl font-light tracking-wide text-white transition-transform duration-700 group-hover:scale-110">
-						Schedule
-					</h3>
+					<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-sand/50 transition-all duration-700 group-hover:scale-110 group-hover:text-amber-400"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+					<h3 class="text-3xl font-light tracking-wide text-white transition-transform duration-700 group-hover:scale-110">Schedule</h3>
 				</div>
 			</a>
 			<a
@@ -504,47 +496,15 @@
 					class="absolute inset-0 bg-linear-to-br from-blue-500/20 to-indigo-600/20 opacity-0 transition-opacity duration-700 group-hover:opacity-100">
 				</div>
 				<div class="absolute inset-0 flex flex-col items-center justify-center gap-6">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="48"
-						height="48"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="1"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						class="text-sand/50 transition-all duration-700 group-hover:scale-110 group-hover:text-blue-400"
-						><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-					<h3
-						class="text-3xl font-light tracking-wide text-white transition-transform duration-700 group-hover:scale-110">
-						History
-					</h3>
+					<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-sand/50 transition-all duration-700 group-hover:scale-110 group-hover:text-blue-400"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+					<h3 class="text-3xl font-light tracking-wide text-white transition-transform duration-700 group-hover:scale-110">History</h3>
 				</div>
 			</a>
-			<a
-				href="/doctrine"
-				class="group relative block h-[20dvh] overflow-hidden rounded-xl border border-white/10 bg-linear-to-br from-zinc-800 to-zinc-900 shadow-lg transition-all duration-500 hover:border-white/30 hover:shadow-2xl md:h-[50dvh]">
-				<div
-					class="absolute inset-0 bg-linear-to-br from-emerald-500/20 to-teal-600/20 opacity-0 transition-opacity duration-700 group-hover:opacity-100">
-				</div>
+			<a href="/doctrine" class="group relative block h-[20dvh] overflow-hidden rounded-xl border border-white/10 bg-linear-to-br from-zinc-800 to-zinc-900 shadow-lg transition-all duration-500 hover:border-white/30 hover:shadow-2xl md:h-[50dvh]">
+				<div class="absolute inset-0 bg-linear-to-br from-emerald-500/20 to-teal-600/20 opacity-0 transition-opacity duration-700 group-hover:opacity-100"></div>
 				<div class="absolute inset-0 flex flex-col items-center justify-center gap-6">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="48"
-						height="48"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="1"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						class="text-sand/50 transition-all duration-700 group-hover:scale-110 group-hover:text-emerald-400"
-						><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
-					<h3
-						class="text-3xl font-light tracking-wide text-white transition-transform duration-700 group-hover:scale-110">
-						What we believe
-					</h3>
+					<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-sand/50 transition-all duration-700 group-hover:scale-110 group-hover:text-emerald-400"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
+					<h3 class="text-3xl font-light tracking-wide text-white transition-transform duration-700 group-hover:scale-110">What we believe</h3>
 				</div>
 			</a>
 		</div>
@@ -553,27 +513,23 @@
 	<section
 		id="answers"
 		class="flex h-dvh w-full shrink-0 snap-start snap-always flex-col justify-center bg-dark px-8 md:px-24">
-		<div class="foldable-padding mx-auto w-full max-w-4xl">
+		<div class="foldable-padding mx-auto w-full max-w-4xl dyslexia:max-w-6xl">
 			<h2 class="mb-16 text-center text-4xl font-light text-white md:text-left md:text-6xl">Answers</h2>
 
 			<div class="space-y-12">
 				<div>
-					<h3 class="mb-4 text-2xl font-light text-white">
-						I've never been to your church, how do I know what to expect?
-					</h3>
-					<p class="text-lg leading-relaxed text-sand/70">Expect the unexpected</p>
+					<h3 class="mb-4 text-2xl font-light text-white">I've never been to church, how do I know what to expect?</h3>
+					<p class="text-lg leading-relaxed text-sand/70">Music, worship, preaching, maybe something else</p>
 				</div>
 
 				<div>
 					<h3 class="mb-4 text-2xl font-light text-white">Is there a dress code?</h3>
-					<p class="text-lg leading-relaxed text-sand/70">
-						No dress code. Although, most people will be dressed formally
-					</p>
+					<p class="text-lg leading-relaxed text-sand/70">No. As long as you are here, we will be extremely glad, although most of our members like to dress their best</p>
 				</div>
 
 				<div>
 					<h3 class="mb-4 text-2xl font-light text-white">What about my kids?</h3>
-					<p class="text-lg leading-relaxed text-sand/70">Bring your kids there's even sunday school</p>
+					<p class="text-lg leading-relaxed text-sand/70">Our church family includes kids of all ages. We offer programs for children on Sunday mornings, hold special activities and sports at Zalud Park on Friday nights, and join events with churches in neighboring cities throughout the year. There is always something to do!</p>
 				</div>
 			</div>
 		</div>
@@ -582,7 +538,7 @@
 	<section
 		id="visit"
 		class="flex h-dvh w-full shrink-0 snap-start snap-always flex-col justify-center bg-zinc-900 px-8 md:px-24">
-		<div class="foldable-padding mx-auto w-full max-w-4xl text-center md:text-left">
+		<div class="foldable-padding mx-auto w-full max-w-4xl dyslexia:max-w-6xl text-center md:text-left">
 			<h2 class="mb-12 text-4xl font-light text-white md:text-6xl">Visit us</h2>
 
 			<div class="grid grid-cols-1 gap-12 md:grid-cols-2">
@@ -591,44 +547,12 @@
 						<h3 class="mb-4 text-2xl font-light text-white">Location</h3>
 						<div class="flex items-center justify-center gap-4 md:justify-start">
 							<div class="h-9 w-9 md:hidden"></div>
-							<a
-								href="https://maps.google.com/?q=939+N+Main+St,+Porterville,+CA+93257"
-								target="_blank"
-								rel="noopener noreferrer"
-								class="text-lg text-sand/70 underline-offset-4 transition-colors hover:text-white hover:underline">
-								939 N Main St
-							</a>
-							<button
-								onclick={copyAddress}
-								class="rounded-full p-2 text-sand/70 transition-colors hover:bg-white/10 hover:text-white"
-								aria-label="Copy address"
-								title="Copy address">
+							<a href="https://maps.google.com/?q=939+N+Main+St,+Porterville,+CA+93257" target="_blank" rel="noopener noreferrer" class="text-lg text-sand/70 underline-offset-4 transition-colors hover:text-white hover:underline">939 N Main St</a>
+							<button onclick={copyAddress} class="rounded-full p-2 text-sand/70 transition-colors hover:bg-white/10 hover:text-white" aria-label="Copy address" title="Copy address">
 								{#if addressCopied}
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										width="20"
-										height="20"
-										viewBox="0 0 24 24"
-										fill="none"
-										stroke="currentColor"
-										stroke-width="2"
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										class="text-green-400"><polyline points="20 6 9 17 4 12"></polyline></svg>
+									<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-400"><polyline points="20 6 9 17 4 12"></polyline></svg>
 								{:else}
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										width="20"
-										height="20"
-										viewBox="0 0 24 24"
-										fill="none"
-										stroke="currentColor"
-										stroke-width="2"
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path
-											d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path
-										></svg>
+									<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
 								{/if}
 							</button>
 						</div>
@@ -638,40 +562,16 @@
 						<h3 class="mb-4 text-2xl font-light text-white">Contact</h3>
 						<div class="flex items-center justify-center gap-4 md:justify-start">
 							<div class="h-9 w-9 md:hidden"></div>
-							<a href="tel:+15597818068" class="text-lg text-sand/70 transition-colors hover:text-white">
-								(559) 781-8068
-							</a>
+							<a href="tel:+15597818068" class="text-lg text-sand/70 transition-colors hover:text-white">(559) 781-8068</a>
 							<button
 								onclick={copyPhone}
 								class="rounded-full p-2 text-sand/70 transition-colors hover:bg-white/10 hover:text-white"
 								aria-label="Copy phone number"
 								title="Copy phone number">
 								{#if phoneCopied}
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										width="20"
-										height="20"
-										viewBox="0 0 24 24"
-										fill="none"
-										stroke="currentColor"
-										stroke-width="2"
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										class="text-green-400"><polyline points="20 6 9 17 4 12"></polyline></svg>
+									<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-400"><polyline points="20 6 9 17 4 12"></polyline></svg>
 								{:else}
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										width="20"
-										height="20"
-										viewBox="0 0 24 24"
-										fill="none"
-										stroke="currentColor"
-										stroke-width="2"
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path
-											d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path
-										></svg>
+									<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
 								{/if}
 							</button>
 						</div>
@@ -681,9 +581,7 @@
 				<div class="flex flex-col space-y-8">
 					<div>
 						<h3 class="mb-4 text-2xl font-light text-white">Transportation</h3>
-						<p class="text-lg leading-relaxed text-sand/70">
-							We offer free transportation if you need a ride. Just give us a call
-						</p>
+						<p class="text-lg leading-relaxed text-sand/70">We offer free transportation if you need a ride. Just give us a call</p>
 					</div>
 				</div>
 			</div>
