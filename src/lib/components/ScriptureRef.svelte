@@ -15,6 +15,45 @@
 		};
 	}
 
+	function portalAfterTarget(node: HTMLElement) {
+		const target = node.closest('p, li, h1, h2, h3, h4, h5, h6') as HTMLElement | null;
+		if (target && target.parentNode) {
+			let insertBeforeNode = target.nextSibling;
+			while (
+				insertBeforeNode &&
+				insertBeforeNode.nodeType === 1 &&
+				(insertBeforeNode as HTMLElement).hasAttribute('data-scripture-dropdown')
+			) {
+				insertBeforeNode = insertBeforeNode.nextSibling;
+			}
+			target.parentNode.insertBefore(node, insertBeforeNode);
+			
+			target.classList.add('scripture-active-paragraph');
+		}
+
+		return {
+			destroy() {
+				if (target) {
+					// Check if there are any remaining dropdowns directly after this target
+					let hasDropdowns = false;
+					let sibling = target.nextSibling;
+					while (
+						sibling &&
+						sibling.nodeType === 1 &&
+						(sibling as HTMLElement).hasAttribute('data-scripture-dropdown')
+					) {
+						hasDropdowns = true;
+						break;
+					}
+					
+					if (!hasDropdowns) {
+						target.classList.remove('scripture-active-paragraph');
+					}
+				}
+			}
+		};
+	}
+
 	let { reference } = $props<{ reference: string }>();
 
 	let isOpen = $state(false);
@@ -99,7 +138,7 @@
 	</button>
 
 	{#if isOpen}
-		<div transition:slide={{ duration: 400, easing: quartInOut }}>
+		<div use:portalAfterTarget data-scripture-dropdown="true" class="m-0!" transition:slide={{ duration: 400, easing: quartInOut }}>
 			<div class="pt-4 pb-6">
 				<div class="relative overflow-hidden pl-6">
 					<!-- Left border perfectly mirrors dropdown height -->
@@ -131,3 +170,9 @@
 		</div>
 	{/if}
 </span>
+
+<style>
+	:global(.scripture-active-paragraph) {
+		margin-bottom: 0 !important;
+	}
+</style>

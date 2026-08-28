@@ -18,7 +18,7 @@
 
 			<button
 				onclick={() => fontState.toggle()}
-				class="text-xs tracking-widest whitespace-nowrap text-sand/50 underline underline-offset-4 transition-colors hover:text-white"
+				class="cursor-pointer text-xs tracking-widest whitespace-nowrap text-sand/50 underline underline-offset-4 transition-colors hover:text-white"
 				aria-pressed={fontState.useDyslexicFont}>
 				{fontState.useDyslexicFont ? 'Disable' : 'Enable'} dyslexia font
 			</button>
@@ -28,20 +28,11 @@
 			class="prose prose-lg max-w-none text-left text-sand/80 prose-invert"
 			style="line-height: 1.65; font-size: 1.125rem; letter-spacing: 0.01em;">
 			<section class="mb-12">
-				<p>
-					We believe that the Bible is thoroughly the true expression of God’s plan, eternally and miraculously
-					preserved
-				</p>
-				<p>We believe that God is one, all-powerful Being</p>
-				<p>
-					We believe that the same God that created the universe, made Himself to be like man, was baptized, lived a
-					sinless life, and was crucified that we might live more abundantly
-				</p>
-				<p>
-					We believe that the ONLY way to receive this wonderful new life is by following the plan laid out by Peter in
-					<ScriptureRef reference="Acts 2:38" />
-				</p>
-				<p>We believe that the Church’s purpose is to stay holy as the Bride of Christ</p>             
+			  <p>We believe that the Bible is thoroughly the true expression of God’s plan, eternally and miraculously preserved. In a world that constantly changes its rules and morals, the Bible remains absolute truth <ScriptureRef reference="Matthew 24:35" /></p>
+				<p>We believe that God is one, all-powerful Being <ScriptureRef reference="Ephesians 4:6" /> <ScriptureRef reference="James 2:19" /></p>
+				<p>We believe that the same God that created the universe, made Himself to be like man, was baptized, lived a sinless life, and was crucified that we might live more abundantly <ScriptureRef reference="1 Timothy 3:16" /></p>
+				<p>We believe that the ONLY way to receive this wonderful new life is by following the plan laid out by Peter in <ScriptureRef reference="Acts 2:38" /></p>
+				<p>We believe that the church’s purpose is to stay holy as the bride of Crist, and to reach the lost souls hungry for his word <ScriptureRef reference="Romans 12:1-3" /> <ScriptureRef reference="John 4:35" /></p>
 			</section>
 
 			{#if fontState.useDyslexicFont}

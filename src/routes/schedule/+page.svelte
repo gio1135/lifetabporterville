@@ -120,7 +120,7 @@
 				</div>
 			{:else}
 				<a href="/admin/login" class="text-xs tracking-widest text-sand/50 transition-colors hover:text-white">
-					Admin
+					Login
 				</a>
 			{/if}
 		</div>
