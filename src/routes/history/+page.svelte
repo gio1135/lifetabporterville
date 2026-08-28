@@ -110,7 +110,7 @@
 			]
 		},
 		{
-			pastor: 'Johnathan Kendrick',
+			pastor: 'Jonathan Kendrick',
 			period: 'Season 3',
 			milestones: [
 				{
@@ -297,7 +297,7 @@
 						<enhanced:img
 							src={era.image}
 							alt={era.pastor}
-							class="h-full w-full object-cover object-top md:object-center" />
+							class="h-full w-full object-cover object-[50%_33%] md:object-center" />
 						<div class="absolute inset-0 bg-linear-to-b from-transparent from-40% to-dark"></div>
 					</div>
 				{/if}
