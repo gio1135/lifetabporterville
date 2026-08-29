@@ -52,121 +52,97 @@
 			}, 500);
 		}, 500);
 	}
-	const eras: Era[] = [
-		{
-			pastor: 'C.B Webb',
-			period: 'Season 1',
-			milestones: [
-				{
-					id: 's1-m1',
-					title: 'Founded the church',
-					desc: 'The church was founded',
-					position: 'top',
-					date: '1955',
-					hasArticle: true,
-					articleContent: article1
-				},
-				{
-					id: 's1-m2',
-					title: 'Milestone 2',
-					desc: 'Description of what happened',
-					position: 'bottom',
-					date: 'Year'
-				},
-				{
-					id: 's1-m3',
-					title: 'Milestone 3',
-					desc: 'Description of what happened',
-					position: 'top',
-					date: 'Year'
-				}
-			]
-		},
-		{
-			pastor: 'Mike Webb',
-			period: 'Season 2',
-			milestones: [
-				{
-					id: 's2-m1',
-					title: 'Milestone 1',
-					desc: 'Description of what happened',
-					position: 'bottom',
-					date: 'Year'
-				},
-				{
-					id: 's2-m2',
-					title: 'Milestone 2',
-					desc: 'Description of what happened',
-					position: 'top',
-					date: 'Year'
-				},
-				{
-					id: 's2-m3',
-					title: 'Milestone 3',
-					desc: 'Description of what happe   ned',
-					position: 'bottom',
-					date: 'Year'
-				}
-			]
-		},
-		{
-			pastor: 'Jonathan Kendrick',
-			period: 'Season 3',
-			milestones: [
-				{
-					id: 's3-m1',
-					title: 'Milestone 1',
-					desc: 'Description of what happened',
-					position: 'top',
-					date: 'Year'
-				},
-				{
-					id: 's3-m2',
-					title: 'Milestone 2',
-					desc: 'Description of what happened',
-					position: 'bottom',
-					date: 'Year'
-				},
-				{
-					id: 's3-m3',
-					title: 'Milestone 3',
-					desc: 'Description of what happened',
-					position: 'top',
-					date: 'Year'
-				}
-			]
-		},
-		{
-			pastor: 'Stephen Marchbanks',
-			period: 'Season 4',
-			image: stephenImg,
-			milestones: [
-				{
-					id: 's4-m1',
-					title: 'Milestone 1',
-					desc: 'Description of what happened',
-					position: 'bottom',
-					date: 'Year',
-					hasArticle: true,
-					articleContent: article2
-				},
-				{
-					id: 's4-m2',
-					title: 'Milestone 2',
-					desc: 'Description of what happened',
-					position: 'top',
-					date: 'Year'
-				},
-				{
-					id: 's4-m3',
-					title: 'Milestone 3',
-					desc: 'Description of what happened',
-					position: 'bottom',
-					date: 'Year'
-				}
-			]
-		}
-	];
+  const eras: Era[] = [
+    {
+      pastor: 'C B Webb',
+      period: '1958 - 1987',
+      milestones: [
+        {
+          id: 's1-m1',
+          title: 'Property purchased',
+          desc: 'Chois and Vivian Webb bought the property at 939 North Main Street with a dream and a vision',
+          position: 'top',
+          date: '1958',
+          hasArticle: true,
+          articleContent: article1
+        },
+        {
+          id: 's1-m2',
+          title: 'Church built by hand',
+          desc: 'The church was built by brick, and the building was finished around June of 1963',
+          position: 'bottom',
+          date: '1963',
+          hasArticle: true,
+          articleContent: article2
+        },
+        {
+          id: 's1-m3',
+          title: 'Revival',
+          desc: 'A revival with Brother and Sister Joseph Domingues brought growth',
+          position: 'top',
+          date: '1963',
+          hasArticle: true,
+          articleContent: article3
+        }
+      ]
+    },
+    {
+      pastor: 'Mike Webb',
+      period: '1987 - 2004',
+      milestones: [
+        {
+          id: 's2-m1',
+          title: 'Pastoral transition',
+          desc: 'Pastor Webb turned the church over to his son, Joel Michael Webb',
+          position: 'bottom',
+          date: '1987'
+        },
+        {
+          id: 's2-m2',
+          title: 'Revival breaks out',
+          desc: 'Again revival broke out, with many baptized and filled with the Holy Ghost',
+          position: 'top',
+          date: '1987'
+        },
+        {
+          id: 's2-m3',
+          title: 'New sanctuary',
+          desc: 'A new sanctuary and parking lot were finished on the north end of the property',
+          position: 'bottom',
+          date: '2004',
+          hasArticle: true,
+          articleContent: article4
+        }
+      ]
+    },
+    {
+      pastor: 'Jonathan Kendrick',
+      period: '2004 - 2010',
+      milestones: [
+        {
+          id: 's3-m1',
+          title: 'A new chapter',
+          desc: 'Pastor Jonathan Kendrick assumed the pastorate and pastored the church for exactly six years',
+          position: 'top',
+          date: '2004'
+        }
+      ]
+    },
+    {
+      pastor: 'Stephen Marchbanks',
+      period: '2010 - Present',
+      image: stephenImg,
+      milestones: [
+        {
+          id: 's4-m1',
+          title: 'Continuing the work',
+          desc: 'Brother Steve Marchbanks became pastor, and there stands a ripened field ready to be harvested',
+          position: 'bottom',
+          date: '2010'
+        }
+      ]
+    }
+  ];
 
 	function horizontalScroll(node: HTMLElement) {
 		let targetLeft = 0;
@@ -275,11 +251,24 @@
 </script>
 
 {#snippet article1()}
-	<p>The foundation was laid, building was built</p>
+  <p>At the time of purchase, there was no electricity or water on the property. Pastor Webb used to haul fifty gallon barrels of water to help water some trees, and to help loosen the bed pan clay so they could dig the foundation</p>
+  <p>The property was in a gully, so Pastor Webb thought he'd build a basement for Sunday School rooms and for fellowship, then fill in dirt around it for a parking lot. There was still a lot of digging in the hard pan red clay</p>
 {/snippet}
 
 {#snippet article2()}
-	<p>Current era</p>
+  <p>Pastor Webb and son, Bo Webb, painstakingly dug that foundation by hand. The church was built by brick, buying thirty or more bricks at a time and buying steel to reinforce the structure as concrete was poured inside the bricks</p>
+  <p>This church was built by hand, and paid for as they went along. A septic tank was put in and water from the county was acquired from behind the church and under the railroad tracks. There was a saint in the church that helped Pastor Webb and Bo build along the way, Brother Joel Gentles</p>
+  <p>Brother I H Terry, Brother Jimmy Davis, and Brother Paul Wilson sent men, bricks, and steel to help them many weekends. It was a long, arduous struggle, but the building was finished around June of 1963</p>
+{/snippet}
+
+{#snippet article3()}
+  <p>When the building was finished in 1963, Pastor Webb was down to almost no people. The long struggle and various congregations that came and left had taken its toll. Full of faith and hope, Pastor Webb asked Brother and Sister Joseph Domingues to preach a revival</p>
+  <p>The revival sign, prayer, and fasting drew people to church. A total of thirteen received the Holy Ghost in that revival. The church grew, and God blessed the work. Workers, evangelists, pastors, and a missionary went out to further the gospel</p>
+{/snippet}
+
+{#snippet article4()}
+  <p>As the brick building filled, Pastor Webb began the plans for the vision of a new sanctuary to be built on the north end of the property. Again, there was a huge struggle to build, but alas the new sanctuary and new parking lot were finished in 2004</p>
+  <p>Oh, the excitement as we walked and sang unto the Lord from the old sanctuary to the new one</p>
 {/snippet}
 
 <svelte:head>
@@ -291,7 +280,7 @@
 	class="custom-scrollbar flex h-full w-full overflow-x-auto overflow-y-hidden scroll-smooth">
 
 	{#each eras as era (era.period)}
-		<section class="relative flex h-full shrink-0">
+		<section class="relative flex h-full min-w-screen shrink-0">
 			<div
 				class="sticky top-0 left-0 z-20 flex h-[25dvh] w-screen shrink-0 flex-col justify-center overflow-hidden border-sand/10 bg-dark px-8 md:h-full md:w-[33vw] md:border-r md:px-16">
 				{#if era.image}
@@ -310,7 +299,7 @@
 			</div>
 
 			<div
-				class="relative z-10 ml-[-100vw] flex h-[75dvh] shrink-0 items-center self-end pl-[10vw] md:ml-0 md:h-full md:self-auto md:pl-10">
+				class="relative z-10 ml-[-100vw] flex h-[75dvh] grow items-center self-end pl-[10vw] md:ml-0 md:h-full md:self-auto md:pl-10">
 				<div class="absolute top-1/2 left-0 -z-10 h-px w-full -translate-y-1/2 bg-sand/20"></div>
 
 				{#each era.milestones as milestone (milestone.id)}

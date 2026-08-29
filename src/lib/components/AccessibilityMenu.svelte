@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { accessibility } from '$lib/stores/accessibility.svelte';
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import { fly, scale } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
 
 	let isOpen = $state(false);
 	let showEasterEgg = $state(false);
+	let menuRef = $state<HTMLElement | null>(null);
 
 	onMount(() => {
 		// 1% chance to show the easter egg icon
@@ -14,11 +15,24 @@
 
 	function toggleMenu() {
 		isOpen = !isOpen;
+		if (isOpen) {
+			tick().then(() => {
+				const firstInput = menuRef?.querySelector('input');
+				firstInput?.focus();
+			});
+		} else {
+			tick().then(() => {
+				document.getElementById('accessibility-btn')?.focus();
+			});
+		}
 	}
 
 	function handleKeydown(e: KeyboardEvent) {
 		if (e.key === 'Escape' && isOpen) {
 			isOpen = false;
+			tick().then(() => {
+				document.getElementById('accessibility-btn')?.focus();
+			});
 		}
 	}
 </script>
@@ -77,6 +91,7 @@
 
 	{#if isOpen}
 		<div
+			bind:this={menuRef}
 			transition:fly={{ y: 20, duration: 300, easing: cubicOut }}
 			class="absolute right-0 bottom-18 w-72 rounded-xl bg-dark p-6 shadow-2xl ring-1 ring-white/10 hc:bg-black hc:ring-white"
 			role="dialog"
@@ -89,11 +104,12 @@
 					<div class="relative">
 						<input
 							type="checkbox"
-							class="sr-only"
+							class="peer sr-only"
 							checked={accessibility.highContrast}
+							onkeydown={(e) => { if (e.key === 'Enter') accessibility.toggleHighContrast() }}
 							onchange={() => accessibility.toggleHighContrast()} />
 						<div
-							class="block h-6 w-11 rounded-full bg-zinc-700 transition-colors duration-300 ease-out"
+							class="block h-6 w-11 rounded-full bg-zinc-700 transition-colors duration-300 ease-out peer-focus-visible:ring-2 peer-focus-visible:ring-white peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-dark"
 							class:bg-white={accessibility.highContrast}
 							class:hc:bg-white={accessibility.highContrast}>
 						</div>
@@ -112,11 +128,12 @@
 					<div class="relative">
 						<input
 							type="checkbox"
-							class="sr-only"
+							class="peer sr-only"
 							checked={accessibility.dyslexiaFont}
+							onkeydown={(e) => { if (e.key === 'Enter') accessibility.toggleDyslexiaFont() }}
 							onchange={() => accessibility.toggleDyslexiaFont()} />
 						<div
-							class="block h-6 w-11 rounded-full bg-zinc-700 transition-colors duration-300 ease-out"
+							class="block h-6 w-11 rounded-full bg-zinc-700 transition-colors duration-300 ease-out peer-focus-visible:ring-2 peer-focus-visible:ring-white peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-dark"
 							class:bg-white={accessibility.dyslexiaFont}
 							class:hc:bg-white={accessibility.dyslexiaFont}>
 						</div>
