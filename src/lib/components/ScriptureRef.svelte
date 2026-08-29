@@ -55,6 +55,7 @@
 	}
 
 	let { reference } = $props<{ reference: string }>();
+	let dropdownId = $derived(`scripture-dropdown-${reference.replace(/\W+/g, '-').toLowerCase()}`);
 
 	let isOpen = $state(false);
 	let hasAnimated = $state(false);
@@ -133,12 +134,14 @@
 	<button
 		onclick={toggleReference}
 		class="cursor-pointer font-medium text-sand underline decoration-sand/30 underline-offset-4 transition-colors hover:text-white hover:decoration-sand"
-		aria-expanded={isOpen}>
+		aria-expanded={isOpen}
+		aria-controls={isOpen ? dropdownId : undefined}
+		aria-label="{isOpen ? 'Hide' : 'Read'} scripture {reference}">
 		{reference}
 	</button>
 
 	{#if isOpen}
-		<div use:portalAfterTarget data-scripture-dropdown="true" class="m-0!" transition:slide={{ duration: 400, easing: quartInOut }}>
+		<div id={dropdownId} use:portalAfterTarget data-scripture-dropdown="true" class="m-0!" transition:slide={{ duration: 400, easing: quartInOut }}>
 			<div class="pt-4 pb-6">
 				<div class="relative overflow-hidden pl-6">
 					<!-- Left border perfectly mirrors dropdown height -->

@@ -88,6 +88,17 @@
 	Skip to content
 </a>
 
+<a
+	href="#accessibility-btn"
+	onclick={(e) => {
+		e.preventDefault();
+		document.getElementById('accessibility-btn')?.focus();
+	}}
+	class="sr-only focus:not-sr-only focus:absolute focus:top-16 focus:left-4 focus:z-100 focus:rounded focus:bg-white focus:px-4 focus:py-2 focus:text-black focus:outline-none focus:ring-2 focus:ring-black"
+>
+	Skip to accessibility menu
+</a>
+
 <AccessibilityMenu />
 
 <div class="relative flex h-dvh w-full flex-col">

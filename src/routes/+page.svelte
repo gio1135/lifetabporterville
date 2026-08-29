@@ -134,6 +134,27 @@
 			if (mainContainer) {
 				mainContainer.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
 			}
+		} else if (e.key === 'Home' || e.key === 'End') {
+			e.preventDefault();
+			if (mainContainer) {
+				const top = e.key === 'Home' ? 0 : mainContainer.scrollHeight;
+				
+				// Disable snap temporarily so smooth scroll doesn't get interrupted halfway
+				mainContainer.style.scrollSnapType = 'none';
+				mainContainer.scrollTo({ top, behavior: 'smooth' });
+
+				let timeout: NodeJS.Timeout;
+				const onScrollEnd = () => {
+					clearTimeout(timeout);
+					if (mainContainer) {
+						mainContainer.style.scrollSnapType = '';
+					}
+					mainContainer?.removeEventListener('scrollend', onScrollEnd);
+				};
+				
+				timeout = setTimeout(onScrollEnd, 1500); // Fallback if scrollend isn't fired
+				mainContainer.addEventListener('scrollend', onScrollEnd);
+			}
 		}
 	}
 

@@ -7,7 +7,7 @@
 	<title>What we believe | Life Tabernacle</title>
 </svelte:head>
 
-<div class="h-full w-full overflow-y-auto scroll-smooth">
+<div id="doctrine-content" class="h-full w-full overflow-y-auto scroll-smooth">
 	<div class="mx-auto px-6 py-24 pb-32 transition-all duration-300 md:px-12 max-w-4xl dyslexia:max-w-6xl">
 		<header
 			class="mb-12 flex flex-col items-start justify-between gap-4 border-b border-white/10 pb-8 md:flex-row md:items-end md:gap-0">

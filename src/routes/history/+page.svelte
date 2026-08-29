@@ -222,11 +222,11 @@
 		}
 
 		function handleKeyDown(e: KeyboardEvent) {
+			const scrollX = node.scrollLeft;
+			const sections = Array.from(node.querySelectorAll('section'));
+
 			if (['Home', 'End', 'PageUp', 'PageDown'].includes(e.key)) {
 				e.preventDefault();
-
-				const scrollX = node.scrollLeft;
-				const sections = Array.from(node.querySelectorAll('section'));
 
 				if (e.key === 'Home') {
 					targetLeft = 0;
@@ -244,15 +244,30 @@
 			}
 		}
 
+		function handleFocusIn(e: FocusEvent) {
+			const target = e.target as HTMLElement;
+			const section = target.closest('section');
+			if (section && node.contains(section)) {
+				const scrollX = node.scrollLeft;
+				const snapThreshold = 10;
+				if (Math.abs(scrollX - section.offsetLeft) > snapThreshold) {
+					targetLeft = section.offsetLeft;
+					node.scrollTo({ left: targetLeft, behavior: 'smooth' });
+				}
+			}
+		}
+
 		node.addEventListener('wheel', handleWheel, { passive: false });
 		node.addEventListener('scroll', handleScroll, { passive: true });
 		window.addEventListener('keydown', handleKeyDown);
+		node.addEventListener('focusin', handleFocusIn);
 
 		return {
 			destroy() {
 				node.removeEventListener('wheel', handleWheel);
 				node.removeEventListener('scroll', handleScroll);
 				window.removeEventListener('keydown', handleKeyDown);
+				node.removeEventListener('focusin', handleFocusIn);
 				window.clearTimeout(isScrolling);
 			}
 		};
