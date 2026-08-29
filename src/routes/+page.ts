@@ -3,7 +3,11 @@ import type { PageLoad } from './$types';
 const opportunityVerses = [
   'Ephesians 5:16',
   'Acts 2:42',
-  '2 Chronicles 7:14'
+  '2 Chronicles 7:14',
+  'Hebrews 10:25',
+  'Matthew 18:20',
+  'Psalm 133:1',
+  'Proverbs 27:17'
 ];
 
 export const load: PageLoad = async ({ fetch }) => {
