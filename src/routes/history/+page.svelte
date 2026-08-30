@@ -1,5 +1,8 @@
 <script lang="ts">
 	import stephenImg from '$lib/assets/pastors/stephen_marchbanks.jpeg?enhanced';
+	import cbWebbImg from '$lib/assets/pastors/cb_webb.jpg?enhanced';
+	import jonathanKendrickImg from '$lib/assets/pastors/jonathan_kendrick.jpg?enhanced';
+	import mikeWebbImg from '$lib/assets/pastors/mike_webb.jpg?enhanced';
 	import type { Picture } from '@sveltejs/enhanced-img';
 	import { accessibility } from '$lib/stores/accessibility.svelte';
 	import type { Snippet } from 'svelte';
@@ -18,6 +21,7 @@
 		pastor: string;
 		period: string;
 		image?: string | Picture;
+		mobileImagePosition?: string;
 		milestones: Milestone[];
 	};
 
@@ -56,6 +60,8 @@
     {
       pastor: 'C B Webb',
       period: '1958 - 1987',
+      image: cbWebbImg,
+      mobileImagePosition: 'object-[50%_15%]',
       milestones: [
         {
           id: 's1-m1',
@@ -89,6 +95,8 @@
     {
       pastor: 'Mike Webb',
       period: '1987 - 2004',
+      image: mikeWebbImg,
+      mobileImagePosition: 'object-[50%_60%]',
       milestones: [
         {
           id: 's2-m1',
@@ -118,6 +126,8 @@
     {
       pastor: 'Jonathan Kendrick',
       period: '2004 - 2010',
+      image: jonathanKendrickImg,
+      mobileImagePosition: 'object-[50%_15%]',
       milestones: [
         {
           id: 's3-m1',
@@ -132,6 +142,7 @@
       pastor: 'Stephen Marchbanks',
       period: '2010 - Present',
       image: stephenImg,
+      mobileImagePosition: 'object-[50%_25%]',
       milestones: [
         {
           id: 's4-m1',
@@ -282,13 +293,13 @@
 	{#each eras as era (era.period)}
 		<section class="relative flex h-full min-w-screen shrink-0">
 			<div
-				class="sticky top-0 left-0 z-20 flex h-[25dvh] w-screen shrink-0 flex-col justify-center overflow-hidden border-sand/10 bg-dark px-8 md:h-full md:w-[33vw] md:border-r md:px-16">
+				class="sticky top-0 left-0 z-20 flex h-[20dvh] w-screen shrink-0 flex-col justify-center overflow-hidden border-sand/10 bg-dark px-8 md:h-full md:w-[33vw] md:border-r md:px-16">
 				{#if era.image}
 					<div class="absolute inset-0 z-0">
 						<enhanced:img
 							src={era.image}
 							alt={era.pastor}
-							class="h-full w-full object-cover object-[50%_33%] md:object-center" />
+							class="h-full w-full object-cover md:object-center {era.mobileImagePosition || 'object-[50%_33%]'}" />
 						<div class="absolute inset-0 bg-linear-to-b from-transparent from-40% to-dark hc:hidden"></div>
 					</div>
 				{/if}
@@ -299,12 +310,12 @@
 			</div>
 
 			<div
-				class="relative z-10 ml-[-100vw] flex h-[75dvh] grow items-center self-end pl-[10vw] md:ml-0 md:h-full md:self-auto md:pl-10">
-				<div class="absolute top-1/2 left-0 -z-10 h-px w-full -translate-y-1/2 bg-sand/20"></div>
+				class="relative z-10 ml-[-100vw] flex h-[80dvh] grow items-center self-end pl-[10vw] md:ml-0 md:h-full md:self-auto md:pl-10">
+				<div class="absolute top-[60%] left-0 -z-10 h-px w-full -translate-y-1/2 bg-sand/20 md:top-1/2"></div>
 
 				{#each era.milestones as milestone (milestone.id)}
 					<div class="group relative mx-8 flex h-full w-64 shrink-0 flex-col items-center md:mx-16 dyslexia:w-80">
-						<div class="relative z-30 flex w-full flex-1 flex-col pb-8 md:pb-12">
+						<div class="relative z-30 flex w-full h-[60%] flex-col pb-8 md:h-1/2 md:pb-12">
 							{#if milestone.position === 'top'}
 								<button
 									class="mt-auto w-full shrink-0 transform rounded border border-sand/10 bg-dark/80 p-6 text-left backdrop-blur transition-all duration-300 {milestone.hasArticle &&
@@ -346,25 +357,25 @@
 						</div>
 
 						<div
-							class="absolute top-1/2 left-1/2 z-20 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.3)] transition-all duration-300 {milestone.hasArticle
+							class="absolute top-[60%] md:top-1/2 left-1/2 z-20 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.3)] transition-all duration-300 {milestone.hasArticle
 								? 'group-hover:scale-150'
 								: ''}">
 						</div>
 						{#if milestone.position === 'top'}
 							<div
-								class="absolute bottom-1/2 left-1/2 h-8 w-px -translate-x-1/2 bg-sand/40 transition-all duration-300 md:h-12 {milestone.hasArticle
+								class="absolute bottom-[40%] md:bottom-1/2 left-1/2 h-8 w-px -translate-x-1/2 bg-sand/40 transition-all duration-300 md:h-12 {milestone.hasArticle
 									? 'group-hover:bg-sand/80'
 									: ''}">
 							</div>
 						{:else}
 							<div
-								class="absolute top-1/2 left-1/2 h-8 w-px -translate-x-1/2 bg-sand/40 transition-all duration-300 md:h-12 {milestone.hasArticle
+								class="absolute top-[60%] md:top-1/2 left-1/2 h-8 w-px -translate-x-1/2 bg-sand/40 transition-all duration-300 md:h-12 {milestone.hasArticle
 									? 'group-hover:bg-sand/80'
 									: ''}">
 							</div>
 						{/if}
 
-						<div class="relative z-30 flex w-full flex-1 flex-col pt-8 md:pt-12">
+						<div class="relative z-30 flex w-full h-[40%] flex-col pt-8 md:h-1/2 md:pt-12">
 							{#if milestone.position === 'bottom'}
 								<button
 									class="mb-auto w-full shrink-0 transform rounded border border-sand/10 bg-dark/80 p-6 text-left backdrop-blur transition-all duration-300 {milestone.hasArticle &&
