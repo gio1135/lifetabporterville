@@ -26,12 +26,14 @@
 	};
 
 	let selectedEvent = $state<Milestone | null>(null);
+	let selectedCardElement = $state<HTMLElement | null>(null);
 	let phase = $state<'idle' | 'fading_timeline' | 'moving_card' | 'expanding_card'>('idle');
 	let cardRect = $state<DOMRect | null>(null);
 
 	function expand(milestone: Milestone, event: MouseEvent) {
 		if (!milestone.hasArticle || phase !== 'idle') return;
 		const button = event.currentTarget as HTMLElement;
+		selectedCardElement = button;
 		cardRect = button.getBoundingClientRect();
 		selectedEvent = milestone;
 		phase = 'fading_timeline';
@@ -47,11 +49,15 @@
 	function collapse() {
 		phase = 'moving_card';
 		setTimeout(() => {
+			if (selectedCardElement) {
+				cardRect = selectedCardElement.getBoundingClientRect();
+			}
 			phase = 'fading_timeline';
 			setTimeout(() => {
 				phase = 'idle';
 				setTimeout(() => {
 					selectedEvent = null;
+					selectedCardElement = null;
 				}, 300);
 			}, 500);
 		}, 500);
@@ -160,6 +166,10 @@
 		let isWheeling = false;
 		let wheelTimer: number;
 
+		let isPointerDown = false;
+		function handlePointerDown() { isPointerDown = true; }
+		function handlePointerUp() { isPointerDown = false; }
+
 		function handleWheel(e: WheelEvent) {
 			if (e.deltaY !== 0) {
 				e.preventDefault();
@@ -232,6 +242,7 @@
 		}
 
 		function handleFocusIn(e: FocusEvent) {
+			if (isPointerDown) return;
 			const target = e.target as HTMLElement;
 			const section = target.closest('section');
 			if (section && node.contains(section)) {
@@ -248,6 +259,9 @@
 		node.addEventListener('scroll', handleScroll, { passive: true });
 		window.addEventListener('keydown', handleKeyDown);
 		node.addEventListener('focusin', handleFocusIn);
+		node.addEventListener('pointerdown', handlePointerDown);
+		window.addEventListener('pointerup', handlePointerUp);
+		window.addEventListener('pointercancel', handlePointerUp);
 
 		return {
 			destroy() {
@@ -255,6 +269,9 @@
 				node.removeEventListener('scroll', handleScroll);
 				window.removeEventListener('keydown', handleKeyDown);
 				node.removeEventListener('focusin', handleFocusIn);
+				node.removeEventListener('pointerdown', handlePointerDown);
+				window.removeEventListener('pointerup', handlePointerUp);
+				window.removeEventListener('pointercancel', handlePointerUp);
 				window.clearTimeout(isScrolling);
 			}
 		};
@@ -300,12 +317,12 @@
 							src={era.image}
 							alt={era.pastor}
 							class="h-full w-full object-cover md:object-center {era.mobileImagePosition || 'object-[50%_33%]'}" />
-						<div class="absolute inset-0 bg-linear-to-b from-transparent from-40% to-dark hc:hidden"></div>
+						<div class="absolute inset-0 bg-linear-to-t from-dark from-0% to-dark/40 to-50% hc:hidden"></div>
 					</div>
 				{/if}
 				<div class="relative z-10 hc:rounded-2xl hc:bg-black/95 hc:p-6 hc:ring-1 hc:ring-white/20 hc:backdrop-blur-md">
-					<h2 class="mb-2 text-sm tracking-[0.3em] text-sand/60 hc:text-white/80">{era.period}</h2>
-					<h1 class="text-4xl font-light tracking-widest text-white md:text-5xl">{era.pastor}</h1>
+					<h2 class="mb-2 text-sm tracking-[0.3em] text-sand/80 [text-shadow:0_2px_12px_rgba(0,0,0,0.8)] hc:text-white/80 hc:text-shadow-none">{era.period}</h2>
+					<h1 class="text-4xl font-light tracking-widest text-white [text-shadow:0_4px_24px_rgba(0,0,0,0.9)] md:text-5xl hc:text-shadow-none">{era.pastor}</h1>
 				</div>
 			</div>
 

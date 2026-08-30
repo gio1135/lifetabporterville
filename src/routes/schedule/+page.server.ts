@@ -1,12 +1,13 @@
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { defaultSchedule, getCurrentWeekKey, type Schedule } from '$lib/server/schedule';
+import { defaultSchedule, getCurrentWeekKey, getPreviousWeekKey, type Schedule } from '$lib/server/schedule';
 
 export const load: PageServerLoad = async ({ platform, cookies }) => {
 	const session = cookies.get('admin_session');
 	const isLoggedIn = session === 'authenticated';
+	const isSunday = new Date().getDay() === 0;
 
-	let schedule = defaultSchedule;
+	let schedule = JSON.parse(JSON.stringify(defaultSchedule)) as Schedule;
 	let isOverride = false;
 
 	if (platform?.env?.SCHEDULE_KV) {
@@ -16,12 +17,35 @@ export const load: PageServerLoad = async ({ platform, cookies }) => {
 			schedule = JSON.parse(stored) as Schedule;
 			isOverride = JSON.stringify(schedule.items) !== JSON.stringify(defaultSchedule.items);
 		}
+
+		if (isSunday) {
+			const prevKey = getPreviousWeekKey();
+			const prevStored = await platform.env.SCHEDULE_KV.get(prevKey);
+			let prevSchedule = JSON.parse(JSON.stringify(defaultSchedule)) as Schedule;
+			if (prevStored) {
+				prevSchedule = JSON.parse(prevStored) as Schedule;
+			}
+			
+			schedule.todaySundaySchool = prevSchedule.sundaySchool;
+			const todaySundayItems = prevSchedule.items
+				.filter(i => i.dayOfWeek === 0)
+				.map(i => ({ ...i, id: i.id + '-today', isToday: true }));
+			
+			schedule.items = [...todaySundayItems, ...schedule.items];
+		}
+	} else if (isSunday) {
+		schedule.todaySundaySchool = schedule.sundaySchool;
+		const todaySundayItems = schedule.items
+			.filter(i => i.dayOfWeek === 0)
+			.map(i => ({ ...i, id: i.id + '-today', isToday: true }));
+		schedule.items = [...todaySundayItems, ...schedule.items];
 	}
 
 	return {
 		schedule,
 		isOverride,
-		isLoggedIn
+		isLoggedIn,
+		isSunday
 	};
 };
 
@@ -47,9 +71,41 @@ export const actions = {
 
 		if (platform?.env?.SCHEDULE_KV) {
 			const key = getCurrentWeekKey();
-			await platform.env.SCHEDULE_KV.put(key, JSON.stringify(schedule), {
-				expirationTtl: 604800 * 2
-			});
+			const isSunday = new Date().getDay() === 0;
+
+			if (isSunday) {
+				const prevKey = getPreviousWeekKey();
+				
+				const prevStored = await platform.env.SCHEDULE_KV.get(prevKey);
+				let prevSchedule = JSON.parse(JSON.stringify(defaultSchedule)) as Schedule;
+				if (prevStored) prevSchedule = JSON.parse(prevStored) as Schedule;
+
+				prevSchedule.sundaySchool = schedule.todaySundaySchool ?? prevSchedule.sundaySchool;
+				
+				const newTodayItems = schedule.items.filter((i) => i.isToday);
+				prevSchedule.items = [
+					...prevSchedule.items.filter(i => i.dayOfWeek !== 0),
+					...newTodayItems.map((i) => {
+						const rest = { ...i, id: i.id.replace('-today', '') };
+						delete rest.isToday;
+						return rest;
+					})
+				];
+
+				await platform.env.SCHEDULE_KV.put(prevKey, JSON.stringify(prevSchedule), { expirationTtl: 604800 * 2 });
+
+				const nextItems = schedule.items.filter((i) => !i.isToday);
+				const nextSchedule = {
+					sundaySchool: schedule.sundaySchool,
+					items: nextItems
+				};
+				await platform.env.SCHEDULE_KV.put(key, JSON.stringify(nextSchedule), { expirationTtl: 604800 * 2 });
+			} else {
+				await platform.env.SCHEDULE_KV.put(key, JSON.stringify(schedule), {
+					expirationTtl: 604800 * 2
+				});
+			}
+
 			return { success: true, action: 'save' };
 		}
 

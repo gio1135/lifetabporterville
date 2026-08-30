@@ -30,11 +30,14 @@
 		return `${h}:${minutes} ${ampm}`;
 	}
 
-	function getDateString(dayOfWeek: number): string {
+	function getDateString(dayOfWeek: number, isToday?: boolean): string {
 		const d = new SvelteDate();
 		d.setHours(0, 0, 0, 0);
 		const today = d.getDay();
-		const diffToMonday = d.getDate() - today + (today === 0 ? -6 : 1);
+		let diffToMonday = d.getDate() - today + 1;
+		if (today === 0 && isToday) {
+			diffToMonday = d.getDate() - 6;
+		}
 		const monday = new SvelteDate(d.setDate(diffToMonday));
 
 		const offset = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
@@ -55,7 +58,7 @@
 	function addDay() {
 		editSchedule.items.push({
 			id: `custom-${Date.now()}`,
-			dayOfWeek: 0,
+			dayOfWeek: 1,
 			title: '',
 			description: '',
 			time: '',
@@ -77,20 +80,28 @@
 	function getGroupedItems(items: Schedule['items']) {
 		return items.reduce(
 			(acc, item) => {
-				let group = acc.find((g) => g.dayOfWeek === item.dayOfWeek);
+				const groupId = `group-${item.dayOfWeek}-${item.isToday ? 'today' : 'regular'}`;
+				let group = acc.find((g) => g.id === groupId);
 				if (group) {
 					group.items.push(item);
 				} else {
 					acc.push({
-						id: `group-${item.dayOfWeek}`,
+						id: groupId,
 						dayOfWeek: item.dayOfWeek,
+						isToday: item.isToday,
 						items: [item]
 					});
 				}
 				return acc;
 			},
-			[] as { id: string; dayOfWeek: number; items: typeof items }[]
-		);
+			[] as { id: string; dayOfWeek: number; isToday?: boolean; items: typeof items }[]
+		).sort((a, b) => {
+			if (a.isToday && !b.isToday) return -1;
+			if (!a.isToday && b.isToday) return 1;
+			const aVal = a.dayOfWeek === 0 ? 7 : a.dayOfWeek;
+			const bVal = b.dayOfWeek === 0 ? 7 : b.dayOfWeek;
+			return aVal - bVal;
+		});
 	}
 </script>
 
@@ -127,14 +138,23 @@
 
 		{#if isEditing}
 			<div class="space-y-6">
-				<div class="mb-6 flex items-center gap-3 border border-sand/20 bg-dark/40 p-4">
-					<input
-						type="checkbox"
-						id="sundaySchool"
-						bind:checked={editSchedule.sundaySchool}
-						class="h-5 w-5 cursor-pointer accent-sand" />
-					<label for="sundaySchool" class="cursor-pointer text-lg font-medium tracking-wider">Sunday school</label>
-				</div>
+				{#if data.isSunday}
+					<div class="mb-6 flex flex-col gap-4 border border-sand/20 bg-dark/40 p-4">
+						<div class="flex items-center gap-3">
+							<input type="checkbox" id="todaySundaySchool" bind:checked={editSchedule.todaySundaySchool} class="h-5 w-5 cursor-pointer accent-sand" />
+							<label for="todaySundaySchool" class="cursor-pointer text-lg font-medium tracking-wider">Sunday school ({getDateString(0, true)})</label>
+						</div>
+						<div class="flex items-center gap-3">
+							<input type="checkbox" id="sundaySchool" bind:checked={editSchedule.sundaySchool} class="h-5 w-5 cursor-pointer accent-sand" />
+							<label for="sundaySchool" class="cursor-pointer text-lg font-medium tracking-wider">Sunday school ({getDateString(0, false)})</label>
+						</div>
+					</div>
+				{:else}
+					<div class="mb-6 flex items-center gap-3 border border-sand/20 bg-dark/40 p-4">
+						<input type="checkbox" id="sundaySchool" bind:checked={editSchedule.sundaySchool} class="h-5 w-5 cursor-pointer accent-sand" />
+						<label for="sundaySchool" class="cursor-pointer text-lg font-medium tracking-wider">Sunday school</label>
+					</div>
+				{/if}
 
 				{#each editSchedule.items as item (item.id)}
 					<div class="group relative border border-sand/20 bg-dark/40 p-4">
@@ -144,10 +164,15 @@
 								<select
 									id="dayOfWeek-{item.id}"
 									bind:value={item.dayOfWeek}
+									disabled={item.isToday}
 									class="w-full cursor-pointer border border-sand/30 bg-dark px-3 py-2 text-white transition-colors focus:border-white focus:outline-none">
-									{#each daysOfWeek as day (day)}
-										<option value={daysOfWeek.indexOf(day)}>{day} ({getDateString(daysOfWeek.indexOf(day))})</option>
-									{/each}
+									{#if item.isToday}
+										<option value={0}>Sunday ({getDateString(0, true)})</option>
+									{:else}
+										{#each [1, 2, 3, 4, 5, 6, 0] as d (d)}
+											<option value={d}>{daysOfWeek[d]} ({getDateString(d, false)})</option>
+										{/each}
+									{/if}
 								</select>
 							</div>
 
@@ -248,7 +273,7 @@
 							class="flex w-full shrink-0 flex-row items-baseline justify-start gap-3 border-sand/20 md:w-60 md:hc:w-72 md:dyslexia:w-80 md:flex-col md:items-start md:justify-center md:gap-0 md:border-r md:pr-6">
 							<span class="text-2xl font-light tracking-widest text-white md:text-3xl"
 								>{daysOfWeek[group.dayOfWeek]}</span>
-							<span class="text-sm tracking-widest text-sand/70 md:mt-1">{getDateString(group.dayOfWeek)}</span>
+							<span class="text-sm tracking-widest text-sand/70 md:mt-1">{getDateString(group.dayOfWeek, group.isToday)}</span>
 						</div>
 
 						<div class="flex w-full flex-1 flex-col justify-center gap-8">
@@ -263,7 +288,7 @@
 												{item.title}
 
 												{#if item.dayOfWeek === 0 && item.title.toLowerCase().includes('morning')}
-													{#if data.schedule.sundaySchool}
+													{#if item.isToday ? data.schedule.todaySundaySchool : data.schedule.sundaySchool}
 														<span class="border border-sand/40 px-2 py-1 text-xs tracking-widest text-sand">
 															Sunday school
 														</span>

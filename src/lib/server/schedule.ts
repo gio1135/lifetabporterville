@@ -5,10 +5,12 @@ export interface ScheduleItem {
 	description?: string;
 	time: string;
 	crossedOut: boolean;
+	isToday?: boolean;
 }
 
 export interface Schedule {
 	sundaySchool: boolean;
+	todaySundaySchool?: boolean;
 	items: ScheduleItem[];
 }
 
@@ -58,7 +60,18 @@ export function getCurrentWeekKey(): string {
 	const d = new Date();
 	d.setHours(0, 0, 0, 0);
 	const day = d.getDay();
-	const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+	// If today is Sunday, shift the "current week" to start tomorrow (Monday)
+	const diff = d.getDate() - day + (day === 0 ? 1 : 1);
+	const monday = new Date(d.setDate(diff));
+	return `schedule:${monday.toISOString().split('T')[0]}`;
+}
+
+export function getPreviousWeekKey(): string {
+	const d = new Date();
+	d.setHours(0, 0, 0, 0);
+	const day = d.getDay();
+	// If today is Sunday, the previous week started 6 days ago (Monday)
+	const diff = d.getDate() - day + (day === 0 ? -6 : -6);
 	const monday = new Date(d.setDate(diff));
 	return `schedule:${monday.toISOString().split('T')[0]}`;
 }

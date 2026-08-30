@@ -17,9 +17,20 @@
 			{ scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.5)' }
 		);
 
-		if (lottiePlayer && typeof lottiePlayer.play === 'function') {
-			lottiePlayer.seek(0);
-			lottiePlayer.play();
+		if (typeof customElements !== 'undefined') {
+			await customElements.whenDefined('lottie-player');
+		}
+
+		if (lottiePlayer) {
+			let retries = 20;
+			while (typeof lottiePlayer.play !== 'function' && retries > 0) {
+				await new Promise((r) => setTimeout(r, 50));
+				retries--;
+			}
+			if (typeof lottiePlayer.play === 'function') {
+				lottiePlayer.seek(0);
+				lottiePlayer.play();
+			}
 		}
 
 		await tlIn;

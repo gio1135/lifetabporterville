@@ -425,12 +425,12 @@
 		</div>
 
 		{#if accessibility.highContrast || accessibility.dyslexiaFont}
-			<div class="absolute right-8 bottom-[15%] z-20 text-center font-bold tracking-widest text-white/90 md:inset-x-0 md:bottom-10 md:mx-auto">
+			<div class="absolute inset-x-0 bottom-[15%] z-20 mx-auto text-center font-bold tracking-widest text-white/90 md:bottom-10">
 				Scroll to continue
 			</div>
 		{:else}
 			<div
-				class="pointer-events-none absolute right-8 bottom-[15%] z-20 h-16 w-px overflow-hidden rounded-full bg-white/10 md:inset-x-0 md:bottom-10 md:mx-auto">
+				class="pointer-events-none absolute inset-x-0 bottom-[15%] z-20 mx-auto h-16 w-px overflow-hidden rounded-full bg-white/10 md:bottom-10">
 				<div class="animate-scroll-line h-8 w-full bg-linear-to-b from-transparent via-white to-transparent"></div>
 			</div>
 		{/if}

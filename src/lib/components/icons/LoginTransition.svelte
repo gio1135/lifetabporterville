@@ -16,7 +16,6 @@
 			{ scale: 0.8, opacity: 0 },
 			{ scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.5)' }
 		);
-		await tlIn;
 
 		if (typeof customElements !== 'undefined') {
 			await customElements.whenDefined('lottie-player');
@@ -34,13 +33,16 @@
 			}
 		}
 
-		await new Promise((r) => setTimeout(r, 650));
+		await tlIn;
+
+		await new Promise((r) => setTimeout(r, 1200));
 
 		const tlOut = gsap.timeline();
 		tlOut.to(containerEl, {
-			scale: 1000,
-			duration: 0.9,
-			ease: 'power4.inOut'
+			scale: 1.5,
+			opacity: 0,
+			duration: 0.4,
+			ease: 'power2.in'
 		});
 
 		await tlOut;
@@ -58,9 +60,10 @@
 <div bind:this={containerEl} class="pointer-events-none flex items-center justify-center">
 	<lottie-player
 		bind:this={lottiePlayer}
-		src="/home.json"
+		src="/tailor.json"
 		background="transparent"
 		speed="1"
-		style="width: 80px; height: 80px;">
+		style="width: 80px; height: 80px;"
+		loop>
 	</lottie-player>
 </div>

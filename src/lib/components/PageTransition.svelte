@@ -7,6 +7,7 @@
 	import TimelineTransition from './icons/TimelineTransition.svelte';
 	import CalendarTransition from './icons/CalendarTransition.svelte';
 	import BibleTransition from './icons/BibleTransition.svelte';
+	import LoginTransition from './icons/LoginTransition.svelte';
 
 	let isTransitioning = $state(false);
 	let skipNextTransition = $state(false);
@@ -22,6 +23,7 @@
 	let timelineComponent = $state<TransitionComponent | null>(null);
 	let calendarComponent = $state<TransitionComponent | null>(null);
 	let bibleComponent = $state<TransitionComponent | null>(null);
+	let loginComponent = $state<TransitionComponent | null>(null);
 
 	beforeNavigate((navigation) => {
 		if (skipNextTransition) {
@@ -44,6 +46,7 @@
 		if (path.startsWith('/history')) return 'history';
 		if (path.startsWith('/schedule')) return 'schedule';
 		if (path.startsWith('/doctrine')) return 'doctrine';
+		if (path.startsWith('/admin/login')) return 'login';
 		return null;
 	}
 
@@ -79,6 +82,7 @@
 		else if (currentIcon === 'history' && timelineComponent) await timelineComponent.play();
 		else if (currentIcon === 'schedule' && calendarComponent) await calendarComponent.play();
 		else if (currentIcon === 'doctrine' && bibleComponent) await bibleComponent.play();
+		else if (currentIcon === 'login' && loginComponent) await loginComponent.play();
 		else {
 			await new Promise((r) => setTimeout(r, 500));
 		}
@@ -97,5 +101,7 @@
 		<CalendarTransition bind:this={calendarComponent} />
 	{:else if currentIcon === 'doctrine'}
 		<BibleTransition bind:this={bibleComponent} />
+	{:else if currentIcon === 'login'}
+		<LoginTransition bind:this={loginComponent} />
 	{/if}
 </div>
