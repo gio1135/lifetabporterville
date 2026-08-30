@@ -99,7 +99,7 @@
 </svelte:head>
 
 <div id="schedule-content" class="custom-scrollbar h-full w-full overflow-y-auto scroll-smooth pt-24 md:pt-32">
-	<div class="mx-auto w-full max-w-4xl md:border md:border-sand/10 md:bg-dark/60 p-8 px-6 pb-32 md:backdrop-blur md:p-12 md:px-12">
+	<div class="mx-auto w-full max-w-4xl hc:max-w-5xl dyslexia:max-w-6xl md:border md:border-sand/10 md:bg-dark/60 p-8 px-6 pb-32 md:backdrop-blur md:p-12 md:px-12">
 		<div class="mb-10 flex items-center justify-between border-b border-sand/20 pb-6">
 			<h1 class="text-3xl font-light tracking-widest md:text-5xl">Service schedule</h1>
 
@@ -245,7 +245,7 @@
 				{#each getGroupedItems(data.schedule.items) as group (group.id)}
 					<li class="group flex flex-col items-start gap-6 py-6 md:flex-row md:items-stretch md:gap-8">
 						<div
-							class="flex w-full shrink-0 flex-row items-baseline justify-start gap-3 border-sand/20 md:w-60 md:flex-col md:items-start md:justify-center md:gap-0 md:border-r md:pr-6">
+							class="flex w-full shrink-0 flex-row items-baseline justify-start gap-3 border-sand/20 md:w-60 md:hc:w-72 md:dyslexia:w-80 md:flex-col md:items-start md:justify-center md:gap-0 md:border-r md:pr-6">
 							<span class="text-2xl font-light tracking-widest text-white md:text-3xl"
 								>{daysOfWeek[group.dayOfWeek]}</span>
 							<span class="text-sm tracking-widest text-sand/70 md:mt-1">{getDateString(group.dayOfWeek)}</span>
