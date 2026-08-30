@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount, tick, onDestroy } from 'svelte';
+	import { fade } from 'svelte/transition';
 	import { browser } from '$app/environment';
 	import gsap from 'gsap';
 	import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
@@ -106,6 +107,7 @@
 	let isMenuOpen = $state(false);
 	let addressCopied = $state(false);
 	let phoneCopied = $state(false);
+	let showScrollHint = $state(false);
 
 	function copyAddress() {
 		navigator.clipboard.writeText('939 N Main St, Porterville, CA 93257');
@@ -160,6 +162,18 @@
 
 	onMount(async () => {
 		if (!browser) return;
+
+		const startTimer = () => {
+			setTimeout(() => {
+				showScrollHint = true;
+			}, 4000);
+		};
+
+		if (document.readyState === 'complete') {
+			startTimer();
+		} else {
+			window.addEventListener('load', startTimer, { once: true });
+		}
 
 		window.addEventListener('resize', handleResize);
 		setTimeout(handleResize, 50);
@@ -425,13 +439,19 @@
 		</div>
 
 		{#if accessibility.highContrast || accessibility.dyslexiaFont}
-			<div class="absolute inset-x-0 bottom-[15%] z-20 mx-auto text-center font-bold tracking-widest text-white/90 md:bottom-10">
+			<div class="absolute inset-x-0 bottom-10 z-20 mx-auto text-center font-bold tracking-widest text-white/90">
 				Scroll to continue
 			</div>
 		{:else}
-			<div
-				class="pointer-events-none absolute inset-x-0 bottom-[15%] z-20 mx-auto h-16 w-px overflow-hidden rounded-full bg-white/10 md:bottom-10">
-				<div class="animate-scroll-line h-8 w-full bg-linear-to-b from-transparent via-white to-transparent"></div>
+			<div class="pointer-events-none absolute inset-x-0 bottom-10 z-20 mx-auto flex flex-col items-center gap-4">
+				{#if showScrollHint}
+					<div transition:fade={{ duration: 1000 }} class="text-sm font-light tracking-widest text-white/60">
+						Scroll to continue
+					</div>
+				{/if}
+				<div class="h-16 w-px overflow-hidden rounded-full bg-white/10">
+					<div class="animate-scroll-line h-8 w-full bg-linear-to-b from-transparent via-white to-transparent"></div>
+				</div>
 			</div>
 		{/if}
 	</section>
