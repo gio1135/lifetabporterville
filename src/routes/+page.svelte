@@ -160,13 +160,32 @@
 		}
 	}
 
+	let scrollTimer: ReturnType<typeof setTimeout>;
+	let onScroll: () => void;
+
 	onMount(async () => {
 		if (!browser) return;
 
+		let hasScrolled = false;
+
+		onScroll = () => {
+			hasScrolled = true;
+			showScrollHint = false;
+			clearTimeout(scrollTimer);
+			mainContainer?.removeEventListener('scroll', onScroll);
+		};
+
+		if (mainContainer) {
+			mainContainer.addEventListener('scroll', onScroll, { passive: true });
+		}
+
 		const startTimer = () => {
-			setTimeout(() => {
-				showScrollHint = true;
-			}, 4000);
+			if (hasScrolled) return;
+			scrollTimer = setTimeout(() => {
+				if (!hasScrolled) {
+					showScrollHint = true;
+				}
+			}, 3000);
 		};
 
 		if (document.readyState === 'complete') {
@@ -350,6 +369,10 @@
 		if (browser) {
 			window.removeEventListener('resize', handleResize);
 			ScrollTrigger.getAll().forEach((t) => t.kill());
+			clearTimeout(scrollTimer);
+			if (mainContainer && onScroll) {
+				mainContainer.removeEventListener('scroll', onScroll);
+			}
 		}
 	});
 </script>
