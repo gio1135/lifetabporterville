@@ -1,11 +1,12 @@
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { defaultSchedule, getCurrentWeekKey, getPreviousWeekKey, type Schedule } from '$lib/server/schedule';
+import { getLADate } from '$lib/date';
 
 export const load: PageServerLoad = async ({ platform, cookies }) => {
 	const session = cookies.get('admin_session');
 	const isLoggedIn = session === 'authenticated';
-	const isSunday = new Date().getDay() === 0;
+	const isSunday = getLADate().getDay() === 0;
 
 	let schedule = JSON.parse(JSON.stringify(defaultSchedule)) as Schedule;
 	let isOverride = false;
@@ -71,7 +72,7 @@ export const actions = {
 
 		if (platform?.env?.SCHEDULE_KV) {
 			const key = getCurrentWeekKey();
-			const isSunday = new Date().getDay() === 0;
+			const isSunday = getLADate().getDay() === 0;
 
 			if (isSunday) {
 				const prevKey = getPreviousWeekKey();

@@ -1,3 +1,5 @@
+import { getLADate, getLADateString } from '$lib/date';
+
 export interface ScheduleItem {
 	id: string;
 	dayOfWeek: number;
@@ -57,21 +59,21 @@ export const defaultSchedule: Schedule = {
 };
 
 export function getCurrentWeekKey(): string {
-	const d = new Date();
+	const d = getLADate();
 	d.setHours(0, 0, 0, 0);
 	const day = d.getDay();
 	// If today is Sunday, shift the "current week" to start tomorrow (Monday)
 	const diff = d.getDate() - day + (day === 0 ? 1 : 1);
 	const monday = new Date(d.setDate(diff));
-	return `schedule:${monday.toISOString().split('T')[0]}`;
+	return `schedule:${getLADateString(monday)}`;
 }
 
 export function getPreviousWeekKey(): string {
-	const d = new Date();
+	const d = getLADate();
 	d.setHours(0, 0, 0, 0);
 	const day = d.getDay();
 	// If today is Sunday, the previous week started 6 days ago (Monday)
 	const diff = d.getDate() - day + (day === 0 ? -6 : -6);
 	const monday = new Date(d.setDate(diff));
-	return `schedule:${monday.toISOString().split('T')[0]}`;
+	return `schedule:${getLADateString(monday)}`;
 }

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { SvelteDate } from 'svelte/reactivity';
+	import { getLADate } from '$lib/date';
 	import type { PageData } from './$types';
 	import type { Schedule } from '$lib/server/schedule';
 
@@ -31,7 +32,7 @@
 	}
 
 	function getDateString(dayOfWeek: number, isToday?: boolean): string {
-		const d = new SvelteDate();
+		const d = new SvelteDate(getLADate());
 		d.setHours(0, 0, 0, 0);
 		const today = d.getDay();
 		let diffToMonday = d.getDate() - today + 1;
