@@ -409,23 +409,23 @@
 						<div class="relative z-30 flex w-full h-[60%] flex-col pb-8 md:h-1/2 md:pb-12">
 							{#if milestone.position === 'top'}
 								<button
-									class="mt-auto w-full shrink-0 transform rounded border border-sand/10 bg-dark/80 p-6 text-left backdrop-blur transition-all duration-300 {milestone.hasArticle &&
+									class="flex max-h-full flex-col mt-auto w-full shrink-0 transform rounded border border-sand/10 bg-dark/80 p-6 text-left backdrop-blur transition-all duration-300 {milestone.hasArticle &&
 									phase === 'idle'
 										? 'cursor-pointer ring-1 ring-transparent hover:-translate-y-1 hover:bg-dark hover:ring-sand/20'
 										: 'cursor-default'} {selectedEvent?.id === milestone.id && phase !== 'idle'
 										? 'pointer-events-none opacity-0'
 										: 'opacity-100'}"
 									onclick={(e) => expand(milestone, e)}>
-									<span class="mb-2 block text-xs tracking-widest text-sand/50 uppercase">{milestone.date}</span>
-									<h3 class="mb-2 text-xl font-light tracking-wider text-white">
+									<span class="mb-2 block shrink-0 text-xs tracking-widest text-sand/50 uppercase">{milestone.date}</span>
+									<h3 class="mb-2 shrink-0 text-xl font-light tracking-wider text-white">
 										{milestone.title}
 									</h3>
-									<p class="text-sm leading-relaxed text-sand/70 {milestone.hasArticle ? 'mb-4' : 'mb-0'}">
+									<p class="no-scrollbar min-h-0 overflow-y-auto text-sm leading-relaxed text-sand/70 {milestone.hasArticle ? 'mb-4' : 'mb-0'}">
 										{milestone.desc}
 									</p>
 									{#if milestone.hasArticle}
 										<div
-											class="mt-4 flex justify-end text-sand/50 {phase === 'idle'
+											class="mt-auto shrink-0 flex justify-end text-sand/50 {phase === 'idle'
 												? 'transition-colors group-hover:text-white'
 												: ''}">
 											<svg
@@ -469,23 +469,23 @@
 						<div class="relative z-30 flex w-full h-[40%] flex-col pt-8 md:h-1/2 md:pt-12">
 							{#if milestone.position === 'bottom'}
 								<button
-									class="mb-auto w-full shrink-0 transform rounded border border-sand/10 bg-dark/80 p-6 text-left backdrop-blur transition-all duration-300 {milestone.hasArticle &&
+									class="flex max-h-full flex-col mb-auto w-full shrink-0 transform rounded border border-sand/10 bg-dark/80 p-6 text-left backdrop-blur transition-all duration-300 {milestone.hasArticle &&
 									phase === 'idle'
 										? 'cursor-pointer ring-1 ring-transparent hover:translate-y-1 hover:bg-dark hover:ring-sand/20'
 										: 'cursor-default'} {selectedEvent?.id === milestone.id && phase !== 'idle'
 										? 'pointer-events-none opacity-0'
 										: 'opacity-100'}"
 									onclick={(e) => expand(milestone, e)}>
-									<span class="mb-2 block text-xs tracking-widest text-sand/50 uppercase">{milestone.date}</span>
-									<h3 class="mb-2 text-xl font-light tracking-wider text-white">
+									<span class="mb-2 block shrink-0 text-xs tracking-widest text-sand/50 uppercase">{milestone.date}</span>
+									<h3 class="mb-2 shrink-0 text-xl font-light tracking-wider text-white">
 										{milestone.title}
 									</h3>
-									<p class="text-sm leading-relaxed text-sand/70 {milestone.hasArticle ? 'mb-4' : 'mb-0'}">
+									<p class="no-scrollbar min-h-0 overflow-y-auto text-sm leading-relaxed text-sand/70 {milestone.hasArticle ? 'mb-4' : 'mb-0'}">
 										{milestone.desc}
 									</p>
 									{#if milestone.hasArticle}
 										<div
-											class="mt-4 flex justify-end text-sand/50 {phase === 'idle'
+											class="mt-auto shrink-0 flex justify-end text-sand/50 {phase === 'idle'
 												? 'transition-colors group-hover:text-white'
 												: ''}">
 											<svg
@@ -526,13 +526,13 @@
 	<div
 		class="fixed z-110 border border-sand/10 bg-dark/80 backdrop-blur {phase === 'fading_timeline' || phase === 'idle'
 			? 'rounded'
-			: 'rounded-lg'} overflow-x-hidden overflow-y-auto shadow-2xl transition-all duration-500 ease-in-out"
+			: accessibility.dyslexiaFont || accessibility.highContrast ? 'rounded-none' : 'rounded-lg'} overflow-x-hidden overflow-y-auto shadow-2xl transition-all duration-500 ease-in-out"
 		style="
-      top: {phase === 'fading_timeline' || phase === 'idle' ? cardRect.top + 'px' : 'max(5vh, 2rem)'};
+      top: {phase === 'fading_timeline' || phase === 'idle' ? cardRect.top + 'px' : accessibility.dyslexiaFont || accessibility.highContrast ? '0' : 'max(5dvh, 2rem)'};
       left: {phase === 'fading_timeline' || phase === 'idle' ? cardRect.left + 'px' : '50%'};
-      width: {phase === 'fading_timeline' || phase === 'idle' ? cardRect.width + 'px' : 'min(100vw - 2rem, 56rem)'};
+      width: {phase === 'fading_timeline' || phase === 'idle' ? cardRect.width + 'px' : accessibility.dyslexiaFont || accessibility.highContrast ? '100vw' : 'min(100vw - 2rem, 56rem)'};
       transform: {phase === 'fading_timeline' || phase === 'idle' ? 'none' : 'translateX(-50%)'};
-      max-height: 90vh;
+      max-height: {accessibility.dyslexiaFont || accessibility.highContrast ? '100dvh' : 'calc(100dvh - max(10dvh, 4rem))'};
     ">
 		<div
 			class="relative w-full {phase === 'fading_timeline' || phase === 'idle'
@@ -623,5 +623,12 @@
 	}
 	.custom-scrollbar::-webkit-scrollbar-thumb:hover {
 		background: rgba(215, 209, 198, 0.4);
+	}
+	.no-scrollbar {
+		-ms-overflow-style: none;
+		scrollbar-width: none;
+	}
+	.no-scrollbar::-webkit-scrollbar {
+		display: none;
 	}
 </style>
