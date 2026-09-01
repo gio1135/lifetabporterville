@@ -65,12 +65,40 @@
   const eras: Era[] = [
     {
       pastor: 'C B Webb',
-      period: '1958 - 1987',
+      period: '1958 - 1988',
       image: cbWebbImg,
       mobileImagePosition: 'object-[50%_15%]',
       milestones: [
         {
           id: 's1-m1',
+          title: 'Ministry begins',
+          desc: 'Chois Blackwell Webb began his ministry journey evangelizing through Texas and surrounding states',
+          position: 'top',
+          date: '1938'
+        },
+        {
+          id: 's1-m2',
+          title: 'Marriage',
+          desc: 'Married Vivian Dawn Webb',
+          position: 'bottom',
+          date: '1948'
+        },
+        {
+          id: 's1-m3',
+          title: 'Moving to California',
+          desc: 'Chois and Vivian Webb moved permanently to California',
+          position: 'top',
+          date: '1955'
+        },
+        {
+          id: 's1-m4',
+          title: 'Life Tabernacle founded',
+          desc: 'Founded Life Tabernacle in Porterville',
+          position: 'bottom',
+          date: 'April 1958'
+        },
+        {
+          id: 's1-m5',
           title: 'Property purchased',
           desc: 'Chois and Vivian Webb bought the property at 939 North Main Street with a dream and a vision',
           position: 'top',
@@ -79,59 +107,94 @@
           articleContent: article1
         },
         {
-          id: 's1-m2',
+          id: 's1-m6',
+          title: 'First dedication',
+          desc: 'The old building was finished and dedicated. Rev N A Urchen preached the dedication service',
+          position: 'bottom',
+          date: 'October 23, 1960'
+        },
+        {
+          id: 's1-m7',
           title: 'Church built by hand',
           desc: 'The church was built by brick, and the building was finished around June of 1963',
-          position: 'bottom',
+          position: 'top',
           date: '1963',
           hasArticle: true,
           articleContent: article2
         },
         {
-          id: 's1-m3',
+          id: 's1-m8',
           title: 'Revival',
           desc: 'A revival with Brother and Sister Joseph Domingues brought growth',
-          position: 'top',
+          position: 'bottom',
           date: '1963',
           hasArticle: true,
           articleContent: article3
+        },
+        {
+          id: 's1-m9',
+          title: 'Pastoral transition',
+          desc: 'After thirty years of dedicated leadership, Pastor C B Webb turned the church over to his son, Mike Webb',
+          position: 'top',
+          date: '1988'
         }
       ]
     },
     {
       pastor: 'Mike Webb',
-      period: '1987 - 2004',
+      period: '1988 - 2005',
       image: mikeWebbImg,
       mobileImagePosition: 'object-[50%_60%]',
       milestones: [
         {
           id: 's2-m1',
-          title: 'Pastoral transition',
-          desc: 'Pastor Webb turned the church over to his son, Joel Michael Webb',
-          position: 'bottom',
-          date: '1987'
+          title: 'Early ministry',
+          desc: 'He grew up watching his parents plant the church and began serving in ministry in the late 1970s to support the family\'s spreading of the gospel',
+          position: 'top',
+          date: 'Late 1970s'
         },
         {
           id: 's2-m2',
-          title: 'Revival breaks out',
-          desc: 'Again revival broke out, with many baptized and filled with the Holy Ghost',
-          position: 'top',
-          date: '1987'
+          title: 'Pastoral transition',
+          desc: 'At the age of 34, Mike Webb took over the pastorate from his father',
+          position: 'bottom',
+          date: '1988'
         },
         {
           id: 's2-m3',
+          title: 'Revival breaks out',
+          desc: 'Again revival broke out, with many baptized and filled with the Holy Ghost',
+          position: 'top',
+          date: '1988'
+        },
+        {
+          id: 's2-m4',
           title: 'New sanctuary',
-          desc: 'A new sanctuary and parking lot were finished on the north end of the property',
+          desc: 'A new sanctuary and parking lot were finished on the north end of the property. Inaugural and dedication services were held on March 9, 2003',
           position: 'bottom',
-          date: '2004',
+          date: '2003',
           hasArticle: true,
           articleContent: article4
+        },
+        {
+          id: 's2-m5',
+          title: 'A new chapter',
+          desc: 'Pastor Mike Webb concluded his time as senior pastor, passing the leadership to Jonathan Kendrick',
+          position: 'top',
+          date: '2005'
+        },
+        {
+          id: 's2-m6',
+          title: 'Passing of Mike Webb',
+          desc: 'Mike Webb passed away on July 11, 2020. He was widely remembered by Central Valley churchgoers for his consistent smile and dedicated community outreach after roughly four decades of preaching and leading congregations',
+          position: 'bottom',
+          date: 'July 11, 2020'
         }
       ]
     },
     {
       pastor: 'Jonathan Kendrick',
-      period: '2004 - 2010',
+      period: '2005 - 2011',
       image: jonathanKendrickImg,
       mobileImagePosition: 'object-[50%_15%]',
       milestones: [
@@ -140,13 +203,20 @@
           title: 'A new chapter',
           desc: 'Pastor Jonathan Kendrick assumed the pastorate and pastored the church for exactly six years',
           position: 'top',
-          date: '2004'
+          date: '2005'
+        },
+        {
+          id: 's3-m2',
+          title: 'Continuing the work',
+          desc: 'After exactly six years of pastoring the church, Pastor Kendrick passed the baton to Brother Steve Marchbanks',
+          position: 'bottom',
+          date: '2011'
         }
       ]
     },
     {
       pastor: 'Stephen Marchbanks',
-      period: '2010 - Present',
+      period: '2011 - present',
       image: stephenImg,
       mobileImagePosition: 'object-[50%_25%]',
       milestones: [
@@ -154,8 +224,8 @@
           id: 's4-m1',
           title: 'Continuing the work',
           desc: 'Brother Steve Marchbanks became pastor, and there stands a ripened field ready to be harvested',
-          position: 'bottom',
-          date: '2010'
+          position: 'top',
+          date: '2011'
         }
       ]
     }
@@ -166,11 +236,11 @@
 		let isWheeling = false;
 		let wheelTimer: number;
 
-		let isPointerDown = false;
-		function handlePointerDown() { isPointerDown = true; }
-		function handlePointerUp() { isPointerDown = false; }
+		let isKeyboardUser = false;
+		function handlePointerDown() { isKeyboardUser = false; }
 
 		function handleWheel(e: WheelEvent) {
+			isKeyboardUser = false;
 			if (e.deltaY !== 0) {
 				e.preventDefault();
 
@@ -219,6 +289,7 @@
 		}
 
 		function handleKeyDown(e: KeyboardEvent) {
+			isKeyboardUser = true;
 			const scrollX = node.scrollLeft;
 			const sections = Array.from(node.querySelectorAll('section'));
 
@@ -242,7 +313,7 @@
 		}
 
 		function handleFocusIn(e: FocusEvent) {
-			if (isPointerDown) return;
+			if (!isKeyboardUser) return;
 			const target = e.target as HTMLElement;
 			const section = target.closest('section');
 			if (section && node.contains(section)) {
@@ -260,8 +331,6 @@
 		window.addEventListener('keydown', handleKeyDown);
 		node.addEventListener('focusin', handleFocusIn);
 		node.addEventListener('pointerdown', handlePointerDown);
-		window.addEventListener('pointerup', handlePointerUp);
-		window.addEventListener('pointercancel', handlePointerUp);
 
 		return {
 			destroy() {
@@ -270,8 +339,6 @@
 				window.removeEventListener('keydown', handleKeyDown);
 				node.removeEventListener('focusin', handleFocusIn);
 				node.removeEventListener('pointerdown', handlePointerDown);
-				window.removeEventListener('pointerup', handlePointerUp);
-				window.removeEventListener('pointercancel', handlePointerUp);
 				window.clearTimeout(isScrolling);
 			}
 		};
@@ -295,7 +362,7 @@
 {/snippet}
 
 {#snippet article4()}
-  <p>As the brick building filled, Pastor Webb began the plans for the vision of a new sanctuary to be built on the north end of the property. Again, there was a huge struggle to build, but alas the new sanctuary and new parking lot were finished in 2004</p>
+  <p>As the brick building filled, Pastor Webb began the plans for the vision of a new sanctuary to be built on the north end of the property. Again, there was a huge struggle to build, but alas the new sanctuary and new parking lot were finished in 2003</p>
   <p>Oh, the excitement as we walked and sang unto the Lord from the old sanctuary to the new one</p>
 {/snippet}
 
@@ -310,19 +377,26 @@
 	{#each eras as era (era.period)}
 		<section class="relative flex h-full min-w-screen shrink-0">
 			<div
-				class="sticky top-0 left-0 z-20 flex h-[20dvh] w-screen shrink-0 flex-col justify-center overflow-hidden border-sand/10 bg-dark px-8 md:h-full md:w-[33vw] md:border-r md:px-16">
+				class="sticky top-0 left-0 z-20 flex h-[20dvh] w-screen shrink-0 flex-row items-center overflow-hidden border-sand/10 bg-dark md:h-full md:w-[33vw] md:flex-col md:justify-center md:border-r md:px-16">
 				{#if era.image}
-					<div class="absolute inset-0 z-0">
+					<div class="absolute inset-0 z-0 hidden md:block">
 						<enhanced:img
 							src={era.image}
 							alt={era.pastor}
-							class="h-full w-full object-cover md:object-center {era.mobileImagePosition || 'object-[50%_33%]'}" />
-						<div class="absolute inset-0 bg-linear-to-t from-dark from-0% to-dark/40 to-50% hc:hidden"></div>
+							class="h-full w-full object-cover object-center" />
+						<div class="absolute inset-0 bg-slate-950/40 hc:hidden"></div>
+					</div>
+					<div class="relative z-0 h-full shrink-0 aspect-square md:hidden">
+						<enhanced:img
+							src={era.image}
+							alt={era.pastor}
+							class="h-full w-full object-cover {era.mobileImagePosition || 'object-[50%_33%]'}" />
+						<div class="absolute inset-0 bg-slate-950/40 hc:hidden"></div>
 					</div>
 				{/if}
-				<div class="relative z-10 hc:rounded-2xl hc:bg-black/95 hc:p-6 hc:ring-1 hc:ring-white/20 hc:backdrop-blur-md">
-					<h2 class="mb-2 text-sm tracking-[0.3em] text-sand/80 [text-shadow:0_2px_12px_rgba(0,0,0,0.8)] hc:text-white/80 hc:text-shadow-none">{era.period}</h2>
-					<h1 class="text-4xl font-light tracking-widest text-white [text-shadow:0_4px_24px_rgba(0,0,0,0.9)] md:text-5xl hc:text-shadow-none">{era.pastor}</h1>
+				<div class="relative z-10 flex flex-col justify-center px-6 md:px-0 md:hc:rounded-2xl md:hc:bg-black/95 md:hc:p-6 md:hc:ring-1 md:hc:ring-white/20 md:hc:backdrop-blur-md">
+					<h2 class="mb-1 text-xs tracking-[0.3em] text-sand/80 [text-shadow:0_2px_12px_rgba(0,0,0,0.8)] md:mb-2 md:text-sm hc:text-white/80 hc:text-shadow-none">{era.period}</h2>
+					<h1 class="text-3xl font-light tracking-widest text-white [text-shadow:0_4px_24px_rgba(0,0,0,0.9)] md:text-5xl hc:text-shadow-none">{era.pastor}</h1>
 				</div>
 			</div>
 
