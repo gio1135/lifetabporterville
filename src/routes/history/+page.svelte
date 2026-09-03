@@ -109,7 +109,7 @@
         {
           id: 's1-m6',
           title: 'First dedication',
-          desc: 'The old building was finished and dedicated. Rev N A Urchen preached the dedication service',
+          desc: 'The old building was finished and dedicated. Rev N A Urshan preached the dedication service',
           position: 'bottom',
           date: 'October 23, 1960'
         },
@@ -416,7 +416,7 @@
 										? 'pointer-events-none opacity-0'
 										: 'opacity-100'}"
 									onclick={(e) => expand(milestone, e)}>
-									<span class="mb-2 block shrink-0 text-xs tracking-widest text-sand/50 uppercase">{milestone.date}</span>
+									<span class="mb-2 block shrink-0 text-xs tracking-widest text-sand/50">{milestone.date}</span>
 									<h3 class="mb-2 shrink-0 text-xl font-light tracking-wider text-white">
 										{milestone.title}
 									</h3>
@@ -476,7 +476,7 @@
 										? 'pointer-events-none opacity-0'
 										: 'opacity-100'}"
 									onclick={(e) => expand(milestone, e)}>
-									<span class="mb-2 block shrink-0 text-xs tracking-widest text-sand/50 uppercase">{milestone.date}</span>
+									<span class="mb-2 block shrink-0 text-xs tracking-widest text-sand/50">{milestone.date}</span>
 									<h3 class="mb-2 shrink-0 text-xl font-light tracking-wider text-white">
 										{milestone.title}
 									</h3>
@@ -550,7 +550,7 @@
 
 			<div class="{phase === 'expanding_card' ? 'mt-12' : 'mt-0'} transition-all duration-500">
 				<span
-					class="block text-xs tracking-widest text-sand/50 uppercase {phase === 'fading_timeline' || phase === 'idle'
+					class="block text-xs tracking-widest text-sand/50 {phase === 'fading_timeline' || phase === 'idle'
 						? 'mb-2'
 						: 'mb-4'} transition-all duration-500">{selectedEvent.date}</span>
 				<h3
